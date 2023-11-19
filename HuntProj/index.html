@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>HuntME</title>
+</head>
+<body>
+
+        <div id="top-bar">
+            <div id="exp-info" class="info-box">
+                <span>Doświadczenie: <span id="current-exp">0</span> / <span id="exp-needed">100</span></span>
+              </div>
+              <div id="level-info" class="info-box" data-level="1">
+                <span>Poziom: <span id="player-level">1</span></span>
+            </div>
+            <div id="gold-info" class="info-box">
+                <span>Złoto: <span id="gold-amount">0</span></span>
+            </div>
+        </div>
+        <div id="monster-level-menu">
+            <label for="level-select">Choose Monster Level:</label>
+            <select id="level-select" onchange="updateMonsterLevel()">
+                <option value="1-5">Marshes</option>
+                <option value="6-10">Forest</option>
+                <option value="11-15">Dungeon</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+
+
+
+        <div id="experience-bar-container">
+            <div id="experience-bar"></div>
+        </div>
+
+        <div id="game-container">
+            <h1>HuntME</h1>
+             <button onclick="hunt()">Poluj</button>
+             <button onclick="resetLevel()">Resetuj Poziom</button>
+            <div id="result"></div>
+        </div>
+
+    <script src="polowanie.js"></script>
+</body>
+</html>

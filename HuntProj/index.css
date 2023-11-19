@@ -1,0 +1,110 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#top-bar {
+    background-color: gray;
+    border-radius: 12px;
+    position: absolute;
+    top:0;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+#monster-level-menu {
+    position: absolute;
+    top:60px;
+    background-color: rgb(189, 189, 189);
+    border-radius: 12px;
+    justify-content: center;
+    padding: 10px;
+
+}
+.info-box {
+    margin-left: 10px;
+    margin-right:10px;
+    padding: 8px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+#gold-info {
+    background-color: #ff8c00; /* Pomarańczowy kolor tła */
+    color: #fff; /* Biały kolor tekstu */
+}
+
+#level-info {
+    background-color: #00008b; /* Granatowy kolor tła */
+    color: #fff; /* Biały kolor tekstu */
+    align-items: center;
+    text-align: center;
+}
+#exp-info {
+    background-color: #ff000d; /* Granatowy kolor tła */
+    color: #fff; /* Biały kolor tekstu */
+    align-items: center;
+    text-align: center;
+    width: 100%+10px;
+    font-size: 14px;
+}
+/* Dodano styl animacji */
+@keyframes levelUpAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+.level-up {
+    animation: levelUpAnimation 0.5s ease-in-out;
+    transform: scale(1);
+}
+
+#experience-bar-container {
+    width: 20%;
+    height: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#experience-bar {
+    height: 90%;
+    background-color: #4caf50;
+    border: 1px solid black;
+    border-radius: 4px;
+    transition: width 0.2s ease-in-out;
+    text-align: center;
+    visibility:hidden;
+
+}
+#exp-to-next-level-info {
+    align-items: center;
+    text-align: center;
+}
+
+#game-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+}
