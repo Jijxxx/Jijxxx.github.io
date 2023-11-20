@@ -18,17 +18,19 @@
             <div id="gold-info" class="info-box">
                 <span>Złoto: <span id="gold-amount">0</span></span>
             </div>
+            <div class="info-box" id="location-info">
+                <label for="level-select">Wybierz lokację do polowania: </label>
+                <select id="level-select" onchange="updateMonsterLevel()">
+                    <option value="1-5">Bagna</option>
+                    <option value="6-10">Ciemny las</option>
+                    <option value="11-15">Jaskinie</option>
+                    <option value="16-20">Mgliste Góry</option>
+                    <option value="21-30">Pustynia</option>
+                    <option value="31-50">Czarne jezioro</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
         </div>
-        <div id="monster-level-menu">
-            <label for="level-select">Choose Monster Level:</label>
-            <select id="level-select" onchange="updateMonsterLevel()">
-                <option value="1-5">Marshes</option>
-                <option value="6-10">Forest</option>
-                <option value="11-15">Dungeon</option>
-                <!-- Add more options as needed -->
-            </select>
-        </div>
-
 
 
         <div id="experience-bar-container">

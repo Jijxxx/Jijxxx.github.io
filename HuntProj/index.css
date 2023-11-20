@@ -1,6 +1,8 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #ffffff;
+    background-image:url('Weltenweber-Header-1.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -10,7 +12,7 @@ body {
 }
 
 #top-bar {
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 0.445);
     border-radius: 12px;
     position: absolute;
     top:0;
@@ -21,7 +23,7 @@ body {
 #monster-level-menu {
     position: absolute;
     top:60px;
-    background-color: rgb(189, 189, 189);
+    background-color: rgba(128, 128, 128, 0.562);
     border-radius: 12px;
     justify-content: center;
     padding: 10px;
@@ -36,23 +38,32 @@ body {
 }
 
 #gold-info {
-    background-color: #ff8c00; /* Pomarańczowy kolor tła */
+    background-color: #ffd000cc; /* Pomarańczowy kolor tła */
     color: #fff; /* Biały kolor tekstu */
+    min-width: 100px;
+    text-align: center;
+
 }
 
 #level-info {
-    background-color: #00008b; /* Granatowy kolor tła */
+    background-color: #00008b9a; /* Granatowy kolor tła */
     color: #fff; /* Biały kolor tekstu */
-    align-items: center;
+    min-width: 100px;
     text-align: center;
 }
 #exp-info {
-    background-color: #ff000d; /* Granatowy kolor tła */
+    background-color: #ff000d8f; /* Granatowy kolor tła */
     color: #fff; /* Biały kolor tekstu */
-    align-items: center;
     text-align: center;
-    width: 100%+10px;
-    font-size: 14px;
+    min-width: 210px;
+
+}
+#location-info {
+    background-color: #28793594; /* Granatowy kolor tła */
+    color: #fff; /* Biały kolor tekstu */
+    text-align: center;
+    min-width: 210px;
+
 }
 /* Dodano styl animacji */
 @keyframes levelUpAnimation {
@@ -91,11 +102,20 @@ body {
 }
 
 #game-container {
+    min-width: 400px;
+    border: 1px solid black;
     text-align: center;
-    background-color: #fff;
+    background-color: #c8c8d6cb;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color:#1f1e1e;
+}
+#game-container h1 {
+    color:rgba(0, 153, 255, 0.76);
+    text-decoration: wavy;
+    text-shadow: rgba(255, 153, 0, 0.63) 5px 0 35px;
+    font-size: 48px;
 }
 
 button {
@@ -106,5 +126,7 @@ button {
 
 #result {
     margin-top: 20px;
-    font-size: 18px;
+    font-size: 24px;
+    color: black;
+    transition: color 2s ease-in-out;
 }

@@ -24,7 +24,7 @@ function updateMonsterLevel() {
         resultElement.textContent = "";
     } else {
         // Display a message indicating the minimum required level
-        alert(`You need to be at least level ${minRequiredLevel} to choose ${selectedRange}`);
+        alert(`Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedRange} poziomu.`);
         // Optionally, you can reset the dropdown to the default option or take other actions
         levelSelect.value = player.monsterLevelRange; // Reset the dropdown to the previous value
     }
@@ -35,7 +35,11 @@ function getMinRequiredLevel(range) {
     const minLevels = {
         "1-5": 1,
         "6-10": 6, // Adjust as needed for other ranges
-        "11-15": 11
+        "11-15": 11,
+        "16-20": 16,
+        "21-30": 21,
+        "31-50": 31
+
         // Add more options as needed
     };
 
@@ -52,7 +56,7 @@ function hunt() {
     // Symulacja walki i przyznawania punktów doświadczenia oraz złota
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
     let experienceGain = monsterLevel * 10; // Przyznane punkty doświadczenia
-    let goldGain = monsterLevel * 5; // Przyznane złoto
+    let goldGain = monsterLevel * 5.5; // Przyznane złoto
 
     // Aktualizacja danych gracza
     player.experience += experienceGain;
@@ -69,8 +73,10 @@ function hunt() {
 
     // Wyświetlenie wyniku walki
     let resultElement = document.getElementById('result');
-    resultElement.textContent = `Walka z potworem poziomu ${monsterLevel}: +${experienceGain} XP, +${goldGain} złota`;
-
+    resultElement.textContent = `Walka z potworem poziomu ${monsterLevel}:
+    Doświadczenie: +${experienceGain},
+    Złoto: +${goldGain}`;
+    resultElement.style.whiteSpace = "pre-line";
 
     // Aktualizacja interfejsu gracza
     updatePlayerInfo();
@@ -83,7 +89,7 @@ function hunt() {
     let requiredExperience = 100;
 
     for (let i = 2; i <= player.level; i++) {
-        requiredExperience += Math.ceil(requiredExperience * 1.4);
+        requiredExperience += Math.ceil(requiredExperience * 1.05);
     }
 
     return requiredExperience;
