@@ -123,10 +123,19 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+@keyframes resultAnimation {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1.2); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
 
 #result {
     margin-top: 20px;
     font-size: 24px;
     color: black;
     transition: color 2s ease-in-out;
+    animation: resultAnimation 0.7s ease-in;
+    transform: scale(1);
 }

@@ -47,6 +47,17 @@ function getMinRequiredLevel(range) {
 }
 
 function hunt() {
+    let huntButton = document.getElementById("huntButton");
+    var resultXElement = document.getElementById("resultX");
+
+    if (huntButton.disabled) {
+        return;
+      }
+
+      huntButton.disabled = true;
+
+      setTimeout(function() {
+
 
     let monsterLevelRange = player.monsterLevelRange.split('-');
     let minMonsterLevel = parseInt(monsterLevelRange[0]);
@@ -78,9 +89,15 @@ function hunt() {
     Złoto: +${goldGain}`;
     resultElement.style.whiteSpace = "pre-line";
 
+
+
     // Aktualizacja interfejsu gracza
     updatePlayerInfo();
-
+    
+    // Do the hunting operation here
+    resultXElement.textContent = "";
+    huntButton.disabled = false;
+    }, 2500);
     
 }
 
