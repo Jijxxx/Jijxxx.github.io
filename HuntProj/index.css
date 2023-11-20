@@ -36,6 +36,15 @@ body {
     border-radius: 10px;
     font-weight: bold;
 }
+.info-box2 {
+    position:absolute;
+    top:50px;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    background: 0;
+
+}
 
 #gold-info {
     background-color: #ffd000cc; /* Pomarańczowy kolor tła */
@@ -63,6 +72,13 @@ body {
     color: #fff; /* Biały kolor tekstu */
     text-align: center;
     min-width: 210px;
+
+}
+#stamina-info {
+    background-color: #59287994; /* Granatowy kolor tła */
+    color: #fff; /* Biały kolor tekstu */
+    text-align: center;
+    min-width: 100px;
 
 }
 /* Dodano styl animacji */
@@ -103,10 +119,11 @@ body {
 
 #game-container {
     min-width: 400px;
+    min-height: 320px;
     border: 1px solid black;
     text-align: center;
     background-color: #c8c8d6cb;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color:#1f1e1e;
@@ -138,4 +155,18 @@ button {
     transition: color 2s ease-in-out;
     animation: resultAnimation 0.7s ease-in;
     transform: scale(1);
+}
+@keyframes resultXAnimation {
+    0%   {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
+    50%  {font-size:37px; color: rgb(255, 255, 255); font-family:cursive;}
+    100% {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
+}
+#resultX {
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 24px;
+    background: 0;
+    color: black;
+    animation: resultXAnimation 3s infinite;
+
 }

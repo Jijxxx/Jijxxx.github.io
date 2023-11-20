@@ -2,9 +2,11 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     level: 1,
     experience: 0,
     gold: 0,
+    stamina: 100,
     weapon: 'Zardzewiały Miecz',
     experienceToNextLevel: 100,
-    monsterLevelRange: "1-5", // Default monster level range
+    monsterLevelRange: "1-5" // Default monster level range
+
 };
 
 function updateMonsterLevel() {
@@ -47,13 +49,15 @@ function getMinRequiredLevel(range) {
 }
 
 function hunt() {
-    let huntButton = document.getElementById("huntButton");
-    var resultXElement = document.getElementById("resultX");
+    if (player.stamina >= 10) {
 
+    let huntButton = document.getElementById("huntButton");
+    
     if (huntButton.disabled) {
         return;
       }
-
+      let resultXElement = document.getElementById('resultX');
+      resultXElement.textContent = `Trwa polowanie...`;
       huntButton.disabled = true;
 
       setTimeout(function() {
@@ -72,6 +76,7 @@ function hunt() {
     // Aktualizacja danych gracza
     player.experience += experienceGain;
     player.gold += goldGain;
+    player.stamina -= 10;
 
     // Sprawdzenie czy gracz zdobył wystarczająco dużo doświadczenia na nowy poziom
     if (player.experience >= player.experienceToNextLevel) {
@@ -90,14 +95,20 @@ function hunt() {
     resultElement.style.whiteSpace = "pre-line";
 
 
+    let resultXElement = document.getElementById('resultX');
+    resultXElement.textContent = "";
 
     // Aktualizacja interfejsu gracza
     updatePlayerInfo();
     
     // Do the hunting operation here
-    resultXElement.textContent = "";
     huntButton.disabled = false;
     }, 2500);
+
+
+} else {
+    alert('Masz za mało energii!');
+}
     
 }
 
@@ -114,7 +125,6 @@ function hunt() {
 function updatePlayerInfo() {
     let experienceBar = document.getElementById('experience-bar');
     let expInfo = document.getElementById('exp-info');
-    let expToNextLevelInfo = document.getElementById('exp-to-next-level-info');
   
     let experienceNeededForCurrentLevel = calculateExperienceToNextLevel();
     let experienceNeededForPreviousLevel = player.level === 1 ? 0 : calculateExperienceToNextLevel() - Math.ceil(calculateExperienceToNextLevel() / 1.5);
@@ -135,6 +145,10 @@ function updatePlayerInfo() {
 
     let goldAmount = document.getElementById('gold-amount');
     goldAmount.textContent = player.gold;
+    let staminaAmount = document.getElementById('stamina-amount');
+    staminaAmount.textContent = player.stamina;
+
+
 
     expInfo.textContent = `Doświadczenie: ${player.experience} / ${player.experienceToNextLevel}`;
 
@@ -156,6 +170,9 @@ function updatePlayerInfo() {
 
 }
 
+// STAMINA?
+
+
 updatePlayerInfo();
 
 function resetLevel() {
@@ -163,6 +180,7 @@ function resetLevel() {
     player.experience = 0;
     player.gold = 0;
     player.experienceToNextLevel = 100;
+    player.stamina = 100;
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('result');
     resultElement.textContent = `Zresetowano poziom gracza.`;

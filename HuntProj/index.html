@@ -18,7 +18,10 @@
             <div id="gold-info" class="info-box">
                 <span>Złoto: <span id="gold-amount">0</span></span>
             </div>
-            <div class="info-box" id="location-info">
+            <div id="stamina-info" class="info-box">
+                <span>Energia <span id="stamina-amount">100</span></span>
+            </div>
+            <div id="location-info" class="info-box">
                 <label for="level-select">Wybierz lokację do polowania: </label>
                 <select id="level-select" onchange="updateMonsterLevel()">
                     <option value="1-5">Bagna</option>
@@ -27,10 +30,19 @@
                     <option value="16-20">Mgliste Góry</option>
                     <option value="21-30">Pustynia</option>
                     <option value="31-50">Czarne jezioro</option>
-                    <!-- Add more options as needed -->
+                    <!-- Dodaj więcej jeżeli będzie trzeba -->
                 </select>
             </div>
+
         </div>
+
+
+
+
+
+
+        <div id="resultX" class="info-box2"></div>
+
 
 
         <div id="experience-bar-container">
@@ -42,8 +54,8 @@
              <button id="huntButton" onclick="hunt()">Poluj</button>
              <button onclick="resetLevel()">Resetuj Poziom</button>
             <div id="result"></div>
-            <div id="resultX"></div>
         </div>
+
 
     <script src="polowanie.js"></script>
 </body>
