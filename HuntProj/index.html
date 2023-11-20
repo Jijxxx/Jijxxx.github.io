@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>HuntME</title>
 </head>
 <body>
@@ -21,6 +22,9 @@
             <div id="stamina-info" class="info-box">
                 <span>Energia <span id="stamina-amount">100</span></span>
             </div>
+            <div id="potion-icon" class="info-box">
+                <i class='bx bxs-flask bx-tada-hover bx-sm' title="Kup miksturę energii(+50) za 100 złota!" onclick="visitShop()"></i>
+            </div>
             <div id="location-info" class="info-box">
                 <label for="level-select">Wybierz lokację do polowania: </label>
                 <select id="level-select" onchange="updateMonsterLevel()">
@@ -33,18 +37,11 @@
                     <!-- Dodaj więcej jeżeli będzie trzeba -->
                 </select>
             </div>
+            
+
 
         </div>
-
-
-
-
-
-
         <div id="resultX" class="info-box2"></div>
-
-
-
         <div id="experience-bar-container">
             <div id="experience-bar"></div>
         </div>
@@ -56,7 +53,7 @@
             <div id="result"></div>
         </div>
 
-
     <script src="polowanie.js"></script>
+    
 </body>
 </html>

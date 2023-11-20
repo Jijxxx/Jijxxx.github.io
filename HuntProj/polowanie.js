@@ -17,39 +17,38 @@ function updateMonsterLevel() {
     if (player.level >= minRequiredLevel) {
         player.monsterLevelRange = selectedRange;
         
-        // Optionally, you can reset player's stats when changing the monster level
+        // Opcjonalne
         resetPlayerStats();
 
-        // Update player information and reset result message
+        // Zaktualizuj info playera
         updatePlayerInfo();
         let resultElement = document.getElementById('result');
         resultElement.textContent = "";
     } else {
-        // Display a message indicating the minimum required level
+        // Alert
         alert(`Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedRange} poziomu.`);
-        // Optionally, you can reset the dropdown to the default option or take other actions
-        levelSelect.value = player.monsterLevelRange; // Reset the dropdown to the previous value
+        levelSelect.value = player.monsterLevelRange;
     }
 }
 
 function getMinRequiredLevel(range) {
-    // Define minimum required levels for each range
+    // Level minimalny
     const minLevels = {
         "1-5": 1,
-        "6-10": 6, // Adjust as needed for other ranges
+        "6-10": 6,
         "11-15": 11,
         "16-20": 16,
         "21-30": 21,
         "31-50": 31
 
-        // Add more options as needed
+        // Dodać więcej
     };
 
-    return minLevels[range] || 1; // Default to 1 if the range is not found
+    return minLevels[range] || 1; // Standardowo 1 jeżeli błąd wyżej
 }
 
 function hunt() {
-    if (player.stamina >= 10) {
+    if (player.stamina >= 5) {
 
     let huntButton = document.getElementById("huntButton");
     
@@ -73,10 +72,11 @@ function hunt() {
     let experienceGain = monsterLevel * 10; // Przyznane punkty doświadczenia
     let goldGain = monsterLevel * 5.5; // Przyznane złoto
 
+
     // Aktualizacja danych gracza
     player.experience += experienceGain;
     player.gold += goldGain;
-    player.stamina -= 10;
+    player.stamina -= 5;
 
     // Sprawdzenie czy gracz zdobył wystarczająco dużo doświadczenia na nowy poziom
     if (player.experience >= player.experienceToNextLevel) {
@@ -91,7 +91,7 @@ function hunt() {
     let resultElement = document.getElementById('result');
     resultElement.textContent = `Walka z potworem poziomu ${monsterLevel}:
     Doświadczenie: +${experienceGain},
-    Złoto: +${goldGain}`;
+    Złoto: +${goldGain}`,
     resultElement.style.whiteSpace = "pre-line";
 
 
@@ -100,8 +100,6 @@ function hunt() {
 
     // Aktualizacja interfejsu gracza
     updatePlayerInfo();
-    
-    // Do the hunting operation here
     huntButton.disabled = false;
     }, 2500);
 
@@ -112,7 +110,7 @@ function hunt() {
     
 }
 
-// Funkcja do obliczania doświadczenia potrzebnego do następnego poziomu zgodnie z nowymi wymaganiami
+// Funkcja do obliczania doświadczenia potrzebnego do następnego poziomu
     function calculateExperienceToNextLevel() {
     let requiredExperience = 100;
 
@@ -145,14 +143,16 @@ function updatePlayerInfo() {
 
     let goldAmount = document.getElementById('gold-amount');
     goldAmount.textContent = player.gold;
+
     let staminaAmount = document.getElementById('stamina-amount');
     staminaAmount.textContent = player.stamina;
 
 
 
+
+
     expInfo.textContent = `Doświadczenie: ${player.experience} / ${player.experienceToNextLevel}`;
 
-    let expToNextLevelPercentage = ((player.experienceToNextLevel - player.experience) / player.experienceToNextLevel) * 100;
 
     let levelContainer = document.getElementById('level-info');
     let previousLevel = parseInt(levelContainer.dataset.level || 1);
@@ -164,14 +164,33 @@ function updatePlayerInfo() {
             levelContainer.classList.remove('level-up');
         }, 500);
 
-        // Update the data-level attribute to the current level
+        //
         levelContainer.dataset.level = player.level;
     }
-
 }
 
-// STAMINA?
+function visitShop() {
+    // Sprawdzenie czy gracz ma dość złota na zakup.
+    if (player.gold >= 100) {
 
+        // Wymiana
+        player.gold -= 100;
+        player.stamina += 50;
+
+        // Wiadomość
+        let resultElement = document.getElementById('result');
+        resultElement.textContent = `Zakupiono +50 energii za 100 złota.`;
+        resultElement.style.whiteSpace = "pre-line";
+
+        // Push
+        updatePlayerInfo();
+    } else {
+        // Error
+        let resultElement = document.getElementById('result');
+        resultElement.textContent = `Nie masz wystarczająco złota.`;
+        resultElement.style.whiteSpace = "pre-line";
+    }
+}
 
 updatePlayerInfo();
 

@@ -19,6 +19,7 @@ body {
     display: flex;
     justify-content: center;
     padding: 10px;
+    font-family:cursive;
 }
 #monster-level-menu {
     position: absolute;
@@ -31,14 +32,16 @@ body {
 }
 .info-box {
     margin-left: 10px;
-    margin-right:10px;
+    margin-right: 10px;
     padding: 8px;
+    text-align: center;
     border-radius: 10px;
     font-weight: bold;
+    justify-content: center;
 }
 .info-box2 {
-    position:absolute;
-    top:50px;
+    position: absolute;
+    top: 50px;
     margin-left: 10px;
     margin-top: 10px;
     padding: 5px;
@@ -47,47 +50,82 @@ body {
 }
 
 #gold-info {
-    background-color: #ffd000cc; /* Pomarańczowy kolor tła */
-    color: #fff; /* Biały kolor tekstu */
+    background-color: #ffd000cc;
+    color: #fff;
     min-width: 100px;
     text-align: center;
+    justify-content: center;
+    padding:12px;
 
 }
 
 #level-info {
-    background-color: #00008b9a; /* Granatowy kolor tła */
-    color: #fff; /* Biały kolor tekstu */
+    background-color: #00008b9a;
+    color: #fff;
     min-width: 100px;
     text-align: center;
+    justify-content: center;
+    padding:12px;
 }
 #exp-info {
-    background-color: #ff000d8f; /* Granatowy kolor tła */
-    color: #fff; /* Biały kolor tekstu */
+    background-color: #ff000d8f;
+    color: #fff;
     text-align: center;
     min-width: 210px;
+    justify-content: center;
+    padding:12px;
 
 }
 #location-info {
-    background-color: #28793594; /* Granatowy kolor tła */
-    color: #fff; /* Biały kolor tekstu */
+    background-color: #28793594;
+    color: #fff;
     text-align: center;
     min-width: 210px;
+    justify-content: center;
+    padding:12px;
 
 }
 #stamina-info {
-    background-color: #59287994; /* Granatowy kolor tła */
-    color: #fff; /* Biały kolor tekstu */
+    background-color: #59287994;
+    color: #fff;
     text-align: center;
     min-width: 100px;
+    justify-content: center;
+    padding:12px;
 
 }
-/* Dodano styl animacji */
+#potion-icon {
+    background-color: rgba(255, 255, 255, 0.664);
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+
+}
+#inventory-info {
+    background-color: #5c5c5c94;
+    color: #fff;
+    text-align: center;
+    min-width: 50px;
+}
+.info-box .shop {
+    padding: 2px;
+    color: rgb(196, 218, 0);
+    border-radius: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 12px;
+    background-color: #f6e8ff94;
+}
+
+
 @keyframes levelUpAnimation {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
   }
-  
 .level-up {
     animation: levelUpAnimation 0.5s ease-in-out;
     transform: scale(1);
@@ -168,5 +206,4 @@ button {
     background: 0;
     color: black;
     animation: resultXAnimation 3s infinite;
-
 }
