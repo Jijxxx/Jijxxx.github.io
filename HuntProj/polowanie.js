@@ -2,6 +2,8 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     level: 1,
     experience: 0,
     gold: 0,
+    currenthealth: 200,
+    maxhealth: 200,
     stamina: 100,
     weapon: 'Zardzewiały Miecz',
     experienceToNextLevel: 100,
@@ -29,6 +31,31 @@ function updateMonsterLevel() {
         alert(`Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedRange} poziomu.`);
         levelSelect.value = player.monsterLevelRange;
     }
+}
+
+function getMonsterName(monsterLevel) {
+    const monsterNames = {
+        1: "Szczur",
+        2: "Wąż",
+        3: "Wilk",
+        4: "placeholder",
+        5: "placeholder",
+        6: "placeholder",
+        7: "placeholder",
+        8: "placeholder",
+        9: "placeholder",
+        10: "placeholder",
+        11: "placeholder",
+        12: "placeholder",
+        13: "placeholder",
+        14: "placeholder",
+        15: "placeholder",
+        16: "placeholder",
+
+        // Add more as needed
+    };
+
+    return monsterNames[monsterLevel] || "Nieznana kreatura!";
 }
 
 function getMinRequiredLevel(range) {
@@ -71,12 +98,15 @@ function hunt() {
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
     let experienceGain = monsterLevel * 10; // Przyznane punkty doświadczenia
     let goldGain = monsterLevel * 5.5; // Przyznane złoto
+    let hplost = monsterLevel * 5;
+    let energylost = 5;
 
 
     // Aktualizacja danych gracza
     player.experience += experienceGain;
     player.gold += goldGain;
-    player.stamina -= 5;
+    player.stamina -= energylost;
+    player.currenthealth -= hplost;
 
     // Sprawdzenie czy gracz zdobył wystarczająco dużo doświadczenia na nowy poziom
     if (player.experience >= player.experienceToNextLevel) {
@@ -89,9 +119,12 @@ function hunt() {
 
     // Wyświetlenie wyniku walki
     let resultElement = document.getElementById('result');
-    resultElement.textContent = `Walka z potworem poziomu ${monsterLevel}:
-    Doświadczenie: +${experienceGain},
-    Złoto: +${goldGain}`,
+    let monsterName = getMonsterName(monsterLevel);
+    resultElement.textContent = `~ Walka z potworem: ${monsterName} (lvl: ${monsterLevel}) ~
+        ${monsterName} zadaje ${hplost} punktów obrażeń!
+        Zdobyto ${experienceGain} doświadczenia 
+        Znaleziono ${goldGain} sztuk złota
+        Wykorzystano ${energylost} energii.`
     resultElement.style.whiteSpace = "pre-line";
 
 
@@ -132,7 +165,7 @@ function updatePlayerInfo() {
     let experiencePercentage = ((experienceNeededForCurrentLevel - currentLevelExperience) / experienceNeededForCurrentLevel) * 100;
   
     experienceBar.style.width = 100 - experiencePercentage + '%';
-    expInfo.innerHTML = `Doświadczenie: <span id="current-exp">${currentLevelExperience}</span> / <span id="exp-needed">${experienceNeededForCurrentLevel}</span>`;
+    expInfo.innerHTML = `Exp: <span id="current-exp">${currentLevelExperience}</span> / <span id="exp-needed">${experienceNeededForCurrentLevel}</span>`;
 
 
     let resultElement = document.getElementById('exp-info');
@@ -140,6 +173,11 @@ function updatePlayerInfo() {
 
     let levelInfo = document.getElementById('player-level');
     levelInfo.textContent = player.level;
+
+    
+    let healthInfo = document.getElementById('health-info');
+    healthInfo.textContent = `HP: ${player.currenthealth} / ${player.maxhealth}`;
+
 
     let goldAmount = document.getElementById('gold-amount');
     goldAmount.textContent = player.gold;
@@ -151,7 +189,7 @@ function updatePlayerInfo() {
 
 
 
-    expInfo.textContent = `Doświadczenie: ${player.experience} / ${player.experienceToNextLevel}`;
+    expInfo.textContent = `Exp: ${player.experience} / ${player.experienceToNextLevel}`;
 
 
     let levelContainer = document.getElementById('level-info');
@@ -169,7 +207,7 @@ function updatePlayerInfo() {
     }
 }
 
-function visitShop() {
+function buyEnergy() {
     // Sprawdzenie czy gracz ma dość złota na zakup.
     if (player.gold >= 100) {
 
@@ -192,6 +230,29 @@ function visitShop() {
     }
 }
 
+function buyHP() {
+    // Sprawdzenie czy gracz ma dość złota na zakup.
+    if (player.gold >= 50) {
+
+        // Wymiana
+        player.gold -= 50;
+        player.currenthealth += 50;
+
+        // Wiadomość
+        let resultElement = document.getElementById('result');
+        resultElement.textContent = `Zakupiono +50 HP za 50 złota.`;
+        resultElement.style.whiteSpace = "pre-line";
+
+        // Push
+        updatePlayerInfo();
+    } else {
+        // Error
+        let resultElement = document.getElementById('result');
+        resultElement.textContent = `Nie masz wystarczająco złota.`;
+        resultElement.style.whiteSpace = "pre-line";
+    }
+}
+
 updatePlayerInfo();
 
 function resetLevel() {
@@ -200,6 +261,8 @@ function resetLevel() {
     player.gold = 0;
     player.experienceToNextLevel = 100;
     player.stamina = 100;
+    player.currenthealth = 200;
+    player.maxhealth = 200;
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('result');
     resultElement.textContent = `Zresetowano poziom gracza.`;

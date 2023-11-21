@@ -21,6 +21,15 @@ body {
     padding: 10px;
     font-family:cursive;
 }
+#loc-bar {
+    background-color: rgba(128, 128, 128, 0.445);
+    border-radius: 12px;
+    position:absolute;
+    top:68px;
+    justify-content: center;
+    padding: 10px;
+    font-family:cursive;
+}
 #monster-level-menu {
     position: absolute;
     top:60px;
@@ -41,14 +50,25 @@ body {
 }
 .info-box2 {
     position: absolute;
-    top: 50px;
+    top: 15%;
     margin-left: 10px;
     margin-top: 10px;
     padding: 5px;
     background: 0;
 
 }
-
+/*
+#testsvg {
+    background-image:url('violetbar.png'); 
+    background-position: center;
+    background-size:contain;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-align: center;
+    font-size:10px;
+    min-width: 100px;
+}
+*/
 #gold-info {
     background-color: #ffd000cc;
     color: #fff;
@@ -58,7 +78,15 @@ body {
     padding:12px;
 
 }
+#health-info {
+    background-color: #ff000d8f;
+    color: #fff;
+    text-align: center;
+    min-width: 110px;
+    justify-content: center;
+    padding:12px;
 
+}
 #level-info {
     background-color: #00008b9a;
     color: #fff;
@@ -68,10 +96,10 @@ body {
     padding:12px;
 }
 #exp-info {
-    background-color: #ff000d8f;
+    background-color: #ffa6008f;
     color: #fff;
     text-align: center;
-    min-width: 210px;
+    min-width: 110px;
     justify-content: center;
     padding:12px;
 
@@ -95,13 +123,25 @@ body {
 
 }
 #potion-icon {
-    background-color: rgba(255, 255, 255, 0.664);
+    background-color: #59287994;
     font-size: 16px;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     text-align: center;
     min-width: 20px;
     justify-content: center;
     padding: 10px;
+    margin-left:-8px;
+
+}
+#potion-iconHP {
+    background-color: #ff000d8f;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+    margin-left:-8px;
 
 }
 #inventory-info {
@@ -207,3 +247,4 @@ button {
     color: black;
     animation: resultXAnimation 3s infinite;
 }
+
