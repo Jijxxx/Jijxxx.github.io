@@ -38,13 +38,13 @@ function getMonsterName(monsterLevel) {
         1: "Szczur",
         2: "Wąż",
         3: "Wilk",
-        4: "placeholder",
-        5: "placeholder",
-        6: "placeholder",
-        7: "placeholder",
-        8: "placeholder",
-        9: "placeholder",
-        10: "placeholder",
+        4: "Jaszczomp",
+        5: "BOSS NOWAK",
+        6: "dżownica XD",
+        7: "patyczak",
+        8: "dzika sarna",
+        9: "guziec",
+        10: "BOSS NOWAKv2",
         11: "placeholder",
         12: "placeholder",
         13: "placeholder",
@@ -52,7 +52,7 @@ function getMonsterName(monsterLevel) {
         15: "placeholder",
         16: "placeholder",
 
-        // Add more as needed
+        // 
     };
 
     return monsterNames[monsterLevel] || "Nieznana kreatura!";
