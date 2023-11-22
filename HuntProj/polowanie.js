@@ -5,8 +5,10 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     currenthealth: 200,
     maxhealth: 200,
     stamina: 100,
+    maxstamina: 100,
     weapon: 'Zardzewiały Miecz',
     experienceToNextLevel: 100,
+    experienceMultiplier: 1.0,
     monsterLevelRange: "1-5" // Default monster level range
 
 };
@@ -38,18 +40,18 @@ function getMonsterName(monsterLevel) {
         1: "Szczur",
         2: "Wąż",
         3: "Wilk",
-        4: "Jaszczomp",
-        5: "BOSS NOWAK",
-        6: "dżownica XD",
-        7: "patyczak",
-        8: "dzika sarna",
-        9: "guziec",
-        10: "BOSS NOWAKv2",
-        11: "placeholder",
-        12: "placeholder",
-        13: "placeholder",
-        14: "placeholder",
-        15: "placeholder",
+        4: "Salamandra",
+        5: "Głowicowiec",
+        6: "Wściekła wiewiórka",
+        7: "Pijana sowa",
+        8: "Dzika sarna",
+        9: "Ślepy guziec",
+        10: "Częstochowski Miszcz",
+        11: "Troll jaskiniowy",
+        12: "Jednoskrzydły nietoperz",
+        13: "Kret z katarem",
+        14: "Pełzacz",
+        15: "Kapitan IPA",
         16: "placeholder",
 
         // 
@@ -75,10 +77,28 @@ function getMinRequiredLevel(range) {
 }
 
 function hunt() {
-    if (player.stamina >= 5) {
 
+    let monsterLevelRange = player.monsterLevelRange.split('-');
+    let minMonsterLevel = parseInt(monsterLevelRange[0]);
+    let maxMonsterLevel = parseInt(monsterLevelRange[1]);
+
+    // Symulacja walki i przyznawania punktów doświadczenia oraz złota
+    let xpMulti = (player.experienceMultiplier).toFixed(2);
+    let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
+    let experienceGain = Math.floor(monsterLevel * 10 * xpMulti); // Przyznane punkty doświadczenia
+    let minGold = monsterLevel * 10;
+    let maxGold = monsterLevel * 12;
+    let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
+    let hplost = monsterLevel * 5;
+    let energylost = 5;
+
+    if (player.stamina >= 5 ) {
+
+        if (player.currenthealth > hplost) {
+
+        
     let huntButton = document.getElementById("huntButton");
-    
+
     if (huntButton.disabled) {
         return;
       }
@@ -87,20 +107,6 @@ function hunt() {
       huntButton.disabled = true;
 
       setTimeout(function() {
-
-
-    let monsterLevelRange = player.monsterLevelRange.split('-');
-    let minMonsterLevel = parseInt(monsterLevelRange[0]);
-    let maxMonsterLevel = parseInt(monsterLevelRange[1]);
-
-
-    // Symulacja walki i przyznawania punktów doświadczenia oraz złota
-    let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
-    let experienceGain = monsterLevel * 10; // Przyznane punkty doświadczenia
-    let goldGain = monsterLevel * 5.5; // Przyznane złoto
-    let hplost = monsterLevel * 5;
-    let energylost = 5;
-
 
     // Aktualizacja danych gracza
     player.experience += experienceGain;
@@ -111,6 +117,9 @@ function hunt() {
     // Sprawdzenie czy gracz zdobył wystarczająco dużo doświadczenia na nowy poziom
     if (player.experience >= player.experienceToNextLevel) {
         player.level++;
+        player.experienceMultiplier += 0.1;
+        player.maxhealth += 20;
+        player.maxstamina += 10;
         player.experienceToNextLevel = calculateExperienceToNextLevel();
     }
 
@@ -124,7 +133,9 @@ function hunt() {
         ${monsterName} zadaje ${hplost} punktów obrażeń!
         Zdobyto ${experienceGain} doświadczenia 
         Znaleziono ${goldGain} sztuk złota
-        Wykorzystano ${energylost} energii.`
+        Wykorzystano ${energylost} energii.
+        Mnożnik aktualnie: ${xpMulti}
+        MaxHP? ${player.maxhealth}`
     resultElement.style.whiteSpace = "pre-line";
 
 
@@ -134,14 +145,19 @@ function hunt() {
     // Aktualizacja interfejsu gracza
     updatePlayerInfo();
     huntButton.disabled = false;
-    }, 2500);
+    }, 500);
 
+    } else {
+    alert('Masz za mało zdrowia! Kup miksturę!');
+    }
 
-} else {
-    alert('Masz za mało energii!');
+    } else {
+    alert('Masz za mało energii! Kup miksturę!');
+    }
+
 }
     
-}
+
 
 // Funkcja do obliczania doświadczenia potrzebnego do następnego poziomu
     function calculateExperienceToNextLevel() {
@@ -183,7 +199,7 @@ function updatePlayerInfo() {
     goldAmount.textContent = player.gold;
 
     let staminaAmount = document.getElementById('stamina-amount');
-    staminaAmount.textContent = player.stamina;
+    staminaAmount.textContent = `${player.stamina} / ${player.maxstamina}`;
 
 
 
@@ -197,7 +213,6 @@ function updatePlayerInfo() {
     
     if (player.level > previousLevel) {
         levelContainer.classList.add('level-up');
-
         setTimeout(() => {
             levelContainer.classList.remove('level-up');
         }, 500);
@@ -211,13 +226,25 @@ function buyEnergy() {
     // Sprawdzenie czy gracz ma dość złota na zakup.
     if (player.gold >= 100) {
 
+        let staminaToAdd = Math.floor(player.maxstamina*0.3);
+            if (player.stamina === player.maxstamina) {
+                let resultElement = document.getElementById('result');
+                resultElement.textContent = `Masz maksymalną ilość energii!`;
+                resultElement.style.whiteSpace = "pre-line"; 
+                return;
+            }
+
+        if (player.stamina + staminaToAdd > player.maxstamina) {
+            staminaToAdd = player.maxstamina - player.stamina;
+        }
+
         // Wymiana
         player.gold -= 100;
-        player.stamina += 50;
+        player.stamina += staminaToAdd;
 
         // Wiadomość
         let resultElement = document.getElementById('result');
-        resultElement.textContent = `Zakupiono +50 energii za 100 złota.`;
+        resultElement.textContent = `Zakupiono miksturę energii za 100 złota.`;
         resultElement.style.whiteSpace = "pre-line";
 
         // Push
@@ -230,21 +257,51 @@ function buyEnergy() {
     }
 }
 
+// Function to regenerate stamina
+function regenerateStamina() {
+    // Increase stamina by 10 (or any desired amount)
+    player.stamina += 1;
+
+    // Ensure stamina doesn't exceed the maximum value (e.g., 100)
+    if (player.stamina > player.maxstamina) {
+        player.stamina = player.maxstamina;
+    }
+
+    // Update the player's information (you might have a function like updatePlayerInfo)
+    updatePlayerInfo();
+}
+
+// czas regeneracji
+setInterval(regenerateStamina, 2000); // 1000ms = 1s
+
 function buyHP() {
     // Sprawdzenie czy gracz ma dość złota na zakup.
     if (player.gold >= 50) {
 
-        // Wymiana
-        player.gold -= 50;
-        player.currenthealth += 50;
+        let healthToAdd = Math.floor(player.maxhealth * 0.5);
 
-        // Wiadomość
-        let resultElement = document.getElementById('result');
-        resultElement.textContent = `Zakupiono +50 HP za 50 złota.`;
-        resultElement.style.whiteSpace = "pre-line";
+        if (player.currenthealth === player.maxhealth) {
+            let resultElement = document.getElementById('result');
+            resultElement.textContent = `Masz maksymalną ilość zdrowia!`;
+            resultElement.style.whiteSpace = "pre-line"; 
+            return;
+        }
+
+        if (player.currenthealth + healthToAdd > player.maxhealth) {
+            healthToAdd = player.maxhealth - player.currenthealth;
+        }
+                // Wymiana
+                player.gold -= 50;
+                player.currenthealth += healthToAdd;
+        
+                // Wiadomość
+                let resultElement = document.getElementById('result');
+                resultElement.textContent = `Zakupiono miksturę HP za 50 złota.`;
+                resultElement.style.whiteSpace = "pre-line";  
 
         // Push
         updatePlayerInfo();
+    
     } else {
         // Error
         let resultElement = document.getElementById('result');
@@ -261,8 +318,11 @@ function resetLevel() {
     player.gold = 0;
     player.experienceToNextLevel = 100;
     player.stamina = 100;
+    player.maxstamina = 100;
     player.currenthealth = 200;
     player.maxhealth = 200;
+    player.experienceMultiplier = 1.0;
+    player.monsterLevelRange = "1-5";
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('result');
     resultElement.textContent = `Zresetowano poziom gracza.`;
