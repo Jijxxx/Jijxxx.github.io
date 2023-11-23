@@ -1,0 +1,386 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-image:url('imgs/Weltenweber-Header-1.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#top-bar {
+    border-radius: 12px;
+    position: absolute;
+    top:0;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    font-family: cursive;
+    background: rgba(34, 34, 34, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+#loc-bar {
+    border-radius: 12px;
+    position:absolute;
+    top:66px;
+    justify-content: center;
+    padding: 10px;
+    font-family: cursive;
+    background: rgba(34, 34, 34, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+#monster-level-menu {
+    position: absolute;
+    top:60px;
+    background-color: rgba(128, 128, 128, 0.562);
+    border-radius: 12px;
+    justify-content: center;
+    padding: 10px;
+
+}
+.info-box {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.info-box2 {
+    position: absolute;
+    top: 15%;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    background: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+}
+/*
+#testsvg {
+    background-image:url('violetbar.png'); 
+    background-position: center;
+    background-size:contain;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-align: center;
+    font-size:10px;
+    min-width: 100px;
+}
+*/
+#player-stats {
+    position: absolute;
+    top: 50%;
+    right: 5px; /* Adjust the right spacing as needed */
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: cursive;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.47);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+#gold-info {
+    background-color: #ffd000bb;
+    color: #fff;
+    min-width: 100px;
+    text-align: center;
+    justify-content: center;
+    padding:12px;
+}
+#health-info {
+    background-color: #ff000d8c;
+    color: #fff;
+    text-align: center;
+    min-width: 110px;
+    justify-content: center;
+    padding:12px;
+}
+#level-info {
+    background-color: #00008b9a;
+    color: #fff;
+    min-width: 100px;
+    text-align: center;
+    justify-content: center;
+    padding:12px;
+}
+#exp-info {
+    background-color: #ffa6008f;
+    color: #fff;
+    text-align: center;
+    min-width: 110px;
+    justify-content: center;
+    padding:12px;
+
+}
+#location-info {
+    background-color: #28793594;
+    color: #fff;
+    text-align: center;
+    min-width: 210px;
+    justify-content: center;
+    padding:12px;
+
+}
+#stamina-info {
+    background-color: #59287994;
+    color: #fff;
+    text-align: center;
+    min-width: 100px;
+    justify-content: center;
+    padding:12px;
+
+}
+#potion-icon {
+    background-color: #59287994;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+    margin-left:-8px;
+
+}
+#potion-iconHP {
+    background-color: #ff000d8f;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+    margin-left:-8px;
+
+}
+#potion-iconINV {
+    background-color: #3b0c008f;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+}
+#inventory-info {
+    background-color: #5c5c5c94;
+    color: #fff;
+    text-align: center;
+    min-width: 50px;
+}
+.info-box .shop {
+    padding: 2px;
+    color: rgb(196, 218, 0);
+    border-radius: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 12px;
+    background-color: #f6e8ff94;
+}
+
+
+@keyframes levelUpAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+.level-up {
+    animation: levelUpAnimation 0.5s ease-in-out;
+    transform: scale(1);
+}
+
+#experience-bar-container {
+    width: 20%;
+    height: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#experience-bar {
+    height: 90%;
+    background-color: #4caf50;
+    border: 1px solid black;
+    border-radius: 4px;
+    transition: width 0.2s ease-in-out;
+    text-align: center;
+    visibility:hidden;
+
+}
+#exp-to-next-level-info {
+    align-items: center;
+    text-align: center;
+}
+
+#game-container {
+    min-width: 400px;
+    min-height: 340px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color:#1f1e1e;
+    background: rgba(0, 0, 0, 0.47);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+#game-container h1 {
+    color:rgba(255, 255, 255, 0.938);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-shadow: rgba(255, 153, 0, 0.83) 10px 0 35px;
+    font-size: 48px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    background: rgba(157, 224, 255, 0.856);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+}
+@keyframes resultAnimation {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1.2); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+#result {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    position:sticky;
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    transition: color 2s ease-in-out;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.29);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.1px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border: 1px solid rgba(0, 0, 0, 0.19);
+}
+@keyframes resultXAnimation {
+    0%   {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
+    50%  {font-size:37px; color: rgb(255, 255, 255); font-family:cursive;}
+    100% {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
+}
+#resultX {
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 24px;
+    background: 0;
+    color: black;
+    animation: resultXAnimation 3s infinite;
+}
+
+.reset {
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding: 10px 20px;
+    font-size: 6px;
+    cursor: grabbing;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* Plecak */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    background: rgba(66, 24, 0, 0.603);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+    border-radius:12px;
+}
+
+.modal-content h2 {
+    color:rgba(255, 255, 255, 0.938);
+    font-family: cursive;
+    text-shadow: rgba(255, 153, 0, 0.83) 10px 0 35px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.close {
+    color: #8d8d8d;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover, .close:focus {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    cursor: pointer;
+}
+#inventory-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 5px;
+    color: white;
+    text-align: center;
+}
+
+.inventory-item {
+    padding: 10px;
+    border: 1px solid #aaa;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    font-family: cursive;
+    font-size: 16px;
+}
+
+.inventory-item:hover {
+    background-color: #ccc;
+}
+.equipped-asterisk {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: rgb(255, 255, 255); /* Adjust the color as needed */
+    font-size: 14px; /* Adjust the font size as needed */
+}
+

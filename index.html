@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>HuntME</title>
+</head>
+<body>
+        <!-- Pasek górny -->
+        <div id="top-bar">
+            <div id="health-info" class="info-box">
+                <span>HP: <span id="health-amount">200</span> / <span id="max-health"></span></span>
+            </div>
+            <div id="potion-iconHP" class="info-box">
+                <i class='bx bxs-flask bx-tada-hover bx-sm' title="Kup miksturę zdrowia za 50 złota!" onclick="buyHP()"></i>
+            </div>
+            <div id="stamina-info" class="info-box" data-level="1">
+                <span>Energia: <span id="stamina-amount">100</span></span>
+            </div>
+            <div id="potion-icon" class="info-box">
+                <i class='bx bxs-flask bx-tada-hover bx-sm' title="Kup miksturę energii za 100 złota!" onclick="buyEnergy()"></i>
+            </div>
+            <div id="exp-info" class="info-box">
+                <span>XP: <span id="current-exp">0</span> / <span id="exp-needed">100</span></span>
+              </div>
+              <div id="level-info" class="info-box" data-level="1">
+                <span>Poziom: <span id="player-level">1</span></span>
+            </div>
+            <div id="gold-info" class="info-box">
+                <span>Złoto: <span id="gold-amount">0</span></span>
+            </div>
+            <div id="potion-iconINV" class="info-box">
+                <i class='bx bxs-backpack bx-tada-hover bx-sm' title="Otwórz plecak" onclick="openInventory()"></i>
+                </div>
+        </div>
+
+        <!-- Pasek boczny(staty) -->
+
+        <div id="player-stats" class="info-box">
+            <span>Statystyki:</span>
+            <span><br></span>
+            <span>Liczba polowań: <span id="num-hunts">0</span></span>
+            <span>Szczęście: <span id="player-luck">1</span></span>
+            <span>Obrona: <span id="player-defense">1</span></span>
+
+
+
+            <!-- -->
+        </div>
+
+        <!-- Plecak -->
+        <div id="inventory-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeInventory()">&times;</span>
+                <h2>Twoje przedmioty:</h2>
+                <div id="inventory-content"></div>
+            </div>
+        </div>
+
+        <!-- Wybór lokacji -->
+        <div id="loc-bar">
+            <div id="location-info" class="info-box">
+                <label for="level-select">Wybierz lokację do polowania: </label>
+                <select id="level-select" onchange="updateMonsterLevel()">
+                    <option value="1-5">Bagna</option>
+                    <option value="6-10">Ciemny las</option>
+                    <option value="11-15">Jaskinie</option>
+                    <option value="16-20">Mgliste Góry</option>
+                    <option value="21-30">Pustynia</option>
+                    <option value="31-50">Czarne jezioro</option>
+                    <!-- Dodaj więcej jeżeli będzie trzeba -->
+                </select>
+            </div>
+        </div>
+
+        <div id="resultX" class="info-box2"></div>
+        <div id="experience-bar-container">
+            <div id="experience-bar"></div>
+        </div>
+
+        <!-- Main okno -->
+        <div id="game-container">
+            <h1>HuntME</h1>
+             <button id="huntButton" onclick="hunt()"> Poluj </button>
+            <div id="result"></div>
+        </div>
+
+        <div class="reset">
+        <button onclick="resetLevel()">Resetuj</button>
+    </div>
+    <script src="polowanie.js"></script>
+    
+</body>
+</html>
