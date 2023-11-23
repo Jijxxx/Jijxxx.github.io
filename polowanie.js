@@ -45,7 +45,7 @@ function getMonsterName(monsterLevel) {
         2: "Wąż",
         3: "Wilk",
         4: "Salamandra",
-        5: "Głowicowiec",
+        5: "Drzewiec",
         6: "Wściekła wiewiórka",
         7: "Pijana sowa",
         8: "Dzika sarna",
