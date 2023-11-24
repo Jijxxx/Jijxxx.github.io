@@ -191,7 +191,7 @@ function hunt() {
     } else {
         let resultElement = document.getElementById('messages-output');
         let messageText = document.createElement('span');
-        messageText.textContent = `Masz za mało zdrowia! Kup miksturę!`;
+        messageText.textContent = `Masz za mało energii! Kup miksturę!`;
         resultElement.innerHTML = '';
         resultElement.appendChild(messageText);
         messageText.style.whiteSpace = "pre-line";
