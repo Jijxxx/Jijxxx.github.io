@@ -37,14 +37,31 @@
         </div>
 
         <!-- Pasek boczny(staty) -->
-
+        <div id="amulet-icon" style="visibility:hidden;">
+            <i class="bx bxs-analyse bx-md"></i>
+            <span id="amulet-level"></span>
+        </div>
         <div id="player-stats" class="info-box">
             <span>Statystyki:</span>
             <span><br></span>
             <span>Liczba polowań: <span id="num-hunts">0</span></span>
             <span>Szczęście: <span id="player-luck">1</span></span>
             <span>Obrona: <span id="player-defense">1</span></span>
-
+            <br>
+            <br>
+            <br>
+            <span>_______________</span>
+            <br>
+                <div id="amulet-icon" title="Amulet zwiększa zdobywany Exp.">
+                <span style="font-size: 12px;">◘ Amulet Potwora ◘</span>
+                <br>
+                <i class="bx bxs-analyse bx-md" style="color:crimson;"></i>
+                <br>
+                <span id="amulet-level" style="font-size: 12px;"></span>
+                <br>
+                <i class="inventory-content" style="text-decoration: underline; font-size: 12px;" onclick="upgradeAmulet()">Ulepsz Amulet</i>
+                </div>
+            
 
 
             <!-- -->

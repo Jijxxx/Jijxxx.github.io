@@ -286,13 +286,16 @@ button {
     50%  {font-size:37px; color: rgb(255, 255, 255); font-family:cursive;}
     100% {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
 }
-#resultX {
+.resultX {
     border-radius: 8px;
     padding: 20px;
     font-size: 24px;
     background: 0;
     color: black;
     animation: resultXAnimation 3s infinite;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
 }
 
 .reset {
@@ -383,4 +386,21 @@ button {
     color: rgb(255, 255, 255); /* Adjust the color as needed */
     font-size: 14px; /* Adjust the font size as needed */
 }
+#amulet-icon {
+    color:white;
+    padding: 3px;  
+    border-radius: 5px;
+    background: rgba(255, 84, 84, 0.463);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+}
+#amulet-icon:hover {
+    /*background: rgba(255, 156, 156, 0.458);*/
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    transition: all .5s cubic-bezier(.01,-0.36,.92,1.39);
+    transform: scale(1.1,1.1);
+}
+
 

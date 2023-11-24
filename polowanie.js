@@ -13,6 +13,11 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     experienceToNextLevel: 100,
     experienceMultiplier: 1.0,
     loot: [],
+    amulet: {
+        level: 0,
+        upgradeCost: 2000, 
+        amuletExperienceMultiplier: 1.0,
+    },
     monsterLevelRange: "1-5" // Default monster level range
 
 };
@@ -45,7 +50,7 @@ function getMonsterName(monsterLevel) {
         2: "Wąż",
         3: "Wilk",
         4: "Salamandra",
-        5: "Drzewiec",
+        5: "Głowicowiec",
         6: "Wściekła wiewiórka",
         7: "Pijana sowa",
         8: "Dzika sarna",
@@ -89,7 +94,7 @@ function hunt() {
     // Symulacja walki i przyznawania punktów doświadczenia oraz złota
     let xpMulti = (player.experienceMultiplier).toFixed(2);
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
-    let experienceGain = Math.floor(monsterLevel * 10 * xpMulti); // Przyznane punkty doświadczenia
+    let experienceGain = Math.floor(monsterLevel * 10 * xpMulti) * player.amulet.experienceMultiplier; // Przyznane punkty doświadczenia
     let minGold = monsterLevel * 10;
     let maxGold = monsterLevel * 12;
     let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
@@ -139,8 +144,9 @@ function hunt() {
         player.loot.push({ type: 'shield', name: 'Obronna tarcza(Obrona+5)', equipped: false });
         
         // Display a message about finding an item
-        let resultElement = document.getElementById('result');
-        alert('Znalazłeś przedmiot: Obronna Tarcza!');
+        let resultElement = document.getElementById('resultX');
+        resultElement.innerHTML = `Znalazłeś przedmiot: Obronna Tarcza!`
+        //alert('Znalazłeś przedmiot: Obronna Tarcza!');
         resultElement.style.whiteSpace = "pre-line";
     }
 
@@ -164,6 +170,8 @@ function hunt() {
     // Aktualizacja interfejsu gracza
     updatePlayerInfo();
     huntButton.disabled = false;
+    let amuletInfo = document.getElementById('amulet-info');
+    amuletInfo.textContent = `Amulet Level: ${player.amulet.level}`;
     }, 500);
 
     } else {
@@ -191,7 +199,7 @@ function hunt() {
 function updatePlayerInfo() {
     let experienceBar = document.getElementById('experience-bar');
     let expInfo = document.getElementById('exp-info');
-  
+    
     let experienceNeededForCurrentLevel = calculateExperienceToNextLevel();
     let experienceNeededForPreviousLevel = player.level === 1 ? 0 : calculateExperienceToNextLevel() - Math.ceil(calculateExperienceToNextLevel() / 1.5);
     let currentLevelExperience = player.level === 1 ? player.experience : player.experience - experienceNeededForPreviousLevel;
@@ -229,14 +237,22 @@ function updatePlayerInfo() {
     let numHuntsElement = document.getElementById('num-hunts');
     numHuntsElement.textContent = `${player.numHunts}`;
 
+    let amuletIcon = document.getElementById('amulet-icon');
+    amuletIcon.innerHTML = '<i class="bx bxs-analyse bx-md"></i>';
+        
+    let amuletLevel = document.getElementById('amulet-level');
+    amuletLevel.textContent = `Poziom: ${player.amulet.level}`;
+    
 
 
-    expInfo.textContent = `Exp: ${player.experience} / ${player.experienceToNextLevel}`;
+
+    
 
 
     let levelContainer = document.getElementById('level-info');
     let previousLevel = parseInt(levelContainer.dataset.level || 1);
-    
+    expInfo.textContent = `Exp: ${player.experience} / ${player.experienceToNextLevel}`;
+
     if (player.level > previousLevel) {
         levelContainer.classList.add('level-up');
         setTimeout(() => {
@@ -317,6 +333,38 @@ function regenerateHealth() {
 
 // czas regeneracji
 setInterval(regenerateHealth, 5000); // 1000ms = 1s
+
+function upgradeAmulet() {
+    // Check if the player has enough gold to upgrade
+    if (player.gold >= player.amulet.upgradeCost) {
+        // Deduct the gold for the upgrade
+        player.gold -= player.amulet.upgradeCost;
+
+        // Increase the amulet level
+        player.amulet.level++;
+
+        // Increase the upgrade cost for the next level
+        player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.5);
+
+        // Increase the experience multiplier
+        player.amulet.experienceMultiplier += 0.1; // You can adjust the multiplier as needed
+
+        // Update player info and save to localStorage
+        updatePlayerInfo();
+        localStorage.setItem('player', JSON.stringify(player));
+
+        // Display a message about the upgrade
+        let resultElement = document.getElementById('result');
+        resultElement.textContent = `Amulet został ulepszony do poziomu ${player.amulet.level}!`;
+        resultElement.style.whiteSpace = "pre-line";
+    } else {
+        // Display an error message if the player doesn't have enough gold
+        let resultElement = document.getElementById('result');
+        resultElement.textContent = `Nie masz wystarczająco złota na ulepszenie amuletu.`;
+        resultElement.style.whiteSpace = "pre-line";
+    }
+}
+
 
 
 function buyHP() {
@@ -404,7 +452,7 @@ function displayInventoryItems() {
 
             // Display equipped status and handle item click
             if (item.equipped) {
-                itemElement.style.backgroundColor = '#bbbb'; // Set the background color for equipped items
+                itemElement.style.backgroundColor = 'rgba(157, 224, 255, 0.856)'; // Set the background color for equipped items
                 itemElement.style.color = 'black';
                 itemElement.innerHTML += '<span class="equipped-asterisk">*</span>';
                 itemElement.addEventListener('click', () => unequipItem(item));
@@ -474,10 +522,15 @@ function resetLevel() {
     player.maxhealth = 200;
     player.defense = 1;
     player.luck = 1;
-    player.experienceMultiplier = 1.0;
+    player.experienceMultiplier = 30;
     player.loot = [
         
-    ]
+    ];
+    player.amulet = {
+        level: 0,
+        upgradeCost: 1000, // Initial upgrade cost
+        experienceMultiplier: 1.0, // Initial multiplier
+    };
     player.monsterLevelRange = "1-5";
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('result');
