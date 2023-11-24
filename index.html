@@ -36,6 +36,7 @@
                 </div>
         </div>
 
+
         <!-- Pasek boczny(staty) -->
         <div id="amulet-icon" style="visibility:hidden;">
             <i class="bx bxs-analyse bx-md"></i>
@@ -47,6 +48,7 @@
             <span>Liczba polowań: <span id="num-hunts">0</span></span>
             <span>Szczęście: <span id="player-luck">1</span></span>
             <span>Obrona: <span id="player-defense">1</span></span>
+            
             <br>
             <br>
             <br>
@@ -58,6 +60,8 @@
                 <i class="bx bxs-analyse bx-md" style="color:crimson;"></i>
                 <br>
                 <span id="amulet-level" style="font-size: 12px;"></span>
+                <br>
+                <span><span id="amulet-multiplier" style="font-size: 10px;">1</span></span>
                 <br>
                 <i class="inventory-content" style="text-decoration: underline; font-size: 12px;" onclick="upgradeAmulet()">Ulepsz Amulet</i>
                 </div>
@@ -102,6 +106,15 @@
             <h1>HuntME</h1>
              <button id="huntButton" onclick="hunt()"> Poluj </button>
             <div id="result"></div>
+        </div>
+
+        <div id="messages-container">
+            <span>
+                <span style="color: white; text-decoration: underline; align-items:center; font-size: 12px; margin-left:10px;">~Wiadomości systemowe:</span>
+                <div id="messages-output">
+                </div>
+            </span>
+            
         </div>
 
         <div class="reset">

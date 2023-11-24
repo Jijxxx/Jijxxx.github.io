@@ -16,7 +16,7 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     amulet: {
         level: 0,
         upgradeCost: 2000, 
-        amuletExperienceMultiplier: 1.0,
+        amuletExperienceMultiplier: 0.0,
     },
     monsterLevelRange: "1-5" // Default monster level range
 
@@ -94,7 +94,7 @@ function hunt() {
     // Symulacja walki i przyznawania punktów doświadczenia oraz złota
     let xpMulti = (player.experienceMultiplier).toFixed(2);
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
-    let experienceGain = Math.floor(monsterLevel * 10 * xpMulti) * player.amulet.experienceMultiplier; // Przyznane punkty doświadczenia
+    let experienceGain = Math.floor(monsterLevel * 10 * xpMulti + player.amulet.experienceMultiplier); // Przyznane punkty doświadczenia
     let minGold = monsterLevel * 10;
     let maxGold = monsterLevel * 12;
     let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
@@ -108,16 +108,16 @@ function hunt() {
 
         
     let huntButton = document.getElementById("huntButton");
-
     if (huntButton.disabled) {
         return;
       }
-      let resultXElement = document.getElementById('resultX');
-      resultXElement.textContent = `Trwa polowanie...`;
+      let resultZElement = document.getElementById('huntButton');
+      resultZElement.textContent = `Trwa polowanie...`;
       huntButton.disabled = true;
 
       setTimeout(function() {
 
+        
     // Aktualizacja danych gracza
     player.numHunts++;
     player.experience += experienceGain;
@@ -143,11 +143,13 @@ function hunt() {
 
         player.loot.push({ type: 'shield', name: 'Obronna tarcza(Obrona+5)', equipped: false });
         
-        // Display a message about finding an item
-        let resultElement = document.getElementById('resultX');
-        resultElement.innerHTML = `Znalazłeś przedmiot: Obronna Tarcza!`
-        //alert('Znalazłeś przedmiot: Obronna Tarcza!');
-        resultElement.style.whiteSpace = "pre-line";
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Znalazles przedmiot: Obronna Tarcza!`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
     }
 
     // Zapis danych gracza w local storage
@@ -169,17 +171,31 @@ function hunt() {
 
     // Aktualizacja interfejsu gracza
     updatePlayerInfo();
+    let resultYElement = document.getElementById('huntButton');
     huntButton.disabled = false;
+    resultYElement.innerHTML =`Poluj`;
     let amuletInfo = document.getElementById('amulet-info');
     amuletInfo.textContent = `Amulet Level: ${player.amulet.level}`;
     }, 500);
 
     } else {
-    alert('Masz za mało zdrowia! Kup miksturę!');
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Masz za mało zdrowia! Kup miksturę!`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
     }
 
     } else {
-    alert('Masz za mało energii! Kup miksturę!');
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Masz za mało zdrowia! Kup miksturę!`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
     }
 
 }
@@ -242,6 +258,8 @@ function updatePlayerInfo() {
         
     let amuletLevel = document.getElementById('amulet-level');
     amuletLevel.textContent = `Poziom: ${player.amulet.level}`;
+    let amuletMulti = document.getElementById('amulet-multiplier');
+    amuletMulti.textContent = `Exp +${player.amulet.experienceMultiplier}%`;
     
 
 
@@ -271,8 +289,12 @@ function buyEnergy() {
         let staminaToAdd = Math.floor(player.maxstamina*0.3);
             if (player.stamina === player.maxstamina) {
                 let resultElement = document.getElementById('result');
-                resultElement.textContent = `Masz maksymalną ilość energii!`;
-                resultElement.style.whiteSpace = "pre-line"; 
+                let messageText = document.createElement('span');
+                messageText.textContent = `Masz maksymalną ilość energii!`;
+                resultElement.innerHTML = '';
+                resultElement.appendChild(messageText);
+                messageText.style.whiteSpace = "pre-line";
+                messageText.classList.add('fade-in-out');
                 return;
             }
 
@@ -285,17 +307,25 @@ function buyEnergy() {
         player.stamina += staminaToAdd;
 
         // Wiadomość
-        let resultElement = document.getElementById('result');
-        resultElement.textContent = `Zakupiono miksturę energii za 100 złota.`;
-        resultElement.style.whiteSpace = "pre-line";
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Zakupiono miksturę energii za 100 złota.`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
 
         // Push
         updatePlayerInfo();
     } else {
         // Error
-        let resultElement = document.getElementById('result');
-        resultElement.textContent = `Nie masz wystarczająco złota.`;
-        resultElement.style.whiteSpace = "pre-line";
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Nie masz wystarczająco złota.`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
     }
 }
 
@@ -347,22 +377,45 @@ function upgradeAmulet() {
         player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.5);
 
         // Increase the experience multiplier
-        player.amulet.experienceMultiplier += 0.1; // You can adjust the multiplier as needed
+        player.amulet.experienceMultiplier += 1; // You can adjust the multiplier as needed
 
         // Update player info and save to localStorage
         updatePlayerInfo();
         localStorage.setItem('player', JSON.stringify(player));
 
         // Display a message about the upgrade
-        let resultElement = document.getElementById('result');
-        resultElement.textContent = `Amulet został ulepszony do poziomu ${player.amulet.level}!`;
-        resultElement.style.whiteSpace = "pre-line";
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Amulet został ulepszony do poziomu ${player.amulet.level}!`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
+
+        
     } else {
         // Display an error message if the player doesn't have enough gold
-        let resultElement = document.getElementById('result');
-        resultElement.textContent = `Nie masz wystarczająco złota na ulepszenie amuletu.`;
-        resultElement.style.whiteSpace = "pre-line";
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Nie masz wystarczająco złota na ulepszenie Amuletu! (${player.amulet.upgradeCost} złota)`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
     }
+}
+
+function showMessage(message) {
+    let messagesText = document.getElementById('messages-output');
+    messagesText.textContent = message;
+
+    // Add and remove a class to trigger the animation
+    messagesText.classList.add('fade-in-out');
+
+    // Remove the class after the animation duration (in milliseconds)
+    setTimeout(() => {
+        messagesText.classList.remove('fade-in-out');
+    }, 1000); // Adjust the duration as needed
 }
 
 
@@ -375,9 +428,12 @@ function buyHP() {
         let healthToAdd = Math.floor(player.maxhealth * 0.5);
 
         if (player.currenthealth === player.maxhealth) {
-            let resultElement = document.getElementById('result');
-            resultElement.textContent = `Masz maksymalną ilość zdrowia!`;
-            resultElement.style.whiteSpace = "pre-line"; 
+            let messageText = document.createElement('span');
+            messageText.textContent = `Masz maksymalną ilość zdrowia!`;
+            resultElement.innerHTML = '';
+            resultElement.appendChild(messageText);
+            messageText.style.whiteSpace = "pre-line";
+            messageText.classList.add('fade-in-out');
             return;
         }
 
@@ -389,18 +445,26 @@ function buyHP() {
                 player.currenthealth += healthToAdd;
         
                 // Wiadomość
-                let resultElement = document.getElementById('result');
-                resultElement.textContent = `Zakupiono miksturę HP za 50 złota.`;
-                resultElement.style.whiteSpace = "pre-line";  
+                let resultElement = document.getElementById('messages-output');
+                let messageText = document.createElement('span');
+                messageText.textContent = `Zakupiono miksturę HP za 100 złota.`;
+                resultElement.innerHTML = '';
+                resultElement.appendChild(messageText);
+                messageText.style.whiteSpace = "pre-line";
+                messageText.classList.add('fade-in-out');
 
         // Push
         updatePlayerInfo();
     
     } else {
         // Error
-        let resultElement = document.getElementById('result');
-        resultElement.textContent = `Nie masz wystarczająco złota.`;
-        resultElement.style.whiteSpace = "pre-line";
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Nie masz wystarczająco złota.`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
     }
 }
 
@@ -514,7 +578,7 @@ function resetLevel() {
     player.numHunts = 0;
     player.level = 1;
     player.experience = 0;
-    player.gold = 0;
+    player.gold = 99999;
     player.experienceToNextLevel = 100;
     player.stamina = 100;
     player.maxstamina = 100;
@@ -522,19 +586,24 @@ function resetLevel() {
     player.maxhealth = 200;
     player.defense = 1;
     player.luck = 1;
-    player.experienceMultiplier = 30;
+    player.experienceMultiplier = 1;
     player.loot = [
         
     ];
     player.amulet = {
         level: 0,
-        upgradeCost: 1000, // Initial upgrade cost
-        experienceMultiplier: 1.0, // Initial multiplier
+        upgradeCost: 2000, // Initial upgrade cost
+        experienceMultiplier: 0.0, // Initial multiplier
     };
     player.monsterLevelRange = "1-5";
     localStorage.setItem('player', JSON.stringify(player));
-    let resultElement = document.getElementById('result');
-    resultElement.textContent = `Zresetowano poziom gracza.`;
+    let resultElement = document.getElementById('messages-output');
+    let messageText = document.createElement('span');
+    messageText.textContent = `Zresetowano poziom gracza.`;
+    resultElement.innerHTML = '';
+    resultElement.appendChild(messageText);
+    messageText.style.whiteSpace = "pre-line";
+    messageText.classList.add('fade-in-out');
     updatePlayerInfo();
 }
 

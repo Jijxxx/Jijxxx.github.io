@@ -154,6 +154,7 @@ body {
     justify-content: center;
     padding: 10px;
     margin-left:-8px;
+    cursor: pointer;
 
 }
 #potion-iconHP {
@@ -165,6 +166,7 @@ body {
     justify-content: center;
     padding: 10px;
     margin-left:-8px;
+    cursor: pointer;
 
 }
 #potion-iconINV {
@@ -175,6 +177,7 @@ body {
     min-width: 20px;
     justify-content: center;
     padding: 10px;
+    cursor: pointer;
 }
 #inventory-info {
     background-color: #5c5c5c94;
@@ -228,8 +231,8 @@ body {
 }
 
 #game-container {
-    min-width: 400px;
-    min-height: 340px;
+    min-width: 520px;
+    min-height: 420px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 15px;
@@ -247,6 +250,48 @@ body {
     font-size: 48px;
 }
 
+#messages-container {
+    position: absolute;
+    bottom: 0;
+    padding: 1px;
+    min-width: 520px;
+    min-height: 55px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color:#1f1e1e;
+    font-size: 14px;
+    background: rgba(9, 0, 22, 0.45);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+#messages-output {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 15px;
+    min-height:35px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 6px rgb(0, 174, 255);
+    background: rgba(255, 255, 255, 0.17);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.1px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border: 1px solid rgba(0, 0, 0, 0.19);
+}
+.fade-in-out {
+    animation: fadeInOut 1s ease-in;
+}
+
+@keyframes fadeInOut {
+    0%, 25% {
+        opacity: 0;
+    }
+
+    75%, 100% {
+        opacity: 1;
+    }
+}
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -266,7 +311,7 @@ button {
   }
 
 #result {
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     position:sticky;
     margin-top: 20px;
     font-size: 16px;
@@ -389,7 +434,8 @@ button {
 #amulet-icon {
     color:white;
     padding: 3px;  
-    border-radius: 5px;
+    border-radius: 6px;
+    border: 1px solid black;
     background: rgba(255, 84, 84, 0.463);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -399,8 +445,7 @@ button {
     /*background: rgba(255, 156, 156, 0.458);*/
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
-    transition: all .5s cubic-bezier(.01,-0.36,.92,1.39);
-    transform: scale(1.1,1.1);
+    cursor: pointer;
 }
 
 
