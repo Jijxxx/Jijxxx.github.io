@@ -109,7 +109,7 @@ function hunt() {
     let hplost = Math.max(monsterAttack - player.defense, 0);
     let energylost = Math.floor(5.0 + Math.random() * 10);
 
-    if (player.stamina >= 5 ) {
+    if (player.stamina >= energylost ) {
 
         if (player.currenthealth > hplost) {
 
@@ -283,7 +283,7 @@ function updatePlayerInfo() {
     playerHPregen.textContent = `${player.hpregen}`;
     let playerEnergyRegen = document.getElementById('player-energyregen');
     playerEnergyRegen.textContent = `${player.energyregen}`;
-    let regenFixed = player.regenTime.toFixed(1)/1000;
+    let regenFixed = typeof player.regenTime === 'number' ? (player.regenTime / 1000).toFixed(1) : 'błont';
     let playerRegenTime = document.getElementById('player-regentime');
     playerRegenTime.textContent = `${regenFixed}`;
 
