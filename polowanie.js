@@ -387,7 +387,7 @@ function upgradeAmulet() {
         player.gold -= player.amulet.upgradeCost;
         player.amulet.level++;
 
-        player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.5);
+        player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.1);
 
         player.amulet.experienceMultiplier += 1; //
         updatePlayerInfo();
@@ -654,6 +654,8 @@ function adminAddGold(){
 function adminAddLevel(){
     player.level++;
     player.experienceMultiplier += 0.2;
+    player.luck += 1;
+    player.defense += 1;
     let resultElement = document.getElementById('messages-output');
     let messageText = document.createElement('span');
     messageText.textContent = `Dodano 1 poziom.`;
@@ -725,9 +727,6 @@ function resetLevel() {
         { type: 'armor', name: 'Zbroja(HP+300)', equipped: false },
         { type: 'belt', name: 'Pasek(Regeneracja HP+3)', equipped: false },
         { type: 'ring', name: 'Pierścień(Regeneracja Energii+2)', equipped: false },
-        { type: 'shield', name: 'Obronna tarcza(Obrona+10)', equipped: false },
-        { type: 'helmet', name: 'Hełm(Czas Regeneracji-0.3s)', equipped: false },
-        { type: 'armor', name: 'Zbroja(HP+300)', equipped: false },
 
     ];
     player.amulet = {
