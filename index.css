@@ -406,14 +406,13 @@ button {
     display: flex;
     align-items: center;
     border-radius: 7px;
-    border: 1px #fff solid;
     padding: 5px;
     cursor: pointer;
+    background: rgba(255, 255, 255, 0.3);
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     color: #fff;
-
 }
 
 .inventory-item i {
@@ -421,7 +420,6 @@ button {
 }
 
 .equipped-item {
-    background-color: rgba(255, 255, 255, 0.3);
     color: #000;
     border: 1px solid #000;
     font-size: 16px;

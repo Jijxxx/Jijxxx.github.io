@@ -9,10 +9,9 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     maxstamina: 100,
     hpregen: 2,
     energyregen: 1,
-    regenTime: 3000,
     luck: 1,
     defense: 1,
-    weapon: 'Zardzewiały Miecz',
+    regenTime: 3000,
     experienceToNextLevel: 100,
     experienceMultiplier: 1.0,
     loot: [],
@@ -24,6 +23,8 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     monsterLevelRange: "1-5" // Default monster level range
 
 };
+const equippedItems = [];
+const unequippedItems = [];
 
 function updateMonsterLevel() {
     let levelSelect = document.getElementById('level-select');
@@ -31,11 +32,7 @@ function updateMonsterLevel() {
     let minRequiredLevel = getMinRequiredLevel(selectedRange);
 
     if (player.level >= minRequiredLevel) {
-        player.monsterLevelRange = selectedRange;
-        
-        // Opcjonalne
-        resetPlayerStats();
-
+        player.monsterLevelRange = selectedRange; 
         // Zaktualizuj info playera
         updatePlayerInfo();
         let resultElement = document.getElementById('result');
@@ -97,16 +94,15 @@ function hunt() {
     // Symulacja walki i przyznawania punktów doświadczenia oraz złota
     let xpMulti = (player.experienceMultiplier).toFixed(2);
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
-    let baseExperienceGain = Math.floor(monsterLevel * 10 * xpMulti + player.amulet.experienceMultiplier);
-    let randomFactor = 2.0 + Math.random() * 2.0;
+    let baseExperienceGain = Math.floor(monsterLevel * 10 * (xpMulti + player.amulet.experienceMultiplier));
+    let randomFactor = 1.5 + Math.random() * 1.5;
     let amuletBonus = player.amulet.experienceMultiplier;
     let experienceGain = Math.floor((baseExperienceGain + amuletBonus) * randomFactor);
-    //let experienceGain = Math.floor(monsterLevel * 10 * xpMulti + player.amulet.experienceMultiplier); // Przyznane punkty doświadczenia
     let minGold = monsterLevel * 10;
     let maxGold = monsterLevel * 12;
     let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
-    let monsterAttack = monsterLevel * 5;
-    let hplost = Math.max(monsterAttack - player.defense, 0);
+    let monsterAttack = monsterLevel * 7;
+    let hplost = Math.max(monsterAttack - (player.defense - monsterLevel), 0);
     let energylost = Math.floor(5.0 + Math.random() * 10);
 
     if (player.stamina >= energylost ) {
@@ -140,34 +136,135 @@ function hunt() {
         player.maxstamina += 10;
         player.luck += 1;
         player.defense += 1;
+        player.hpregen += 2;
+        player.energyregen += 1;
         player.experienceToNextLevel = calculateExperienceToNextLevel();
     }
-
+/*
     const lootPool = [
-        { type: 'shield', name: 'Obronna tarcza(Obrona+10)', equipped: false },
-        { type: 'helmet', name: 'Hełm(Czas Regeneracji-0.3s)', equipped: false },
-        { type: 'armor', name: 'Zbroja(HP+300)', equipped: false },
-        { type: 'belt', name: 'Pasek(Regeneracja HP+3)', equipped: false },
-        { type: 'ring', name: 'Pierścień(Regeneracja Energii+2)', equipped: false }
-        // Tu można dodać więcej itemków
-    ];
+        { type: 'shield', name: 'Zwykła tarcza (obrona)', equipped: false, rarity: 1, boxShadow: '' },
+        { type: 'helmet', name: 'Zwykły hełm (czas regeneracji)', equipped: false, rarity: 1, boxShadow: '' },
+        { type: 'armor', name: 'Zwykła zbroja(HP)', equipped: false, rarity: 1, boxShadow: '' },
+        { type: 'belt', name: 'Zwykły pasek(regeneracja HP)', equipped: false, rarity: 1, boxShadow: '' },
+        { type: 'ring', name: 'Zwykły pierścień(regeneracja energii)', equipped: false, rarity: 1, boxShadow: '' },
+        // tu dodaj więcej itemków
+    ]; */
+    
+    function getRandomItem() {
+        const rarityChances = {
+            1: 20,
+            2: 20,
+            3: 20,
+            4: 20,
+            5: 20,
+        };
+    
+        const rarity = getRandomRarity(rarityChances);
+        const type = getRandomType();
+        const itemsForRarity = lootPool[rarity];
+        
+        // Check if there are items defined for the selected rarity
+        if (itemsForRarity && itemsForRarity.length > 0) {
+            // Choose a random item from the predefined list for the selected rarity
+            const randomIndex = Math.floor(Math.random() * itemsForRarity.length);
+            const item = itemsForRarity[randomIndex];
+    
+            // Add logging to check the generated item
+            console.log('Random item:', item);
+    
+            return item;
+        } else {
+            console.error(`No items defined for rarity ${rarity}`);
+            return { name: 'Default Item', type: 'default', equipped: false, rarity: 1 }; // Provide a default item if no items are defined
+        }
+    }
 
-    if (Math.random() < player.luck / 300) {
+    function getRandomRarity(chances) {
+        const totalChances = Object.values(chances).reduce((total, chance) => total + chance, 0);
+        let random = Math.floor(Math.random() * totalChances) + 1;
+    
+        for (const [rarity, chance] of Object.entries(chances)) {
+            random -= chance;
+            if (random <= 0) {
+                return parseInt(rarity);
+            }
+        }
+    }
+
+    function getRandomType() {
+        // Implement the logic to get a random type
+        return ['shield', 'armor', 'belt', 'helmet', 'ring'][Math.floor(Math.random() * 5)];
+    }
+
+    const lootPool = {
+        1: [
+            { type: 'shield', name: 'Zwykła tarcza (obrona)', equipped: false, rarity: 1 },
+            { type: 'helmet', name: 'Zwykły hełm (szczescie)', equipped: false, rarity: 1 },
+            { type: 'armor', name: 'Zwykła zbroja (HP)', equipped: false, rarity: 1 },
+            { type: 'belt', name: 'Zwykły pasek (regeneracja HP)', equipped: false, rarity: 1 },
+            { type: 'ring', name: 'Zwykły pierścień (regeneracja energii)', equipped: false, rarity: 1 },
+            // Add more items for rarity 1
+        ],
+        2: [
+            { type: 'shield', name: 'Wzmocniona tarcza+1 (obrona)', equipped: false, rarity: 2 },
+            { type: 'helmet', name: 'Wzmocniony hełm+1 (szczescie)', equipped: false, rarity: 2 },
+            { type: 'armor', name: 'Wzmocniona zbroja+1 (HP)', equipped: false, rarity: 2 },
+            { type: 'belt', name: 'Wzmocniony pasek+1 (regeneracja HP)', equipped: false, rarity: 2 },
+            { type: 'ring', name: 'Wzmocniony pierścień+1 (regeneracja energii)', equipped: false, rarity: 2 },
+            // Add more items for rarity 2
+        ],
+        3: [
+            { type: 'shield', name: 'Magiczna tarcza+2 (obrona)', equipped: false, rarity: 3 },
+            { type: 'helmet', name: 'Magiczny hełm+2 (szczescie)', equipped: false, rarity: 3 },
+            { type: 'armor', name: 'Magiczna zbroja+2 (HP)', equipped: false, rarity: 3 },
+            { type: 'belt', name: 'Magiczny pasek+2 (regeneracja HP)', equipped: false, rarity: 3 },
+            { type: 'ring', name: 'Magiczny pierścień+2 (regeneracja energii)', equipped: false, rarity: 3 },
+
+        ],
+        4: [
+            { type: 'shield', name: 'Legendarna tarcza+3 (obrona)', equipped: false, rarity: 4 },
+            { type: 'helmet', name: 'Legendarny hełm+3 (szczescie)', equipped: false, rarity: 4 },
+            { type: 'armor', name: 'Legendarna zbroja+3 (HP)', equipped: false, rarity: 4 },
+            { type: 'belt', name: 'Legendarny pasek+3 (regeneracja HP)', equipped: false, rarity: 4 },
+            { type: 'ring', name: 'Legendarny pierścień+3 (regeneracja energii)', equipped: false, rarity: 4 },
+
+        ],
+        5: [
+            { type: 'shield', name: 'Mityczna tarcza+4 (obrona)', equipped: false, rarity: 5 },
+            { type: 'helmet', name: 'Mityczny hełm+4 (szczescie)', equipped: false, rarity: 5 },
+            { type: 'armor', name: 'Mityczna zbroja+4 (HP)', equipped: false, rarity: 5 },
+            { type: 'belt', name: 'Mityczny pasek+4 (regeneracja HP)', equipped: false, rarity: 5 },
+            { type: 'ring', name: 'Mityczny pierścień+4 (regeneracja energii)', equipped: false, rarity: 5 },
+
+        ]
+        // Add entries for other rarities
+    };
+    
+
+
+    if (Math.random() < player.luck / 50) {
         if (!player.loot) {
             player.loot = [];
         }
     
-        // Losowanie loota
-        const randomItem = lootPool[Math.floor(Math.random() * lootPool.length)];
-        player.loot.push(randomItem);
-        //--//
-        let resultElement = document.getElementById('messages-output');
-        let messageText = document.createElement('span');
-        messageText.textContent = `Znalazłeś przedmiot: ${randomItem.name}!`;
-        resultElement.innerHTML = '';
-        resultElement.appendChild(messageText);
-        messageText.style.whiteSpace = "pre-line";
-        messageText.classList.add('fade-in-out');
+        const randomItem = getRandomItem();
+    
+        if (randomItem && randomItem.name && randomItem.rarity) {
+            
+    
+            let resultElement = document.getElementById('messages-output');
+            let messageText = document.createElement('span');
+            messageText.textContent = `Znalazłeś przedmiot: ${randomItem.name}!`;
+            resultElement.innerHTML = '';
+            resultElement.appendChild(messageText);
+            messageText.style.whiteSpace = "pre-line";
+            messageText.classList.add('fade-in-out');
+            player.loot.push(randomItem);
+            console.log('Player loot:', player.loot);
+        } else {
+            console.error('Invalid randomItem:', randomItem);
+            // Handle the case where randomItem is undefined or missing properties
+        }
     }
 
     // Zapis danych gracza w local storage
@@ -192,8 +289,6 @@ function hunt() {
     let resultYElement = document.getElementById('huntButton');
     huntButton.disabled = false;
     resultYElement.innerHTML =`Poluj`;
-    let amuletInfo = document.getElementById('amulet-info');
-    amuletInfo.textContent = `Amulet Level: ${player.amulet.level}`;
     }, 500);
 
     } else {
@@ -225,7 +320,7 @@ function hunt() {
     let requiredExperience = 100;
 
     for (let i = 2; i <= player.level; i++) {
-        requiredExperience += Math.ceil(requiredExperience * 1.01);
+        requiredExperience += Math.ceil(requiredExperience++);
     }
 
     return requiredExperience;
@@ -283,9 +378,6 @@ function updatePlayerInfo() {
     playerHPregen.textContent = `${player.hpregen}`;
     let playerEnergyRegen = document.getElementById('player-energyregen');
     playerEnergyRegen.textContent = `${player.energyregen}`;
-    let regenFixed = typeof player.regenTime === 'number' ? (player.regenTime / 1000).toFixed(1) : 'błont';
-    let playerRegenTime = document.getElementById('player-regentime');
-    playerRegenTime.textContent = `${regenFixed}`;
 
     //
     
@@ -310,7 +402,7 @@ function buyEnergy() {
 
         let staminaToAdd = Math.floor(player.maxstamina*0.3);
             if (player.stamina === player.maxstamina) {
-                let resultElement = document.getElementById('result');
+                let resultElement = document.getElementById('messages-output');
                 let messageText = document.createElement('span');
                 messageText.textContent = `Masz maksymalną ilość energii!`;
                 resultElement.innerHTML = '';
@@ -379,6 +471,8 @@ function regenerateHealth() {
 }
 setInterval(regenerateStamina, player.regenTime); // 1000ms = 1s
 setInterval(regenerateHealth, player.regenTime); // 1000ms = 1s
+updatePlayerInfo();
+console.log(player.regenTime);
 
 function upgradeAmulet() {
     
@@ -438,6 +532,7 @@ function buyHP() {
         let healthToAdd = Math.floor(player.maxhealth * 0.5);
 
         if (player.currenthealth === player.maxhealth) {
+            let resultElement = document.getElementById('messages-output');
             let messageText = document.createElement('span');
             messageText.textContent = `Masz maksymalną ilość zdrowia!`;
             resultElement.innerHTML = '';
@@ -478,19 +573,132 @@ function buyHP() {
     }
 }
 
-function openInventory() {
-    document.getElementById('inventory-modal').style.display = 'block';
+
+function equipItem(item) {
+    const existingEquippedItem = player.loot.find(
+        (existingItem) => existingItem.type === item.type && existingItem.equipped
+    );
+
+    // Check if there is an existing equipped item of the same type
+    if (existingEquippedItem) {
+        // Check if the existing item has the same rarity
+        if (existingEquippedItem.rarity === item.rarity) {
+            console.log('Item of the same type and rarity already equipped.');
+            return;
+        }
+
+        // Unequip currently equipped item of the same type, if any
+        existingEquippedItem.equipped = false;
+
+        // Remove bonuses based on the unequipped item
+        removeItemBonuses(existingEquippedItem);
+        updatePlayerInfo();
+        displayInventoryItems();
+    }
+
+    // Equip the selected item
+    item.equipped = true;
+
+    // Apply bonuses based on the equipped item
+    applyItemBonuses(item);
+
+    // Update the player info and inventory display
+    updatePlayerInfo();
     displayInventoryItems();
+
+    // Add these console.log statements
+    console.log('Equipped items:', equippedItems);
+    console.log('Unequipped items:', unequippedItems);
 }
 
-function closeInventory() {
-    document.getElementById('inventory-modal').style.display = 'none';
+function unequipItem(item) {
+
+    // Check if the item is already equipped
+    if (item.equipped) {
+        // Unequip the item
+        item.equipped = false;
+
+        // Remove bonuses based on the unequipped item
+        removeItemBonuses(item);
+
+        // Update the player info and inventory display
+        updatePlayerInfo();
+        displayInventoryItems();
+
+        // Add any additional logic you may need for handling unequipping
+    }
 }
+
+function applyItemBonuses(item) {
+    const rarityMultiplier = getRarityMultiplier(item.rarity);
+
+    switch (item.type) {
+        case 'shield':
+            player.defense += 10 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'helmet':
+            player.luck += 1 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'armor':
+            player.maxhealth += 300 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'belt':
+            player.hpregen += 3 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'ring':
+            player.energyregen += 2 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        // Add other cases for different item types
+    }
+    player.defense = parseFloat(player.defense.toFixed(0));
+    player.luck = parseFloat(player.luck.toFixed(0));
+    player.maxhealth = parseFloat(player.maxhealth.toFixed(0));
+    player.hpregen = parseFloat(player.hpregen.toFixed(0));
+    player.energyregen = parseFloat(player.energyregen.toFixed(0));
+}
+
+// Function to get the rarity multiplier
+function getRarityMultiplier(rarity) {
+    // Define rarity multipliers based on your desired scaling
+    const rarityMultipliers = {
+        1: 1,
+        2: 2,
+        3: 3,
+        4: 6,
+        5: 10,
+    };
+
+    // Return the appropriate multiplier based on the rarity
+    return rarityMultipliers[rarity] || 1;
+}
+
+// Function to remove item bonuses
+function removeItemBonuses(item) {
+    const rarityMultiplier = getRarityMultiplier(item.rarity);
+    switch (item.type) {
+        case 'shield':
+            player.defense -= 10 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'helmet':
+            player.luck -= 1 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'armor':
+            player.maxhealth -= 300 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'belt':
+            player.hpregen -= 3 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+        case 'ring':
+            player.energyregen -= 2 * rarityMultiplier; // Adjust the bonus value as needed
+            break;
+    }
+}
+
+
 
 function displayInventoryItems() {
     let equippedItemsContainer = document.getElementById('equipped-items-container');
     let unequippedItemsContainer = document.getElementById('unequipped-items-container');
-
     equippedItemsContainer.innerHTML = '';
     unequippedItemsContainer.innerHTML = '';
 
@@ -528,11 +736,30 @@ function displayInventoryItems() {
                         // Add other cases for different potion types
                     }
 
+                    // Set the box shadow based on rarity
+                        switch (item.rarity) {
+                        case 1:
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px gray;';
+                            break;
+                        case 2:
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px lightskyblue';
+                            break;
+                        case 3:
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px gold';
+                            break;
+                        case 4:
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px magenta';
+                            break;
+                        case 5:
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px crimson';
+                            break;
+            // Add more cases for different rarities if needed
+        }
+
                     itemElement.appendChild(iconElement);
 
                     // Set the title attribute for the item name (tooltip)
                     itemElement.title = item.name;
-
                     // Display equipped status and handle item click
                     if (item.equipped) {
                         itemElement.addEventListener('click', () => unequipItem(item));
@@ -553,83 +780,67 @@ function displayInventoryItems() {
     }
 }
 
-function equipItem(item) {
+function openInventory() {
+    document.getElementById('inventory-modal').style.display = 'block';
+    displayInventoryItems();
+    updatePlayerInfo();
+}
 
-    const existingEquippedItem = player.loot.find((existingItem) => existingItem.type === item.type && existingItem.equipped);
-    // Unequip currently equipped item of the same type, if any
-    if (existingEquippedItem) {
-        existingEquippedItem.equipped = false;
+function closeInventory() {
+    document.getElementById('inventory-modal').style.display = 'none';
+    updatePlayerInfo();
+}
 
-        // Remove bonuses based on the unequipped item
-        if (existingEquippedItem.type === 'shield') {
-            player.defense -= 10; // Adjust the bonus value as needed
+function upgradeItemRarity(item) {
+    // Check if the player has enough gold for the upgrade
+    const upgradeCost = 2000; // Adjust the cost as needed
+    if (player.gold >= upgradeCost) {
+        player.gold -= upgradeCost;
+
+
+        // Adjust color based on rarity
+        switch (item.rarity) {
+            case 2:
+                item.boxShadow = 'inset 0px 0px 5px 5px rgba(3, 139, 253, 1)'; // Adjust the color for rarity 2
+                break;
+            case 3:
+                item.boxShadow = 'inset 0px 0px 5px 5px rgb(3, 103, 253)'; // Adjust the color for rarity 3
+                break;
+            case 4:
+                item.boxShadow = 'inset 0px 0px 5px 5px rgb(140, 3, 253)'; // Adjust the color for rarity 3
+                break;
+            case 5:
+                item.boxShadow = 'inset 0px 0px 5px 5px rgb(253, 3, 3)'; // Adjust the color for rarity 3
+                break;
+            // Add more cases for higher rarities as needed
         }
-        if (existingEquippedItem.type === 'helmet') {
-            player.regenTime += 300; // Adjust the bonus value as needed
-        }
-        if (existingEquippedItem.type === 'armor') {
-            player.maxhealth -= 300; // Adjust the bonus value as needed
-        }
-        if (existingEquippedItem.type === 'belt') {
-            player.hpregen -= 3; // Adjust the bonus value as needed
-        }
-        if (existingEquippedItem.type === 'ring') {
-            player.energyregen -= 2; // Adjust the bonus value as needed
-        }
+
+        // Update player info and inventory display
         updatePlayerInfo();
         displayInventoryItems();
-    }
 
-    // Equip the selected item
-    item.equipped = true;
+        // Display a success message
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Przedmiot został ulepszony!`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
+    } else {
+        // Display an error message if the player doesn't have enough gold
 
-    // Apply bonuses based on the equipped item
-    if (item.type === 'shield') {
-        player.defense += 10; // Adjust the bonus value as needed
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Nie masz wystarczająco złota na ulepszenie przedmiotu! (Koszt: ${upgradeCost} złota)`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
     }
-    if (item.type === 'helmet') {
-        player.regenTime -= 300; // Adjust the bonus value as needed
-    }
-    if (item.type === 'armor') {
-        player.maxhealth += 300; // Adjust the bonus value as needed
-    }
-    if (item.type === 'belt') {
-        player.hpregen += 3; // Adjust the bonus value as needed
-    }
-    if (item.type === 'ring') {
-        player.energyregen += 2; // Adjust the bonus value as needed
-    }
-
-    // Update the player info and inventory display
-    updatePlayerInfo();
-    displayInventoryItems();
 }
 
-function unequipItem(item) {
-    // Unequip the selected item
-    item.equipped = false;
 
-    // Remove bonuses based on the unequipped item
-    if (item.type === 'shield') {
-        player.defense -= 10; // Adjust the bonus value as needed
-    }
-    if (item.type === 'helmet') {
-        player.regenTime += 300; // Adjust the bonus value as needed
-    }
-    if (item.type === 'armor') {
-        player.maxhealth -= 300; // Adjust the bonus value as needed
-    }
-    if (item.type === 'belt') {
-        player.hpregen -= 3; // Adjust the bonus value as needed
-    }
-    if (item.type === 'ring') {
-        player.energyregen -= 2; // Adjust the bonus value as needed
-    }
-
-    // Update the player info and inventory display
-    updatePlayerInfo();
-    displayInventoryItems();
-}
 
 updatePlayerInfo();
 
@@ -722,12 +933,6 @@ function resetLevel() {
     player.luck = 1;
     player.experienceMultiplier = 1;
     player.loot = [ 
-        { type: 'shield', name: 'Obronna tarcza(Obrona+10)', equipped: false },
-        { type: 'helmet', name: 'Hełm(Czas Regeneracji-0.3s)', equipped: false },
-        { type: 'armor', name: 'Zbroja(HP+300)', equipped: false },
-        { type: 'belt', name: 'Pasek(Regeneracja HP+3)', equipped: false },
-        { type: 'ring', name: 'Pierścień(Regeneracja Energii+2)', equipped: false },
-
     ];
     player.amulet = {
         level: 0,
