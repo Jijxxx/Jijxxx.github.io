@@ -65,22 +65,11 @@ body {
     -webkit-backdrop-filter: blur(10px);
 
 }
-/*
-#testsvg {
-    background-image:url('violetbar.png'); 
-    background-position: center;
-    background-size:contain;
-    background-repeat: no-repeat;
-    color: #fff;
-    text-align: center;
-    font-size:10px;
-    min-width: 100px;
-}
-*/
+
 #player-stats {
     position: absolute;
     top: 50%;
-    right: 5px; /* Adjust the right spacing as needed */
+    right: 5px; 
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -280,7 +269,7 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.19);
 }
 .fade-in-out {
-    animation: fadeInOut 1s ease-in;
+    animation: fadeInOut 0.7s ease-in;
 }
 
 @keyframes fadeInOut {
@@ -343,16 +332,7 @@ button {
     border: none;
 }
 
-.reset {
-    position:absolute;
-    bottom:0;
-    right:0;
-    padding: 10px 20px;
-    font-size: 6px;
-    cursor: grabbing;
-    margin-right: 5px;
-    margin-bottom: 5px;
-}
+
 
 /* Plecak */
 
@@ -373,8 +353,8 @@ button {
 .modal-content {
     margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
+    border: 2px solid #888;
+    width: 30%;
     background: rgba(66, 24, 0, 0.603);
     backdrop-filter: blur(2.7px);
     -webkit-backdrop-filter: blur(2.7px);
@@ -389,6 +369,13 @@ button {
     text-align: center;
 }
 
+.modal-content h3 {
+    color: #ffffff;
+    font-family: cursive;
+    font-size: 16px;
+    text-align: center;
+}
+
 .close {
     color: #8d8d8d;
     float: right;
@@ -400,37 +387,46 @@ button {
     text-decoration: none;
     cursor: pointer;
 }
-#inventory-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 5px;
-    color: white;
-    text-align: center;
+
+.inventory-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.inventory-divider {
+    width: 100%;
+    height: 3px;
+    border-radius: 5px;
+    background-color: #dddddd91;
+    margin: 10px 0;
 }
 
 .inventory-item {
-    padding: 10px;
-    border: 1px solid #aaa;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+    border: 1px #fff solid;
+    padding: 5px;
     cursor: pointer;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    font-family: cursive;
+    color: #fff;
+
+}
+
+.inventory-item i {
+    margin: 5px;
+}
+
+.equipped-item {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #000;
+    border: 1px solid #000;
     font-size: 16px;
 }
 
-.inventory-item:hover {
-    background-color: #ccc;
-}
-.equipped-asterisk {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: rgb(255, 255, 255); /* Adjust the color as needed */
-    font-size: 14px; /* Adjust the font size as needed */
-}
 #amulet-icon {
     color:white;
     padding: 3px;  
@@ -442,10 +438,52 @@ button {
     
 }
 #amulet-icon:hover {
-    /*background: rgba(255, 156, 156, 0.458);*/
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     cursor: pointer;
 }
+
+/* ADMIN PANEL */
+
+.reset {
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding: 10px 20px;
+    font-size: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.devpanel {
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding: 10px 20px;
+    font-size: 7px;
+    background-color:rgba(128, 128, 128, 0.562);
+    color:#fff;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+
+}
+
+#admin-panel {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    visibility: hidden;
+    flex-direction:column;
+    background-color: #ffffff3b;
+    border: 1px solid #cccccc60;
+    padding: 10px;
+    font-size:6px;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
 
 

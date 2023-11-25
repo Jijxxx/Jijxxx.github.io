@@ -7,6 +7,9 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     maxhealth: 200,
     stamina: 100,
     maxstamina: 100,
+    hpregen: 2,
+    energyregen: 1,
+    regenTime: 3000,
     luck: 1,
     defense: 1,
     weapon: 'Zardzewiały Miecz',
@@ -94,13 +97,17 @@ function hunt() {
     // Symulacja walki i przyznawania punktów doświadczenia oraz złota
     let xpMulti = (player.experienceMultiplier).toFixed(2);
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
-    let experienceGain = Math.floor(monsterLevel * 10 * xpMulti + player.amulet.experienceMultiplier); // Przyznane punkty doświadczenia
+    let baseExperienceGain = Math.floor(monsterLevel * 10 * xpMulti + player.amulet.experienceMultiplier);
+    let randomFactor = 2.0 + Math.random() * 2.0;
+    let amuletBonus = player.amulet.experienceMultiplier;
+    let experienceGain = Math.floor((baseExperienceGain + amuletBonus) * randomFactor);
+    //let experienceGain = Math.floor(monsterLevel * 10 * xpMulti + player.amulet.experienceMultiplier); // Przyznane punkty doświadczenia
     let minGold = monsterLevel * 10;
     let maxGold = monsterLevel * 12;
     let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
     let monsterAttack = monsterLevel * 5;
     let hplost = Math.max(monsterAttack - player.defense, 0);
-    let energylost = 5;
+    let energylost = Math.floor(5.0 + Math.random() * 10);
 
     if (player.stamina >= 5 ) {
 
@@ -136,16 +143,27 @@ function hunt() {
         player.experienceToNextLevel = calculateExperienceToNextLevel();
     }
 
-    if (Math.random() < player.luck / 100) {
+    const lootPool = [
+        { type: 'shield', name: 'Obronna tarcza(Obrona+10)', equipped: false },
+        { type: 'helmet', name: 'Hełm(Czas Regeneracji-0.3s)', equipped: false },
+        { type: 'armor', name: 'Zbroja(HP+300)', equipped: false },
+        { type: 'belt', name: 'Pasek(Regeneracja HP+3)', equipped: false },
+        { type: 'ring', name: 'Pierścień(Regeneracja Energii+2)', equipped: false }
+        // Tu można dodać więcej itemków
+    ];
+
+    if (Math.random() < player.luck / 300) {
         if (!player.loot) {
             player.loot = [];
         }
-
-        player.loot.push({ type: 'shield', name: 'Obronna tarcza(Obrona+5)', equipped: false });
-        
+    
+        // Losowanie loota
+        const randomItem = lootPool[Math.floor(Math.random() * lootPool.length)];
+        player.loot.push(randomItem);
+        //--//
         let resultElement = document.getElementById('messages-output');
         let messageText = document.createElement('span');
-        messageText.textContent = `Znalazles przedmiot: Obronna Tarcza!`;
+        messageText.textContent = `Znalazłeś przedmiot: ${randomItem.name}!`;
         resultElement.innerHTML = '';
         resultElement.appendChild(messageText);
         messageText.style.whiteSpace = "pre-line";
@@ -207,7 +225,7 @@ function hunt() {
     let requiredExperience = 100;
 
     for (let i = 2; i <= player.level; i++) {
-        requiredExperience += Math.ceil(requiredExperience * 1.03);
+        requiredExperience += Math.ceil(requiredExperience * 1.01);
     }
 
     return requiredExperience;
@@ -260,13 +278,17 @@ function updatePlayerInfo() {
     amuletLevel.textContent = `Poziom: ${player.amulet.level}`;
     let amuletMulti = document.getElementById('amulet-multiplier');
     amuletMulti.textContent = `Exp +${player.amulet.experienceMultiplier}%`;
+
+    let playerHPregen = document.getElementById('player-hpregen');
+    playerHPregen.textContent = `${player.hpregen}`;
+    let playerEnergyRegen = document.getElementById('player-energyregen');
+    playerEnergyRegen.textContent = `${player.energyregen}`;
+    let regenFixed = player.regenTime.toFixed(1)/1000;
+    let playerRegenTime = document.getElementById('player-regentime');
+    playerRegenTime.textContent = `${regenFixed}`;
+
+    //
     
-
-
-
-    
-
-
     let levelContainer = document.getElementById('level-info');
     let previousLevel = parseInt(levelContainer.dataset.level || 1);
     expInfo.textContent = `Exp: ${player.experience} / ${player.experienceToNextLevel}`;
@@ -332,58 +354,46 @@ function buyEnergy() {
 // Regeneracja energii
 function regenerateStamina() {
 
-    player.stamina += 1;
+    player.stamina += player.energyregen;
 
     // sprawdzenie czy nie przekracza maxa
     if (player.stamina > player.maxstamina) {
         player.stamina = player.maxstamina;
     }
-
-
     updatePlayerInfo();
 }
 
 // czas regeneracji
-setInterval(regenerateStamina, 2000); // 1000ms = 1s
 
 
-// Regeneracja energii
+// Regeneracja HP
 function regenerateHealth() {
 
-    player.currenthealth += 2;
+    player.currenthealth += player.hpregen;
 
     // sprawdzenie czy nie przekracza maxa
     if (player.currenthealth > player.maxhealth) {
         player.currenthealth = player.maxhealth;
     }
-
-
     updatePlayerInfo();
 }
-
-// czas regeneracji
-setInterval(regenerateHealth, 5000); // 1000ms = 1s
+setInterval(regenerateStamina, player.regenTime); // 1000ms = 1s
+setInterval(regenerateHealth, player.regenTime); // 1000ms = 1s
 
 function upgradeAmulet() {
-    // Check if the player has enough gold to upgrade
+    
     if (player.gold >= player.amulet.upgradeCost) {
-        // Deduct the gold for the upgrade
+        
         player.gold -= player.amulet.upgradeCost;
-
-        // Increase the amulet level
         player.amulet.level++;
 
-        // Increase the upgrade cost for the next level
         player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.5);
 
-        // Increase the experience multiplier
-        player.amulet.experienceMultiplier += 1; // You can adjust the multiplier as needed
-
-        // Update player info and save to localStorage
+        player.amulet.experienceMultiplier += 1; //
         updatePlayerInfo();
         localStorage.setItem('player', JSON.stringify(player));
 
-        // Display a message about the upgrade
+        // Msg
         let resultElement = document.getElementById('messages-output');
         let messageText = document.createElement('span');
         messageText.textContent = `Amulet został ulepszony do poziomu ${player.amulet.level}!`;
@@ -478,57 +488,68 @@ function closeInventory() {
 }
 
 function displayInventoryItems() {
-    let inventoryContent = document.getElementById('inventory-content');
-    inventoryContent.innerHTML = '';
+    let equippedItemsContainer = document.getElementById('equipped-items-container');
+    let unequippedItemsContainer = document.getElementById('unequipped-items-container');
 
-    // loot check
-    if (player.loot && player.loot.length > 0) {
-        for (let i = 0; i < player.loot.length; i++) {
-            let item = player.loot[i];
-            let itemElement = document.createElement('div');
-            itemElement.classList.add('inventory-item');
+    equippedItemsContainer.innerHTML = '';
+    unequippedItemsContainer.innerHTML = '';
 
-            // Create an icon element with the bx icon class
-            let iconElement = document.createElement('i');
+    displayItemsByType(true); // Display equipped items
+    displayItemsByType(false); // Display unequipped items
 
-            // Set the appropriate icon based on the potion type
-            switch (item.type) {
-                case 'health':
-                    iconElement.className = 'bx bxs-flask bx-sm';
-                    break;
-                case 'stamina':
-                    iconElement.className = 'bx bxs-drink bx-sm';
-                    break;
-                case 'talon':
-                    iconElement.className = 'bx bxs-medal bx-sm';
-                    break;
-                case 'shield':
-                    iconElement.className = 'bx bx-shield-alt bx-sm';
-                    break;
+    function displayItemsByType(equipped) {
+        if (player.loot && player.loot.length > 0) {
+            for (let i = 0; i < player.loot.length; i++) {
+                let item = player.loot[i];
+                if (item.equipped === equipped) {
+                    let itemElement = document.createElement('div');
+                    itemElement.classList.add('inventory-item');
 
-                // Add other cases for different potion types
+                    // Create an icon element with the bx icon class
+                    let iconElement = document.createElement('i');
+
+                    // Set the appropriate icon based on the item type
+                    switch (item.type) {
+                        case 'shield':
+                            iconElement.className = 'bx bx-shield-alt bx-lg';
+                            break;
+                        case 'armor':
+                            iconElement.className = 'bx bx-universal-access bx-lg';
+                            break;
+                        case 'belt':
+                            iconElement.className = 'bx bx-toggle-left bx-lg';
+                            break;
+                        case 'helmet':
+                            iconElement.className = 'bx bx-hard-hat bx-lg';
+                            break;
+                        case 'ring':
+                            iconElement.className = 'bx bx-doughnut-chart bx-lg';
+                            break;
+                        // Add other cases for different potion types
+                    }
+
+                    itemElement.appendChild(iconElement);
+
+                    // Set the title attribute for the item name (tooltip)
+                    itemElement.title = item.name;
+
+                    // Display equipped status and handle item click
+                    if (item.equipped) {
+                        itemElement.addEventListener('click', () => unequipItem(item));
+                        itemElement.classList.add('equipped-item');
+                        
+                        equippedItemsContainer.appendChild(itemElement);
+                    } else {
+                        itemElement.addEventListener('click', () => equipItem(item));
+                        unequippedItemsContainer.appendChild(itemElement);
+                    }
+                }
             }
-
-            itemElement.appendChild(iconElement);
-
-            // Set the title attribute for the item name (tooltip)
-            itemElement.title = item.name;
-
-            // Display equipped status and handle item click
-            if (item.equipped) {
-                itemElement.style.backgroundColor = 'rgba(157, 224, 255, 0.856)'; // Set the background color for equipped items
-                itemElement.style.color = 'black';
-                itemElement.innerHTML += '<span class="equipped-asterisk">*</span>';
-                itemElement.addEventListener('click', () => unequipItem(item));
-            } else {
-                itemElement.addEventListener('click', () => equipItem(item));
-            }
-
-            inventoryContent.appendChild(itemElement);
+        } else {
+            // Error: empty inventory
+            equippedItemsContainer.innerHTML = 'Brak założonych przedmiotów.';
+            unequippedItemsContainer.innerHTML = 'Brak przedmiotów do założenia.';
         }
-    } else {
-        // Error pusty plecak
-        inventoryContent.innerHTML = 'Plecak jest pusty.';
     }
 }
 
@@ -541,8 +562,22 @@ function equipItem(item) {
 
         // Remove bonuses based on the unequipped item
         if (existingEquippedItem.type === 'shield') {
-            player.defense -= 5; // Adjust the bonus value as needed
+            player.defense -= 10; // Adjust the bonus value as needed
         }
+        if (existingEquippedItem.type === 'helmet') {
+            player.regenTime += 300; // Adjust the bonus value as needed
+        }
+        if (existingEquippedItem.type === 'armor') {
+            player.maxhealth -= 300; // Adjust the bonus value as needed
+        }
+        if (existingEquippedItem.type === 'belt') {
+            player.hpregen -= 3; // Adjust the bonus value as needed
+        }
+        if (existingEquippedItem.type === 'ring') {
+            player.energyregen -= 2; // Adjust the bonus value as needed
+        }
+        updatePlayerInfo();
+        displayInventoryItems();
     }
 
     // Equip the selected item
@@ -550,7 +585,19 @@ function equipItem(item) {
 
     // Apply bonuses based on the equipped item
     if (item.type === 'shield') {
-        player.defense += 5; // Adjust the bonus value as needed
+        player.defense += 10; // Adjust the bonus value as needed
+    }
+    if (item.type === 'helmet') {
+        player.regenTime -= 300; // Adjust the bonus value as needed
+    }
+    if (item.type === 'armor') {
+        player.maxhealth += 300; // Adjust the bonus value as needed
+    }
+    if (item.type === 'belt') {
+        player.hpregen += 3; // Adjust the bonus value as needed
+    }
+    if (item.type === 'ring') {
+        player.energyregen += 2; // Adjust the bonus value as needed
     }
 
     // Update the player info and inventory display
@@ -564,7 +611,19 @@ function unequipItem(item) {
 
     // Remove bonuses based on the unequipped item
     if (item.type === 'shield') {
-        player.defense -= 5; // Adjust the bonus value as needed
+        player.defense -= 10; // Adjust the bonus value as needed
+    }
+    if (item.type === 'helmet') {
+        player.regenTime += 300; // Adjust the bonus value as needed
+    }
+    if (item.type === 'armor') {
+        player.maxhealth -= 300; // Adjust the bonus value as needed
+    }
+    if (item.type === 'belt') {
+        player.hpregen -= 3; // Adjust the bonus value as needed
+    }
+    if (item.type === 'ring') {
+        player.energyregen -= 2; // Adjust the bonus value as needed
     }
 
     // Update the player info and inventory display
@@ -573,6 +632,76 @@ function unequipItem(item) {
 }
 
 updatePlayerInfo();
+
+document.getElementById('admin-button').addEventListener('click', () => {
+    const adminPanel = document.getElementById('admin-panel');
+    adminPanel.style.visibility = adminPanel.style.visibility === 'hidden' ? 'visible' : 'hidden';
+});
+
+
+function adminAddGold(){
+    player.gold += 99999;
+    let resultElement = document.getElementById('messages-output');
+    let messageText = document.createElement('span');
+    messageText.textContent = `Dodano 99999 złota.`;
+    resultElement.innerHTML = '';
+    resultElement.appendChild(messageText);
+    messageText.style.whiteSpace = "pre-line";
+    messageText.classList.add('fade-in-out');
+    updatePlayerInfo();
+}
+
+function adminAddLevel(){
+    player.level++;
+    player.experienceMultiplier += 0.2;
+    let resultElement = document.getElementById('messages-output');
+    let messageText = document.createElement('span');
+    messageText.textContent = `Dodano 1 poziom.`;
+    resultElement.innerHTML = '';
+    resultElement.appendChild(messageText);
+    messageText.style.whiteSpace = "pre-line";
+    messageText.classList.add('fade-in-out');
+    
+    updatePlayerInfo();
+}
+
+function adminAddAmuletLvl(){
+    player.amulet.level++;
+    player.amulet.experienceMultiplier += 1;
+    let resultElement = document.getElementById('messages-output');
+    let messageText = document.createElement('span');
+    messageText.textContent = `Ulepszono amulet o 1 poziom.`;
+    resultElement.innerHTML = '';
+    resultElement.appendChild(messageText);
+    messageText.style.whiteSpace = "pre-line";
+    messageText.classList.add('fade-in-out');
+    updatePlayerInfo();
+}
+function adminAddHP(){
+    player.maxhealth += 1000;
+    player.currenthealth += 1000;
+    let resultElement = document.getElementById('messages-output');
+    let messageText = document.createElement('span');
+    messageText.textContent = `Dodano 1000 HP.`;
+    resultElement.innerHTML = '';
+    resultElement.appendChild(messageText);
+    messageText.style.whiteSpace = "pre-line";
+    messageText.classList.add('fade-in-out');
+    updatePlayerInfo();
+}
+
+function adminAddStamina(){
+    player.maxstamina += 1000;
+    player.stamina += 1000;
+    let resultElement = document.getElementById('messages-output');
+    let messageText = document.createElement('span');
+    messageText.textContent = `Dodano 1000 energii.`;
+    resultElement.innerHTML = '';
+    resultElement.appendChild(messageText);
+    messageText.style.whiteSpace = "pre-line";
+    messageText.classList.add('fade-in-out');
+    updatePlayerInfo();
+}
 
 function resetLevel() {
     player.numHunts = 0;
@@ -584,11 +713,22 @@ function resetLevel() {
     player.maxstamina = 100;
     player.currenthealth = 200;
     player.maxhealth = 200;
+    player.hpregen = 3;
+    player.energyregen = 2;
+    player.regenTime = 3000;
     player.defense = 1;
     player.luck = 1;
     player.experienceMultiplier = 1;
-    player.loot = [
-        
+    player.loot = [ 
+        { type: 'shield', name: 'Obronna tarcza(Obrona+10)', equipped: false },
+        { type: 'helmet', name: 'Hełm(Czas Regeneracji-0.3s)', equipped: false },
+        { type: 'armor', name: 'Zbroja(HP+300)', equipped: false },
+        { type: 'belt', name: 'Pasek(Regeneracja HP+3)', equipped: false },
+        { type: 'ring', name: 'Pierścień(Regeneracja Energii+2)', equipped: false },
+        { type: 'shield', name: 'Obronna tarcza(Obrona+10)', equipped: false },
+        { type: 'helmet', name: 'Hełm(Czas Regeneracji-0.3s)', equipped: false },
+        { type: 'armor', name: 'Zbroja(HP+300)', equipped: false },
+
     ];
     player.amulet = {
         level: 0,

@@ -48,6 +48,9 @@
             <span>Liczba polowań: <span id="num-hunts">0</span></span>
             <span>Szczęście: <span id="player-luck">1</span></span>
             <span>Obrona: <span id="player-defense">1</span></span>
+            <span>Odnawianie HP: +<span id="player-hpregen"></span></span>
+            <span>Odnawianie energii: +<span id="player-energyregen"></span></span>
+            <span>Czas odnowienia: <span id="player-regentime"></span>s</span>
             
             <br>
             <br>
@@ -74,11 +77,20 @@
         <!-- Plecak -->
         <div id="inventory-modal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeInventory()">&times;</span>
+                <span class="close" onclick="closeInventory()">&times</span>
                 <h2>Twoje przedmioty:</h2>
-                <div id="inventory-content"></div>
+                <span><div class="inventory-divider"></div></span>
+                <h3>Założone przedmioty:</h3>
+                <div id="equipped-items-container" class="inventory-container"></div>
+                
+                    <span><div class="inventory-divider"></div></span>
+                <h3>Posiadane przedmioty:</h3>
+                <div id="unequipped-items-container" class="inventory-container"></div>
+                
+                </div>
             </div>
         </div>
+        
 
         <!-- Wybór lokacji -->
         <div id="loc-bar">
@@ -115,12 +127,19 @@
                 <div id="messages-output">
                 </div>
             </span>
-            
         </div>
 
-        <div class="reset">
-        <button onclick="resetLevel()">Resetuj</button>
-    </div>
+        <button id="admin-button" class="devpanel">DevPanel</button>
+
+        <div id="admin-panel">
+            <button onclick="adminAddGold()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Złoto</button>
+            <button onclick="adminAddLevel()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Level</button>
+            <button onclick="adminAddAmuletLvl()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+AmuLevel</button>
+            <button onclick="adminAddHP()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+HP</button>
+            <button onclick="adminAddStamina()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Energia</button>
+            <button onclick="resetLevel()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">Reset</button>
+        </div>
+
     <script src="polowanie.js"></script>
     
 </body>
