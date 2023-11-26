@@ -20,48 +20,40 @@ let player = JSON.parse(localStorage.getItem('player')) || {
         upgradeCost: 2000, 
         amuletExperienceMultiplier: 0.0,
     },
-    monsterLevelRange: "1-5" // Default monster level range
+    monsterLevelRange: "1-5", // Dodaj tę linię z domyślną lokalizacją
 
 };
 const equippedItems = [];
 const unequippedItems = [];
 
-function updateMonsterLevel() {
-    let levelSelect = document.getElementById('level-select');
-    let selectedRange = levelSelect.value;
-    let minRequiredLevel = getMinRequiredLevel(selectedRange);
-
-    if (player.level >= minRequiredLevel) {
-        player.monsterLevelRange = selectedRange; 
-        // Zaktualizuj info playera
-        updatePlayerInfo();
-        let resultElement = document.getElementById('result');
-        resultElement.textContent = "";
-    } else {
-        // Alert
-        alert(`Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedRange} poziomu.`);
-        levelSelect.value = player.monsterLevelRange;
-    }
-}
-
 function getMonsterName(monsterLevel) {
     const monsterNames = {
-        1: "Szczur",
-        2: "Wąż",
-        3: "Wilk",
-        4: "Salamandra",
-        5: "Głowicowiec",
-        6: "Wściekła wiewiórka",
-        7: "Pijana sowa",
-        8: "Dzika sarna",
-        9: "Ślepy guziec",
-        10: "Częstochowski Miszcz",
-        11: "Troll jaskiniowy",
-        12: "Jednoskrzydły nietoperz",
-        13: "Kret z katarem",
-        14: "Pełzacz",
-        15: "Kapitan IPA",
-        16: "placeholder",
+        1: "Szczur", //bagna
+        2: "Trujący Robak",
+        3: "Moczarowy Ghul",
+        4: "Błotny Ogar",
+        5: "Gigantyczna Żaba",
+        6: "Złowieszczy Wilk", //las
+        7: "Zjawa Lasu",
+        8: "Mroczny Łowca",
+        9: "Cienista Bestia",
+        10: "Potężny Gryf",
+        11: "Skalny Golem", //jaskinie
+        12: "Jaskiniowy Bazyliszek",
+        13: "Kryształowy Nietoperz",
+        14: "Mroczny Wąż",
+        15: "Oślepiający Młotnik",
+        16: "Chłodny Yeti", //góry
+        17: "Górski Troll",
+        18: "Mglisty Duch",
+        19: "Latający Harpagon",
+        20: "Skalny Smoczek",
+        21: "Piaskowy Skarabeusz", // pustynia
+        22: "Pustynny Żmijarz",
+        23: "Burzowy Dżin",
+        24: "Żywiołak Piasku",
+        25: "Koralowy Skorpion",
+
 
         // 
     };
@@ -69,21 +61,123 @@ function getMonsterName(monsterLevel) {
     return monsterNames[monsterLevel] || "Nieznana kreatura!";
 }
 
-function getMinRequiredLevel(range) {
-    // Level minimalny
-    const minLevels = {
-        "1-5": 1,
-        "6-10": 6,
-        "11-15": 11,
-        "16-20": 16,
-        "21-30": 21,
-        "31-50": 31
 
-        // Dodać więcej
-    };
+// Dostępne lokalizacje
+let currentLocationIndex = 0;
 
-    return minLevels[range] || 1; // Standardowo 1 jeżeli błąd wyżej
+const locations = [
+    { name: "Bagna", minLevel: 1 },
+    { name: "Ciemny las", minLevel: 6 },
+    { name: "Jaskinie", minLevel: 11 },
+    { name: "Mgliste Góry", minLevel: 16 },
+    { name: "Pustynia", minLevel: 21 }
+];
+
+function changeLocation(index) {
+    const selectedLocation = locations[index];
+    let minRequiredLevel = selectedLocation.minLevel;
+
+    if (player.level >= minRequiredLevel) {
+        currentLocationIndex = index;
+        updateSelectedLocation();
+        updateMinLevel();
+        updateMonsterLevel();
+        let resultElement = document.getElementById('result');
+        resultElement.innerHTML = `
+        Wybrano lokację: <span style="color: #ffe77d;">${selectedLocation.name}</span>
+
+        `;
+        resultElement.style.whiteSpace = "pre-line";
+        
+
+    } else {
+        // Alert
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedLocation.name}.`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
+        let resultXElement = document.getElementById('result');
+        resultXElement.innerHTML = `
+        Zbyt mały poziom na lokację: <span style="color: #ffe77d;">${selectedLocation.name}</span>
+
+        `;
+        resultElement.style.whiteSpace = "pre-line";
+    }
 }
+
+function updateSelectedLocation() {
+    const selectedLocationElement = document.getElementById('selected-location');
+    selectedLocationElement.textContent = locations[currentLocationIndex].name;
+
+    // Dodane - usuwa klasę 'active' ze wszystkich przycisków
+    document.querySelectorAll('.location-button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    // Dodane - dodaje klasę 'active' do aktualnie klikniętego przycisku
+    document.querySelector('.location-button:nth-child(' + (currentLocationIndex + 1) + ')').classList.add('active');
+}
+
+function updateMinLevel() {
+    const minLevelElement = document.getElementById('min-level');
+    if (minLevelElement) {
+        minLevelElement.textContent = locations[currentLocationIndex].minLevel;
+    }
+}
+
+function updateMonsterLevel() {
+    const selectedLocation = locations[currentLocationIndex];
+    let selectedRange = `${selectedLocation.minLevel}-${selectedLocation.minLevel + 4}`;
+    player.monsterLevelRange = selectedRange; // Dodaj tę linię do zaktualizowania wartości
+
+    // Pomocnicza funkcja getMinRequiredLevel - sprawdza minimalny poziom na podstawie zakresu
+    function getMinRequiredLevel(range) {
+        const minLevels = {
+            "1-5": 1,
+            "6-10": 6,
+            "11-15": 11,
+            "16-20": 16,
+            "21-30": 21
+        };
+        return minLevels[range] || 1;
+    }
+
+    let minRequiredLevel = getMinRequiredLevel(selectedRange);
+
+    if (player.level >= minRequiredLevel) {
+        // Zaktualizuj info playera
+        updatePlayerInfo();
+        let resultElement = document.getElementById('result');
+        resultElement.textContent = "";
+    } else {
+        // Alert
+        alert(`Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedRange} poziomu.`);
+        // Przywróć poprzednią lokalizację, ponieważ nowa jest niedostępna
+        currentLocationIndex = locations.findIndex(loc => loc.name === player.monsterLevelRange.split('-')[0]);
+        updateSelectedLocation();
+        updateMinLevel();
+    }
+}
+
+
+// Inicjalizacja przycisków na stronie
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.location-button');
+    buttons.forEach((button, index) => {
+        button.addEventListener('click', () => changeLocation(index));
+    });
+});
+
+// Inicjalizacja przycisków na stronie
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.location-button');
+    buttons.forEach((button, index) => {
+        button.addEventListener('click', () => changeLocation(index));
+    });
+});
 
 function hunt() {
 
@@ -260,7 +354,6 @@ function hunt() {
             messageText.style.whiteSpace = "pre-line";
             messageText.classList.add('fade-in-out');
             player.loot.push(randomItem);
-            console.log('Player loot:', player.loot);
         } else {
             console.error('Invalid randomItem:', randomItem);
             // Handle the case where randomItem is undefined or missing properties
@@ -739,19 +832,19 @@ function displayInventoryItems() {
                     // Set the box shadow based on rarity
                         switch (item.rarity) {
                         case 1:
-                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px gray;';
+                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px gray;';
                             break;
                         case 2:
-                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px lightskyblue';
+                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px lightskyblue';
                             break;
                         case 3:
-                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px gold';
+                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px gold';
                             break;
                         case 4:
-                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px magenta';
+                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px magenta';
                             break;
                         case 5:
-                            itemElement.style.boxShadow = 'inset 0px 0px 15px 5px crimson';
+                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px crimson';
                             break;
             // Add more cases for different rarities if needed
         }
@@ -939,7 +1032,7 @@ function resetLevel() {
         upgradeCost: 2000, // Initial upgrade cost
         experienceMultiplier: 0.0, // Initial multiplier
     };
-    player.monsterLevelRange = "1-5";
+    player.monsterLevelRange = "1-5"; // Dodaj tę linię z domyślną lokalizacją
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('messages-output');
     let messageText = document.createElement('span');

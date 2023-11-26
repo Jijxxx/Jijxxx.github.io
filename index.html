@@ -94,17 +94,18 @@
 
         <!-- Wybór lokacji -->
         <div id="loc-bar">
-            <div id="location-info" class="info-box">
-                <label for="level-select">Wybierz lokację do polowania: </label>
-                <select id="level-select" onchange="updateMonsterLevel()">
-                    <option value="1-5">Bagna</option>
-                    <option value="6-10">Ciemny las</option>
-                    <option value="11-15">Jaskinie</option>
-                    <option value="16-20">Mgliste Góry</option>
-                    <option value="21-30">Pustynia</option>
-                    <option value="31-50">Czarne jezioro</option>
-                    <!-- Dodaj więcej jeżeli będzie trzeba -->
-                </select>
+            <div id="location-info">
+                <p>Lokacja:</p> 
+                <br>
+                <span id="selected-location"></span>
+                <br>
+            </div>
+            <div id="level-buttons">
+                <button class="location-button" onclick="changeLocation(0)">Bagna</button>
+                <button class="location-button" onclick="changeLocation(1)">Ciemny Las</button>
+                <button class="location-button" onclick="changeLocation(2)">Jaskinie</button>
+                <button class="location-button" onclick="changeLocation(3)">Mgliste Góry</button>
+                <button class="location-button" onclick="changeLocation(4)">Pustynia</button>
             </div>
         </div>
 
