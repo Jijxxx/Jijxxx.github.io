@@ -1,30 +1,40 @@
 h2 {
-    background:rgb(5, 248, 248);
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 16px;
+    color:darkred;
+    font-size: 26px;
+    box-shadow: inset 0 7px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(7.7px);
+    -webkit-backdrop-filter: blur(7.7px);
     text-align:center;
     padding:10px;
-    border:1px solid green;
+    border:1px solid rgb(0, 0, 0);
     border-radius: 12px;
 
 }
 body {
-    background: #50bfff83;
+    background-image:url('bingoBG.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     font-family:Verdana;
     margin-left:20px;
-    margin-right:20px}
+    margin-right:20px;
+}
 td {
-    background: #bebebece;
     position:relative;
-    left:600;
-    top:20%;
+    left:600px;
+    top:50%;
     padding:25px 25px;
-    border-top:1px solid lightgray;
-    border-left:1px solid lightgray;
-    border-bottom:1px solid darkgray;
-    border-right:1px solid darkgray;
     border-radius:6px;
     height: 50px;
     width: 50px;
+    color: #fff;
     word-wrap: nowrap;
+    background: rgba(117, 0, 86, 0.85);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.7px);
+    -webkit-backdrop-filter: blur(7.7px);
 }
 h1{
     text-align:center;
@@ -37,14 +47,20 @@ h1{
     border:1px solid red;
 }
 .highlight {
-    background:#1e0041;
-    color:#FFFF;
+    background: rgba(20, 0, 15, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow:inset 0 0 35px 15px #fff;
+    backdrop-filter: blur(7.7px);
+    -webkit-backdrop-filter: blur(7.7px);
+    text-decoration: line-through;
 }
 a { 
     color:green;
 }
 td label { 
-
+    height:40px;
+    width:40px;
     cursor:pointer;
     margin: 25px;
 }
