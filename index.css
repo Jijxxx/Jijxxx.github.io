@@ -413,6 +413,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+
 }
 
 .inventory-divider {
@@ -434,6 +435,7 @@ button {
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     color: #fff;
+    
 }
 
 .inventory-item i {
