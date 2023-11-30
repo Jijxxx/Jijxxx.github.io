@@ -8,136 +8,150 @@
     <title>HuntME</title>
 </head>
 <body>
-        <!-- Pasek górny -->
-        <div id="top-bar">
-            <div id="health-info" class="info-box">
-                <span>HP: <span id="health-amount">200</span> / <span id="max-health"></span></span>
-            </div>
-            <div id="potion-iconHP" class="info-box">
-                <i class='bx bxs-flask bx-tada-hover bx-sm' title="Kup miksturę zdrowia za 50 złota!" onclick="buyHP()"></i>
-            </div>
-            <div id="stamina-info" class="info-box" data-level="1">
-                <span>Energia: <span id="stamina-amount">100</span></span>
-            </div>
-            <div id="potion-icon" class="info-box">
-                <i class='bx bxs-flask bx-tada-hover bx-sm' title="Kup miksturę energii za 100 złota!" onclick="buyEnergy()"></i>
-            </div>
-            <div id="exp-info" class="info-box">
-                <span>XP: <span id="current-exp">0</span> / <span id="exp-needed">100</span></span>
-              </div>
-              <div id="level-info" class="info-box" data-level="1">
-                <span>Poziom: <span id="player-level">1</span></span>
-            </div>
-            <div id="gold-info" class="info-box">
-                <span>Złoto: <span id="gold-amount">0</span></span>
-            </div>
-            <div id="potion-iconINV" class="info-box">
-                <i class='bx bxs-backpack bx-tada-hover bx-sm' title="Otwórz plecak" onclick="openInventory()"></i>
+<!-- -->
+    <div class="top-container">
+       
+            <div id="level-img">
+                <div id="level-info" class="info-box" data-level="1">
+                    <span>Poziom: <span id="player-level">1</span></span>
                 </div>
-        </div>
+                <div id="exp-info" class="info-box">
+                <span id="current-exp">0</span> / <span id="exp-needed">100</span>
+                  </div>
+            </div>
+
+            <div id="energy-img">
+                <div id="stamina-info" data-level="1">
+                <span id="stamina-amount">100</span>
+                </div>
+            </div>
+            <div id="hp-img">
+                <div id="health-info">
+                <span id="health-amount">200</span> / <span id="max-health"></span>
+                </div>
+            </div>
 
 
-        <!-- Pasek boczny(staty) -->
 
-        <div id="player-stats" class="info-box">
-            <div id="amulet-icon" style="visibility:hidden;"></div>
-            <span>Statystyki:</span>
-            <span><br></span>
-            <span>Liczba polowań: <span id="num-hunts">0</span></span>
-            <span>Szczęście: <span id="player-luck">1</span></span>
-            <span>Obrona: <span id="player-defense">1</span></span>
-            <span>Odnawianie HP: +<span id="player-hpregen"></span></span>
-            <span>Odnawianie energii: +<span id="player-energyregen"></span></span>
-            
-            
-            <br>
-            <br>
-            <br>
-            <span>_______________</span>
-            <br>
-                <div id="amulet-icon" title="Amulet zwiększa zdobywany Exp.">
-                <span style="font-size: 12px;">◘ Amulet Potwora ◘</span>
-                <br>
+
+    </div>
+        <div class="container-wrapper">
+        <div class="playground-container">
+            <div id="loc-bar">
+                <div id="location-info">
+                    <p>Lokacja:</p> 
+                    <br>
+                    <span id="selected-location"></span>
+                    <br>
+                </div>
+                <div id="level-buttons">
+                    <button class="location-button" onclick="changeLocation(0)">Bagna</button>
+                    <button class="location-button" onclick="changeLocation(1)">Ciemny Las</button>
+                    <button class="location-button" onclick="changeLocation(2)">Jaskinie</button>
+                    <button class="location-button" onclick="changeLocation(3)">Mgliste Góry</button>
+                    <button class="location-button" onclick="changeLocation(4)">Pustynia</button>
+                </div>
+            </div>
+            <div id="amulet" title="Amulet zwiększa zdobywany Exp."class="amulet">
+                <span id="amulet-level" style="font-size: 5px;"></span>
                 <i class="bx bxs-analyse bx-md" style="color:crimson;"></i>
-                <br>
-                <span id="amulet-level" style="font-size: 12px;"></span>
-                <br>
                 <span><span id="amulet-multiplier" style="font-size: 10px;">1</span></span>
-                <br>
                 <i class="inventory-content" style="text-decoration: underline; font-size: 12px;" onclick="upgradeAmulet()">Ulepsz Amulet</i>
                 </div>
-            
 
-
-            <!-- -->
-        </div>
-
-        <!-- Plecak -->
-        <div id="inventory-modal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeInventory()">&times</span>
-                <h2>Twoje przedmioty:</h2>
-                <span><div class="inventory-divider"></div></span>
-                <h3>Założone przedmioty:</h3>
-                <div id="equipped-items-container" class="inventory-container"></div>
-                
-                    <span><div class="inventory-divider"></div></span>
-                <h3>Posiadane przedmioty:</h3>
-                <div id="unequipped-items-container" class="inventory-container"></div>
-                
-                </div>
-            </div>
-        </div>
-        
-
-        <!-- Wybór lokacji -->
-        <div id="loc-bar">
-            <div id="location-info">
-                <p>Lokacja:</p> 
-                <br>
-                <span id="selected-location"></span>
-                <br>
-            </div>
-            <div id="level-buttons">
-                <button class="location-button" onclick="changeLocation(0)">Bagna</button>
-                <button class="location-button" onclick="changeLocation(1)">Ciemny Las</button>
-                <button class="location-button" onclick="changeLocation(2)">Jaskinie</button>
-                <button class="location-button" onclick="changeLocation(3)">Mgliste Góry</button>
-                <button class="location-button" onclick="changeLocation(4)">Pustynia</button>
-            </div>
-        </div>
-
-        <div id="resultX" class="info-box2"></div>
-        <div id="experience-bar-container">
-            <div id="experience-bar"></div>
-        </div>
-
-        <!-- Main okno -->
-        <div id="game-container">
+        <div class="game-container">
             <h1>HuntME</h1>
-             <button id="huntButton" onclick="hunt()"> Poluj </button>
+            <button id="huntButton" onclick="hunt()"> Poluj </button>
             <div id="result"></div>
         </div>
-
+        
         <div id="messages-container">
             <span>
                 <span style="color: white; text-decoration: underline; font-family:Verdana, Geneva, Tahoma, sans-serif; align-items:center; font-size: 11px; margin-left:10px;">
                 ~Wiadomości systemowe:</span>
-                <div id="messages-output"> SHIFT + F5 JEŚLI COŚ SIĘ ZESRAŁO.
+                <div id="messages-output"> CTRL + F5 JEŚLI COŚ SIĘ ZESRAŁO.
                 </div>
             </span>
         </div>
 
-        <button id="admin-button" class="devpanel">DevPanel</button>
+    </div>
 
-        <div id="admin-panel" style="visibility:visible;">
-            <button onclick="adminAddGold()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Złoto</button>
-            <button onclick="adminAddLevel()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Level</button>
-            <button onclick="adminAddAmuletLvl()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+AmuLevel</button>
-            <button onclick="adminAddHP()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+HP</button>
-            <button onclick="adminAddStamina()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Energia</button>
-            <button onclick="resetLevel()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">Reset</button>
+<!-- -->
+
+    <div class="ui-wrapper">
+        <div class="ui-container">
+            <div class="ui-topbar">
+                
+                <button id="inventory-button" onclick="toggleInventory()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Ekwipunek</button>
+                <button id="stats-button" onclick="toggleStats()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki</button>
+                <button id="admin-button" onclick="toggleDevPanel()" style="color: gray; scale:0.8;left:0; background-color: #fff;">Panel Admina</button>
+                <button style="margin-left: -10px; font-size: 14px;scale:0.78; left:0; background-color: rgb(255, 235, 124);">💰 <span id="gold-amount"></span></button>
+                <button title="Kup miksturę zdrowia za 50 złota!" onclick="buyHP()" style="margin-left: -10px;font-size: 14px;scale:0.78; right:0; background-color: rgb(168, 78, 78)">❤️</button>
+                <button title="Kup miksturę energii za 100 złota!" onclick="buyEnergy()" style="margin-left: -10px;font-size: 14px;scale:0.78; right:0; background-color: rgb(103, 64, 139);">🌀</button>
         </div>
+
+            <div id="admin-panel" class="admin-panel">
+                <button onclick="adminAddGold()">+Złoto</button>
+                <button onclick="adminAddLevel()">+Level</button>
+                <button onclick="adminAddAmuletLvl()">+AmuLevel</button>
+                <button onclick="adminAddHP()">+HP</button>
+                <button onclick="adminAddStamina()">+Energia</button>
+                <button onclick="resetLevel()">Reset</button>
+            </div>
+
+            <div id="inventory-modal" style="display:none;">
+                <div class="modal-content">
+                    <h2>Twoje przedmioty:</h2>
+                    <span><div class="inventory-divider"></div></span>
+                    <h3>Założone przedmioty:</h3>
+                    <div id="equipped-items-container" class="inventory-container"></div>
+                    
+                        <span><div class="inventory-divider"></div></span>
+                    <h3>Posiadane przedmioty:</h3>
+                    <div id="unequipped-items-container" class="inventory-container"></div>
+                    
+                    
+                </div>
+            </div>
+
+                
+
+
+                <div id="player-stats" class="player-stats">
+                    <span style="color: #888888">__________________________________________________________________</span>
+                    <br><br>
+                    <span style="color:coral">Statystyki:</span>
+                    <span><br></span>
+                    <span><br>Liczba polowań: <span id="num-hunts">0</span></span>
+                    <span><br>Szczęście: <span id="player-luck">1</span></span>
+                    <span><br>Obrona: <span id="player-defense">1</span></span>
+                    <span><br>Odnawianie HP: +<span id="player-hpregen"></span></span>
+                    <span><br>Odnawianie energii: +<span id="player-energyregen"></span></span>
+                    <span style="color: #888888">__________________________________________________________________</span>
+                    <br>
+                    <!-- -->
+                </div>
+            </div>
+
+
+
+        
+
+            
+
+            <!-- Wybór lokacji -->
+
+
+            <div id="resultX" class="info-box2"></div>
+            <div id="experience-bar-container">
+                <div id="experience-bar"></div>
+            </div>
+
+        </div>
+        
+        </div>
+
+
 
     <script src="polowanie.js"></script>
     

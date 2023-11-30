@@ -1,3 +1,659 @@
+HTML:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>HuntME</title>
+</head>
+<body>
+        <!-- Pasek górny -->
+        <div id="top-bar">
+            <div id="health-info" class="info-box">
+                <span>HP: <span id="health-amount">200</span> / <span id="max-health"></span></span>
+            </div>
+            <div id="potion-iconHP" class="info-box">
+                <i class='bx bxs-flask bx-tada-hover bx-sm' title="Kup miksturę zdrowia za 50 złota!" onclick="buyHP()"></i>
+            </div>
+            <div id="stamina-info" class="info-box" data-level="1">
+                <span>Energia: <span id="stamina-amount">100</span></span>
+            </div>
+            <div id="potion-icon" class="info-box">
+                <i class='bx bxs-flask bx-tada-hover bx-sm' title="Kup miksturę energii za 100 złota!" onclick="buyEnergy()"></i>
+            </div>
+            <div id="exp-info" class="info-box">
+                <span>XP: <span id="current-exp">0</span> / <span id="exp-needed">100</span></span>
+              </div>
+              <div id="level-info" class="info-box" data-level="1">
+                <span>Poziom: <span id="player-level">1</span></span>
+            </div>
+            <div id="gold-info" class="info-box">
+                <span>Złoto: <span id="gold-amount">0</span></span>
+            </div>
+            <div id="potion-iconINV" class="info-box">
+                <i class='bx bxs-backpack bx-tada-hover bx-sm' title="Otwórz plecak" onclick="openInventory()"></i>
+                </div>
+        </div>
+
+
+        <!-- Pasek boczny(staty) -->
+        <div id="amulet-icon" style="visibility:hidden;">
+            <i class="bx bxs-analyse bx-md"></i>
+            <span id="amulet-level"></span>
+        </div>
+        <div id="player-stats" class="info-box">
+            <span>Statystyki:</span>
+            <span><br></span>
+            <span>Liczba polowań: <span id="num-hunts">0</span></span>
+            <span>Szczęście: <span id="player-luck">1</span></span>
+            <span>Obrona: <span id="player-defense">1</span></span>
+            <span>Odnawianie HP: +<span id="player-hpregen"></span></span>
+            <span>Odnawianie energii: +<span id="player-energyregen"></span></span>
+            
+            
+            <br>
+            <br>
+            <br>
+            <span>_______________</span>
+            <br>
+                <div id="amulet-icon" title="Amulet zwiększa zdobywany Exp.">
+                <span style="font-size: 12px;">◘ Amulet Potwora ◘</span>
+                <br>
+                <i class="bx bxs-analyse bx-md" style="color:crimson;"></i>
+                <br>
+                <span id="amulet-level" style="font-size: 12px;"></span>
+                <br>
+                <span><span id="amulet-multiplier" style="font-size: 10px;">1</span></span>
+                <br>
+                <i class="inventory-content" style="text-decoration: underline; font-size: 12px;" onclick="upgradeAmulet()">Ulepsz Amulet</i>
+                </div>
+            
+
+
+            <!-- -->
+        </div>
+
+        <!-- Plecak -->
+        <div id="inventory-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeInventory()">&times</span>
+                <h2>Twoje przedmioty:</h2>
+                <span><div class="inventory-divider"></div></span>
+                <h3>Założone przedmioty:</h3>
+                <div id="equipped-items-container" class="inventory-container"></div>
+                
+                    <span><div class="inventory-divider"></div></span>
+                <h3>Posiadane przedmioty:</h3>
+                <div id="unequipped-items-container" class="inventory-container"></div>
+                
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Wybór lokacji -->
+        <div id="loc-bar">
+            <div id="location-info">
+                <p>Lokacja:</p> 
+                <br>
+                <span id="selected-location"></span>
+                <br>
+            </div>
+            <div id="level-buttons">
+                <button class="location-button" onclick="changeLocation(0)">Bagna</button>
+                <button class="location-button" onclick="changeLocation(1)">Ciemny Las</button>
+                <button class="location-button" onclick="changeLocation(2)">Jaskinie</button>
+                <button class="location-button" onclick="changeLocation(3)">Mgliste Góry</button>
+                <button class="location-button" onclick="changeLocation(4)">Pustynia</button>
+            </div>
+        </div>
+
+        <div id="resultX" class="info-box2"></div>
+        <div id="experience-bar-container">
+            <div id="experience-bar"></div>
+        </div>
+
+        <!-- Main okno -->
+        <div id="game-container">
+            <h1>HuntME</h1>
+             <button id="huntButton" onclick="hunt()"> Poluj </button>
+            <div id="result"></div>
+        </div>
+
+        <div id="messages-container">
+            <span>
+                <span style="color: white; text-decoration: underline; font-family:Verdana, Geneva, Tahoma, sans-serif; align-items:center; font-size: 11px; margin-left:10px;">
+                ~Wiadomości systemowe:</span>
+                <div id="messages-output"> CTRL + F5 JEŚLI COŚ SIĘ ZESRAŁO.
+                </div>
+            </span>
+        </div>
+
+        <button id="admin-button" class="devpanel">DevPanel</button>
+
+        <div id="admin-panel" style="visibility:visible;">
+            <button onclick="adminAddGold()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Złoto</button>
+            <button onclick="adminAddLevel()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Level</button>
+            <button onclick="adminAddAmuletLvl()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+AmuLevel</button>
+            <button onclick="adminAddHP()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+HP</button>
+            <button onclick="adminAddStamina()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">+Energia</button>
+            <button onclick="resetLevel()" style="font-size:9px; background: rgba(128, 128, 128, 0.562); color:#fff;">Reset</button>
+        </div>
+
+    <script src="polowanie.js"></script>
+    
+</body>
+</html>
+
+CSS:
+body {
+    font-family: 'Arial', sans-serif;
+    background-image:url('imgs/Weltenweber-Header-1.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#top-bar {
+    border-radius: 12px;
+    position: absolute;
+    top:0;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    font-family: cursive;
+    background: rgba(34, 34, 34, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+#loc-bar {
+    position: absolute;
+    width: 130px;
+    padding: 15px;
+    top: 50%;
+    left: 5px; 
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: cursive;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+
+.info-box {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.info-box2 {
+    position: absolute;
+    top: 15%;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    background: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    visibility:hidden;
+
+}
+
+#player-stats {
+    position: absolute;
+    top: 50%;
+    right: 5px; 
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: cursive;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.47);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+#gold-info {
+    background-color: #ffd000bb;
+    color: #fff;
+    min-width: 100px;
+    text-align: center;
+    justify-content: center;
+    padding:12px;
+}
+#health-info {
+    background-color: #ff000d8c;
+    color: #fff;
+    text-align: center;
+    min-width: 110px;
+    justify-content: center;
+    padding:12px;
+}
+#level-info {
+    background-color: #00008b9a;
+    color: #fff;
+    min-width: 100px;
+    text-align: center;
+    justify-content: center;
+    padding:12px;
+}
+#exp-info {
+    background-color: #ffa6008f;
+    color: #fff;
+    text-align: center;
+    min-width: 110px;
+    justify-content: center;
+    padding:12px;
+
+}
+#location-info {
+    font-family: cursive;
+    color: #fff;
+    text-align: center;
+    margin:10px;
+    justify-content: center;
+    padding:12px;
+}
+#stamina-info {
+    background-color: #59287994;
+    color: #fff;
+    text-align: center;
+    min-width: 100px;
+    justify-content: center;
+    padding:12px;
+
+}
+#potion-icon {
+    background-color: #59287994;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+    margin-left:-8px;
+    cursor: pointer;
+
+}
+#potion-iconHP {
+    background-color: #ff000d8f;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+    margin-left:-8px;
+    cursor: pointer;
+
+}
+#potion-iconINV {
+    background-color: #3b0c008f;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    min-width: 20px;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+}
+#inventory-info {
+    background-color: #5c5c5c94;
+    color: #fff;
+    text-align: center;
+    min-width: 50px;
+}
+.info-box .shop {
+    padding: 2px;
+    color: rgb(196, 218, 0);
+    border-radius: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 12px;
+    background-color: #f6e8ff94;
+}
+
+
+@keyframes levelUpAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+.level-up {
+    animation: levelUpAnimation 0.5s ease-in-out;
+    transform: scale(1);
+}
+
+#experience-bar-container {
+
+    text-align: center;
+}
+
+#experience-bar {
+    visibility:hidden;
+
+}
+#exp-to-next-level-info {
+    align-items: center;
+    text-align: center;
+}
+
+#game-container {
+    min-width: 520px;
+    min-height: 420px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color:#1f1e1e;
+    background: rgba(0, 0, 0, 0.47);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+#game-container h1 {
+    color:rgba(255, 255, 255, 0.938);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-shadow: rgba(255, 153, 0, 0.83) 10px 0 35px;
+    font-size: 48px;
+}
+
+#messages-container {
+    position: absolute;
+    bottom: 0;
+    padding: 1px;
+    min-width: 520px;
+    min-height: 55px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color:#1f1e1e;
+    font-size: 14px;
+    background: rgba(9, 0, 22, 0.45);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+#messages-output {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 15px;
+    min-height:35px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 6px rgb(0, 174, 255);
+    background: rgba(255, 255, 255, 0.17);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.1px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border: 1px solid rgba(0, 0, 0, 0.19);
+}
+.fade-in-out {
+    animation: fadeInOut 0.7s ease-in;
+}
+
+@keyframes fadeInOut {
+    0%, 25% {
+        opacity: 0;
+    }
+
+    75%, 100% {
+        opacity: 1;
+    }
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    background: rgba(157, 224, 255, 0.856);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+#level-buttons {
+    display: flex;
+    flex-direction: column; /* Dodaj tę linię */
+
+}
+.location-button {
+    position:relative;
+    height: 55px;
+    width: 80px;
+    margin: 5px;
+    border-radius: 16px;
+    border: none;
+    font-size: 10px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+    color:#fff;
+    text-align:center;
+    background: rgba(157, 255, 201, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.location-button:hover {
+    box-shadow: inset 0px 0px 15px 5px rgba(255, 255, 255, 0.719);
+}
+.location-button.active {
+    text-decoration: underline;
+    border:1px solid #ffe77d;
+    box-shadow: inset 0px 0px 20px 10px rgba(0, 0, 0, 0.726);
+    transition: all 0.5s ease-in-out;
+}
+@keyframes resultAnimation {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1.2); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+#result {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    position:sticky;
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    transition: color 2s ease-in-out;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.29);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.1px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border: 1px solid rgba(0, 0, 0, 0.19);
+}
+@keyframes resultXAnimation {
+    0%   {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
+    50%  {font-size:37px; color: rgb(255, 255, 255); font-family:cursive;}
+    100% {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
+}
+.resultX {
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 24px;
+    background: 0;
+    color: black;
+    animation: resultXAnimation 3s infinite;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    visibility: hidden;
+}
+
+
+
+/* Plecak */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    margin: 5% auto;
+    padding: 20px;
+    border: 2px solid #888;
+    width: 30%;
+    background: rgba(66, 24, 0, 0.603);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+    border-radius:12px;
+}
+
+.modal-content h2 {
+    color:rgba(255, 255, 255, 0.938);
+    font-family: cursive;
+    text-shadow: rgba(255, 153, 0, 0.83) 10px 0 35px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.modal-content h3 {
+    color: #ffffff;
+    font-family: cursive;
+    font-size: 16px;
+    text-align: center;
+}
+
+.close {
+    color: #8d8d8d;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover, .close:focus {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.inventory-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.inventory-divider {
+    width: 100%;
+    height: 3px;
+    border-radius: 5px;
+    background-color: #dddddd91;
+    margin: 10px 0;
+}
+
+.inventory-item {
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+    padding: 5px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #fff;
+}
+
+.inventory-item i {
+    margin: 5px;
+}
+
+.equipped-item {
+    color: #000;
+    border: 1px solid #000;
+    font-size: 16px;
+}
+
+#amulet-icon {
+    color:white;
+    padding: 3px;  
+    border-radius: 6px;
+    border: 1px solid black;
+    background: rgba(255, 84, 84, 0.463);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+}
+#amulet-icon:hover {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    cursor: pointer;
+}
+
+/* ADMIN PANEL */
+
+.reset {
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding: 10px 20px;
+    font-size: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.devpanel {
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding: 10px 20px;
+    font-size: 7px;
+    background-color:rgba(128, 128, 128, 0.562);
+    color:#fff;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+
+}
+
+#admin-panel {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    visibility: hidden;
+    flex-direction:column;
+    background-color: #ffffff3b;
+    border: 1px solid #cccccc60;
+    padding: 10px;
+    font-size:6px;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
 let player = JSON.parse(localStorage.getItem('player')) || {
     numHunts: 0,
     level: 1,
@@ -163,8 +819,21 @@ function updateMonsterLevel() {
 }
 
 
+// Inicjalizacja przycisków na stronie
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.location-button');
+    buttons.forEach((button, index) => {
+        button.addEventListener('click', () => changeLocation(index));
+    });
+});
 
-
+// Inicjalizacja przycisków na stronie
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.location-button');
+    buttons.forEach((button, index) => {
+        button.addEventListener('click', () => changeLocation(index));
+    });
+});
 
 function hunt() {
 
@@ -390,7 +1059,7 @@ function hunt() {
         messageText.style.whiteSpace = "pre-line";
         messageText.classList.add('fade-in-out');
     }
-    displayInventoryItems();
+
 }
     
 
@@ -428,11 +1097,11 @@ function updatePlayerInfo() {
 
     
     let healthInfo = document.getElementById('health-info');
-    healthInfo.textContent = `${player.currenthealth} / ${player.maxhealth}`;
+    healthInfo.textContent = `HP: ${player.currenthealth} / ${player.maxhealth}`;
 
 
     let goldAmount = document.getElementById('gold-amount');
-    goldAmount.innerHTML = `${player.gold}`;
+    goldAmount.textContent = player.gold;
 
     let staminaAmount = document.getElementById('stamina-amount');
     staminaAmount.textContent = `${player.stamina} / ${player.maxstamina}`;
@@ -446,13 +1115,13 @@ function updatePlayerInfo() {
     let numHuntsElement = document.getElementById('num-hunts');
     numHuntsElement.textContent = `${player.numHunts}`;
 
-    let amuletIcon = document.getElementById('amulet');
-    amuletIcon.innerHTML = '<i class="bx bxs-analyse bx-md" style="color:crimson;"></i>';
+    let amuletIcon = document.getElementById('amulet-icon');
+    amuletIcon.innerHTML = '<i class="bx bxs-analyse bx-md"></i>';
         
-    //let amuletLevel = document.getElementById('amulet-level');
-    //amuletLevel.textContent = `Poziom: ${player.amulet.level}`;
-    //let amuletMulti = document.getElementById('amulet-multiplier');
-    //amuletMulti.textContent = `Exp +${player.amulet.experienceMultiplier}%`;
+    let amuletLevel = document.getElementById('amulet-level');
+    amuletLevel.textContent = `Poziom: ${player.amulet.level}`;
+    let amuletMulti = document.getElementById('amulet-multiplier');
+    amuletMulti.textContent = `Exp +${player.amulet.experienceMultiplier}%`;
 
     let playerHPregen = document.getElementById('player-hpregen');
     playerHPregen.textContent = `${player.hpregen}`;
@@ -860,26 +1529,6 @@ function displayInventoryItems() {
     }
 }
 
-// Inicjalizacja przycisków na stronie
-document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.location-button');
-    buttons.forEach((button, index) => {
-        button.addEventListener('click', () => changeLocation(index));
-    });
-});
-
-
-let isInventoryOpen = false;
-
-function toggleInventory() {
-    if (isInventoryOpen) {
-        closeInventory();
-    } else {
-        openInventory();
-    }
-    isInventoryOpen = !isInventoryOpen;
-}
-
 function openInventory() {
     document.getElementById('inventory-modal').style.display = 'block';
     displayInventoryItems();
@@ -889,46 +1538,6 @@ function openInventory() {
 function closeInventory() {
     document.getElementById('inventory-modal').style.display = 'none';
     updatePlayerInfo();
-}
-
-let areStatsOpen = false;
-
-function toggleStats() {
-    if (areStatsOpen) {
-        closeStats();
-    } else {
-        openStats();
-    }
-    areStatsOpen = !areStatsOpen;
-}
-
-function openStats() {
-    document.getElementById('player-stats').style.display = 'block';
-    // Logika otwierania panelu statystyk
-}
-
-function closeStats() {
-    document.getElementById('player-stats').style.display = 'none';
-    // Logika zamykania panelu statystyk
-}
-
-let isDevPanelOpen = false;
-
-function toggleDevPanel() {
-    if (isDevPanelOpen) {
-        closeDevPanel();
-    } else {
-        openDevPanel();
-    }
-    isDevPanelOpen = !isDevPanelOpen;
-}
-
-function openDevPanel() {
-    document.getElementById('admin-panel').style.display = 'block';
-}
-
-function closeDevPanel() {
-    document.getElementById('admin-panel').style.display = 'none';
 }
 
 function upgradeItemRarity(item) {
@@ -984,6 +1593,10 @@ function upgradeItemRarity(item) {
 
 updatePlayerInfo();
 
+document.getElementById('admin-button').addEventListener('click', () => {
+    const adminPanel = document.getElementById('admin-panel');
+    adminPanel.style.visibility = adminPanel.style.visibility === 'hidden' ? 'visible' : 'hidden';
+});
 
 
 function adminAddGold(){
@@ -1092,3 +1705,8 @@ function resetLevel() {
 
 // Inicjalizacja gry
 updatePlayerInfo();
+
+
+This is web, RPG, HUNT based game, where player goal is to get stronger and stronger, to gain levels, get exp, money, loot to become stronger, and fight monster along the way. Each level provides some useful stats to the player, such as DEFENSE, MAX HP, MAX ENERGY, LUCK and other (you can see this in the .js code). There is also inventory, where player can see looted items, can equip them to get their statistics applied. Player hp and energy regenerates over time, and it can be boosted by certain items, such as belt and ring, which increased the amount of hp and energy gain per X seconds. Players can also use gold to upgrade "Monster Amulet" which increases the EXP gained from monsters when hunting.
+
+I want to try adding phaser.js so the GUI of the game is kind of better, right now its not so flashy and responsive, the equipment is simple, and i want it to be more reactive, i want players to be able to drag-and-drop their items into corresponding EQUIPMENT slots, like in other games, i want player to be able to sell unneeded items for gold, add some more animations, maybe animate hunting phase, add some more stats like monster attack, monster hp, player attack so maybe if player attack is LESS than monster HP, it takes more than ONE turn to kill it, resulting in losing more HP by player. There is much to improve in my current game and i was looking for any framework that can help me with especially user interface such as inventory and MENU
