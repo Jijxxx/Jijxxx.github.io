@@ -25,6 +25,7 @@ let player = JSON.parse(localStorage.getItem('player')) || {
 };
 const equippedItems = [];
 const unequippedItems = [];
+let goldAmount;
 
 function getMonsterName(monsterLevel) {
     const monsterNames = {
@@ -244,19 +245,17 @@ function hunt() {
         const type = getRandomType();
         const itemsForRarity = lootPool[rarity];
         
-        // Check if there are items defined for the selected rarity
         if (itemsForRarity && itemsForRarity.length > 0) {
-            // Choose a random item from the predefined list for the selected rarity
+
             const randomIndex = Math.floor(Math.random() * itemsForRarity.length);
             const item = itemsForRarity[randomIndex];
     
-            // Add logging to check the generated item
             console.log('Random item:', item);
     
             return item;
         } else {
             console.error(`No items defined for rarity ${rarity}`);
-            return { name: 'Default Item', type: 'default', equipped: false, rarity: 1 }; // Provide a default item if no items are defined
+            return { name: 'Default Item', type: 'default', equipped: false, rarity: 1 }; 
         }
     }
 
@@ -284,7 +283,7 @@ function hunt() {
             { type: 'armor', name: 'Zwykła zbroja (HP)', equipped: false, rarity: 1 },
             { type: 'belt', name: 'Zwykły pasek (regeneracja HP)', equipped: false, rarity: 1 },
             { type: 'ring', name: 'Zwykły pierścień (regeneracja energii)', equipped: false, rarity: 1 },
-            // Add more items for rarity 1
+            // Add 
         ],
         2: [
             { type: 'shield', name: 'Wzmocniona tarcza+1 (obrona)', equipped: false, rarity: 2 },
@@ -292,7 +291,7 @@ function hunt() {
             { type: 'armor', name: 'Wzmocniona zbroja+1 (HP)', equipped: false, rarity: 2 },
             { type: 'belt', name: 'Wzmocniony pasek+1 (regeneracja HP)', equipped: false, rarity: 2 },
             { type: 'ring', name: 'Wzmocniony pierścień+1 (regeneracja energii)', equipped: false, rarity: 2 },
-            // Add more items for rarity 2
+            // Add 
         ],
         3: [
             { type: 'shield', name: 'Magiczna tarcza+2 (obrona)', equipped: false, rarity: 3 },
@@ -318,7 +317,7 @@ function hunt() {
             { type: 'ring', name: 'Mityczny pierścień+4 (regeneracja energii)', equipped: false, rarity: 5 },
 
         ]
-        // Add entries for other rarities
+        // Add 
     };
     
 
@@ -343,7 +342,7 @@ function hunt() {
             player.loot.push(randomItem);
         } else {
             console.error('Invalid randomItem:', randomItem);
-            // Handle the case where randomItem is undefined or missing properties
+
         }
     }
 
@@ -353,7 +352,8 @@ function hunt() {
     // Wyświetlenie wyniku walki
     let resultElement = document.getElementById('result');
     let monsterName = getMonsterName(monsterLevel);
-    resultElement.innerHTML = `~ Walka z potworem: <span style="color: #ffe77d;">${monsterName}</span> (lvl: <span style="color: #7fc1ff;">${monsterLevel}</span>, atak: <span style="color: #ff7158;">${monsterAttack}</span>) ~<br>
+    resultElement.innerHTML = `~ Walka z potworem ~<br>
+        <span style="color: #ffe77d;">${monsterName}</span> (lvl: <span style="color: #7fc1ff;">${monsterLevel}</span>, atak: <span style="color: #ff7158;">${monsterAttack}</span>) <br>
         Twoja obrona: ${player.defense}, otrzymujesz <span style="color: rgb(255, 114, 58)">${hplost}</span> punktów obrażeń!<br>
         Zdobyto <span style="color: #ffa6008f;">${experienceGain}</span> doświadczenia<br>
         Znaleziono <span style="color: #ffd000bb;">${goldGain}</span> sztuk złota<br>
@@ -368,7 +368,7 @@ function hunt() {
     updatePlayerInfo();
     let resultYElement = document.getElementById('huntButton');
     huntButton.disabled = false;
-    resultYElement.innerHTML =`Poluj`;
+    resultYElement.innerHTML =`⚔️ Poluj ⚔️`;
     }, 500);
 
     } else {
@@ -446,13 +446,12 @@ function updatePlayerInfo() {
     let numHuntsElement = document.getElementById('num-hunts');
     numHuntsElement.textContent = `${player.numHunts}`;
 
-    let amuletIcon = document.getElementById('amulet');
-    amuletIcon.innerHTML = '<i class="bx bxs-analyse bx-md" style="color:crimson;"></i>';
-        
-    //let amuletLevel = document.getElementById('amulet-level');
-    //amuletLevel.textContent = `Poziom: ${player.amulet.level}`;
-    //let amuletMulti = document.getElementById('amulet-multiplier');
-    //amuletMulti.textContent = `Exp +${player.amulet.experienceMultiplier}%`;
+
+    let amuMultiPlier = document.getElementById('amulet-multiplier');
+    let amuletBonus = player.amulet.experienceMultiplier;
+    amuMultiPlier.innerHTML = `Poziom: ${amuletBonus}
+    Exp: +${amuletBonus}%`
+    amuMultiPlier.style.whiteSpace = "pre-line";
 
     let playerHPregen = document.getElementById('player-hpregen');
     playerHPregen.textContent = `${player.hpregen}`;
@@ -460,7 +459,6 @@ function updatePlayerInfo() {
     playerEnergyRegen.textContent = `${player.energyregen}`;
 
     //
-    
     let levelContainer = document.getElementById('level-info');
     let previousLevel = parseInt(levelContainer.dataset.level || 1);
     expInfo.textContent = `Exp: ${player.experience} / ${player.experienceToNextLevel}`;
@@ -474,6 +472,7 @@ function updatePlayerInfo() {
         //
         levelContainer.dataset.level = player.level;
     }
+    goldAmount.innerHTML = `${player.gold}`;
 }
 
 function buyEnergy() {
@@ -578,7 +577,6 @@ function upgradeAmulet() {
 
         
     } else {
-        // Display an error message if the player doesn't have enough gold
         let resultElement = document.getElementById('messages-output');
         let messageText = document.createElement('span');
         messageText.textContent = `Nie masz wystarczająco złota na ulepszenie Amuletu! (${player.amulet.upgradeCost} złota)`;
@@ -593,10 +591,8 @@ function showMessage(message) {
     let messagesText = document.getElementById('messages-output');
     messagesText.textContent = message;
 
-    // Add and remove a class to trigger the animation
     messagesText.classList.add('fade-in-out');
 
-    // Remove the class after the animation duration (in milliseconds)
     setTimeout(() => {
         messagesText.classList.remove('fade-in-out');
     }, 1000); // Adjust the duration as needed
@@ -659,53 +655,38 @@ function equipItem(item) {
         (existingItem) => existingItem.type === item.type && existingItem.equipped
     );
 
-    // Check if there is an existing equipped item of the same type
     if (existingEquippedItem) {
-        // Check if the existing item has the same rarity
         if (existingEquippedItem.rarity === item.rarity) {
             console.log('Item of the same type and rarity already equipped.');
             return;
         }
 
-        // Unequip currently equipped item of the same type, if any
         existingEquippedItem.equipped = false;
 
-        // Remove bonuses based on the unequipped item
         removeItemBonuses(existingEquippedItem);
         updatePlayerInfo();
         displayInventoryItems();
     }
 
-    // Equip the selected item
     item.equipped = true;
 
-    // Apply bonuses based on the equipped item
     applyItemBonuses(item);
 
-    // Update the player info and inventory display
     updatePlayerInfo();
     displayInventoryItems();
 
-    // Add these console.log statements
     console.log('Equipped items:', equippedItems);
     console.log('Unequipped items:', unequippedItems);
 }
 
 function unequipItem(item) {
 
-    // Check if the item is already equipped
     if (item.equipped) {
-        // Unequip the item
+
         item.equipped = false;
-
-        // Remove bonuses based on the unequipped item
         removeItemBonuses(item);
-
-        // Update the player info and inventory display
         updatePlayerInfo();
         displayInventoryItems();
-
-        // Add any additional logic you may need for handling unequipping
     }
 }
 
@@ -714,21 +695,21 @@ function applyItemBonuses(item) {
 
     switch (item.type) {
         case 'shield':
-            player.defense += 10 * rarityMultiplier; // Adjust the bonus value as needed
+            player.defense += 10 * rarityMultiplier; // 
             break;
         case 'helmet':
-            player.luck += 1 * rarityMultiplier; // Adjust the bonus value as needed
+            player.luck += 1 * rarityMultiplier; // 
             break;
         case 'armor':
-            player.maxhealth += 300 * rarityMultiplier; // Adjust the bonus value as needed
+            player.maxhealth += 300 * rarityMultiplier; // 
             break;
         case 'belt':
-            player.hpregen += 3 * rarityMultiplier; // Adjust the bonus value as needed
+            player.hpregen += 3 * rarityMultiplier; // 
             break;
         case 'ring':
-            player.energyregen += 2 * rarityMultiplier; // Adjust the bonus value as needed
+            player.energyregen += 2 * rarityMultiplier; // 
             break;
-        // Add other cases for different item types
+        // Add 
     }
     player.defense = parseFloat(player.defense.toFixed(0));
     player.luck = parseFloat(player.luck.toFixed(0));
@@ -737,9 +718,8 @@ function applyItemBonuses(item) {
     player.energyregen = parseFloat(player.energyregen.toFixed(0));
 }
 
-// Function to get the rarity multiplier
+
 function getRarityMultiplier(rarity) {
-    // Define rarity multipliers based on your desired scaling
     const rarityMultipliers = {
         1: 1,
         2: 2,
@@ -748,28 +728,26 @@ function getRarityMultiplier(rarity) {
         5: 10,
     };
 
-    // Return the appropriate multiplier based on the rarity
     return rarityMultipliers[rarity] || 1;
 }
 
-// Function to remove item bonuses
 function removeItemBonuses(item) {
     const rarityMultiplier = getRarityMultiplier(item.rarity);
     switch (item.type) {
         case 'shield':
-            player.defense -= 10 * rarityMultiplier; // Adjust the bonus value as needed
+            player.defense -= 10 * rarityMultiplier; // 
             break;
         case 'helmet':
-            player.luck -= 1 * rarityMultiplier; // Adjust the bonus value as needed
+            player.luck -= 1 * rarityMultiplier; //
             break;
         case 'armor':
-            player.maxhealth -= 300 * rarityMultiplier; // Adjust the bonus value as needed
+            player.maxhealth -= 300 * rarityMultiplier; // 
             break;
         case 'belt':
-            player.hpregen -= 3 * rarityMultiplier; // Adjust the bonus value as needed
+            player.hpregen -= 3 * rarityMultiplier; // 
             break;
         case 'ring':
-            player.energyregen -= 2 * rarityMultiplier; // Adjust the bonus value as needed
+            player.energyregen -= 2 * rarityMultiplier; // 
             break;
     }
 }
@@ -793,10 +771,9 @@ function displayInventoryItems() {
                     let itemElement = document.createElement('div');
                     itemElement.classList.add('inventory-item');
 
-                    // Create an icon element with the bx icon class
+                
                     let iconElement = document.createElement('i');
 
-                    // Set the appropriate icon based on the item type
                     switch (item.type) {
                         case 'shield':
                             iconElement.className = 'bx bx-shield-alt bx-lg';
@@ -813,10 +790,9 @@ function displayInventoryItems() {
                         case 'ring':
                             iconElement.className = 'bx bx-doughnut-chart bx-lg';
                             break;
-                        // Add other cases for different potion types
+                        // Add 
                     }
 
-                    // Set the box shadow based on rarity
                         switch (item.rarity) {
                         case 1:
                             itemElement.style.boxShadow = 'inset 0px 0px 25px 3px gray;';
@@ -833,14 +809,14 @@ function displayInventoryItems() {
                         case 5:
                             itemElement.style.boxShadow = 'inset 0px 0px 25px 3px crimson';
                             break;
-            // Add more cases for different rarities if needed
+                        // Add 
         }
 
                     itemElement.appendChild(iconElement);
 
-                    // Set the title attribute for the item name (tooltip)
+                
                     itemElement.title = item.name;
-                    // Display equipped status and handle item click
+                    
                     if (item.equipped) {
                         itemElement.addEventListener('click', () => unequipItem(item));
                         itemElement.classList.add('equipped-item');
@@ -853,7 +829,7 @@ function displayInventoryItems() {
                 }
             }
         } else {
-            // Error: empty inventory
+            // Error
             equippedItemsContainer.innerHTML = 'Brak założonych przedmiotów.';
             unequippedItemsContainer.innerHTML = 'Brak przedmiotów do założenia.';
         }
@@ -868,6 +844,65 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function calculateItemValue(rarity) {
+    switch (rarity) {
+        case 1:
+            return 100;
+        case 2:
+            return 300;
+        case 3:
+            return 1000;
+        case 4:
+            return 5000;
+        default:
+            return 0;
+    }
+}
+// Funkcja sprzedająca przedmioty
+function sellItems() {
+
+    const itemsToSell = getUnwornItems();
+    let totalGold = 0;
+
+    itemsToSell.forEach(item => {
+        totalGold += calculateItemValue(item.rarity);
+    });
+
+    if (totalGold != 0){
+
+        player.gold += totalGold;
+
+        let resultElement = document.getElementById('messages-output');
+        let messageText = document.createElement('span');
+        messageText.textContent = `Sprzedano nieużywane przedmioty za ${totalGold} złota.`;
+        resultElement.innerHTML = '';
+        resultElement.appendChild(messageText);
+        messageText.style.whiteSpace = "pre-line";
+        messageText.classList.add('fade-in-out');
+
+        removeItemsFromInventory(itemsToSell);
+        updatePlayerInfo();
+        displayInventoryItems();
+    } else {
+            let resultElement = document.getElementById('messages-output');
+            let messageText = document.createElement('span');
+            messageText.textContent = `Nie masz nieużywanych przedmiotów.`;
+            resultElement.innerHTML = '';
+            resultElement.appendChild(messageText);
+            messageText.style.whiteSpace = "pre-line";
+            messageText.classList.add('fade-in-out');
+    }
+
+
+}
+
+function getUnwornItems() {
+    return player.loot.filter(item => !item.equipped);
+}
+
+function removeItemsFromInventory(items) {
+    player.loot = player.loot.filter(item => !items.includes(item));
+}
 
 let isInventoryOpen = false;
 
@@ -904,12 +939,12 @@ function toggleStats() {
 
 function openStats() {
     document.getElementById('player-stats').style.display = 'block';
-    // Logika otwierania panelu statystyk
+
 }
 
 function closeStats() {
     document.getElementById('player-stats').style.display = 'none';
-    // Logika zamykania panelu statystyk
+
 }
 
 let isDevPanelOpen = false;
@@ -930,57 +965,6 @@ function openDevPanel() {
 function closeDevPanel() {
     document.getElementById('admin-panel').style.display = 'none';
 }
-
-function upgradeItemRarity(item) {
-    // Check if the player has enough gold for the upgrade
-    const upgradeCost = 2000; // Adjust the cost as needed
-    if (player.gold >= upgradeCost) {
-        player.gold -= upgradeCost;
-
-
-        // Adjust color based on rarity
-        switch (item.rarity) {
-            case 2:
-                item.boxShadow = 'inset 0px 0px 5px 5px rgba(3, 139, 253, 1)'; // Adjust the color for rarity 2
-                break;
-            case 3:
-                item.boxShadow = 'inset 0px 0px 5px 5px rgb(3, 103, 253)'; // Adjust the color for rarity 3
-                break;
-            case 4:
-                item.boxShadow = 'inset 0px 0px 5px 5px rgb(140, 3, 253)'; // Adjust the color for rarity 3
-                break;
-            case 5:
-                item.boxShadow = 'inset 0px 0px 5px 5px rgb(253, 3, 3)'; // Adjust the color for rarity 3
-                break;
-            // Add more cases for higher rarities as needed
-        }
-
-        // Update player info and inventory display
-        updatePlayerInfo();
-        displayInventoryItems();
-
-        // Display a success message
-        let resultElement = document.getElementById('messages-output');
-        let messageText = document.createElement('span');
-        messageText.textContent = `Przedmiot został ulepszony!`;
-        resultElement.innerHTML = '';
-        resultElement.appendChild(messageText);
-        messageText.style.whiteSpace = "pre-line";
-        messageText.classList.add('fade-in-out');
-    } else {
-        // Display an error message if the player doesn't have enough gold
-
-        let resultElement = document.getElementById('messages-output');
-        let messageText = document.createElement('span');
-        messageText.textContent = `Nie masz wystarczająco złota na ulepszenie przedmiotu! (Koszt: ${upgradeCost} złota)`;
-        resultElement.innerHTML = '';
-        resultElement.appendChild(messageText);
-        messageText.style.whiteSpace = "pre-line";
-        messageText.classList.add('fade-in-out');
-    }
-}
-
-
 
 updatePlayerInfo();
 

@@ -31,10 +31,8 @@
                 </div>
             </div>
 
-
-
-
     </div>
+    <!-- -->
         <div class="container-wrapper">
         <div class="playground-container">
             <div id="loc-bar">
@@ -45,23 +43,22 @@
                     <br>
                 </div>
                 <div id="level-buttons">
-                    <button class="location-button" onclick="changeLocation(0)">Bagna</button>
-                    <button class="location-button" onclick="changeLocation(1)">Ciemny Las</button>
-                    <button class="location-button" onclick="changeLocation(2)">Jaskinie</button>
-                    <button class="location-button" onclick="changeLocation(3)">Mgliste Góry</button>
-                    <button class="location-button" onclick="changeLocation(4)">Pustynia</button>
+                    <button class="location-button" onclick="changeLocation(0)">⛺ Bagna</button>
+                    <button class="location-button" onclick="changeLocation(1)">🌲 Ciemny Las</button>
+                    <button class="location-button" onclick="changeLocation(2)">🕳️ Jaskinie</button>
+                    <button class="location-button" onclick="changeLocation(3)">⛰️ Mgliste Góry</button>
+                    <button class="location-button" onclick="changeLocation(4)">🏜️ Pustynia </button>
                 </div>
             </div>
-            <div id="amulet" title="Amulet zwiększa zdobywany Exp."class="amulet">
-                <span id="amulet-level" style="font-size: 5px;"></span>
+            <div id="amulet" title="Amulet zwiększa zdobywany Exp." class="amulet">
                 <i class="bx bxs-analyse bx-md" style="color:crimson;"></i>
-                <span><span id="amulet-multiplier" style="font-size: 10px;">1</span></span>
-                <i class="inventory-content" style="text-decoration: underline; font-size: 12px;" onclick="upgradeAmulet()">Ulepsz Amulet</i>
+                <div id="amulet-multiplier" style="font-size: 10px;"><br><br>1<br></div>
+                <span style="font: Roboto;text-decoration: underline; font-size: 12px; cursor:pointer; color:gold;" onclick="upgradeAmulet()">Ulepsz Amulet</span>
                 </div>
 
         <div class="game-container">
             <h1>HuntME</h1>
-            <button id="huntButton" onclick="hunt()"> Poluj </button>
+            <button id="huntButton" onclick="hunt()"> ⚔️ Poluj ⚔️ </button>
             <div id="result"></div>
         </div>
         
@@ -75,19 +72,18 @@
         </div>
 
     </div>
-
 <!-- -->
 
     <div class="ui-wrapper">
         <div class="ui-container">
             <div class="ui-topbar">
                 
-                <button id="inventory-button" onclick="toggleInventory()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Ekwipunek</button>
-                <button id="stats-button" onclick="toggleStats()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki</button>
-                <button id="admin-button" onclick="toggleDevPanel()" style="color: gray; scale:0.8;left:0; background-color: #fff;">Panel Admina</button>
+                <button id="inventory-button" onclick="toggleInventory()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Ekwipunek 🎒</button>
+                <button id="stats-button" onclick="toggleStats()" style="margin-left:-20px; color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki 📖</button>
+                <button id="admin-button" onclick="toggleDevPanel()" style="margin-left:-20px; color: gray; scale:0.8;left:0; background-color: #fff;">DevPanel 🧙🏼</button>
                 <button style="margin-left: -10px; font-size: 14px;scale:0.78; left:0; background-color: rgb(255, 235, 124);">💰 <span id="gold-amount"></span></button>
-                <button title="Kup miksturę zdrowia za 50 złota!" onclick="buyHP()" style="margin-left: -10px;font-size: 14px;scale:0.78; right:0; background-color: rgb(168, 78, 78)">❤️</button>
-                <button title="Kup miksturę energii za 100 złota!" onclick="buyEnergy()" style="margin-left: -10px;font-size: 14px;scale:0.78; right:0; background-color: rgb(103, 64, 139);">🌀</button>
+                <button title="Kup miksturę zdrowia za 50 złota!" onclick="buyHP()" style="margin-left: -15px;font-size: 14px;scale:0.78; right:0; background-color: rgb(168, 78, 78)">❤️</button>
+                <button title="Kup miksturę energii za 100 złota!" onclick="buyEnergy()" style="margin-left: -15px;font-size: 14px;scale:0.78; right:0; background-color: rgb(103, 64, 139);">🌀</button>
         </div>
 
             <div id="admin-panel" class="admin-panel">
@@ -109,8 +105,10 @@
                         <span><div class="inventory-divider"></div></span>
                     <h3>Posiadane przedmioty:</h3>
                     <div id="unequipped-items-container" class="inventory-container"></div>
-                    
-                    
+                    <span><div class="inventory-divider"></div></span>
+                        
+                                <h3>Sprzedaj nieużywane przedmioty:</h3>
+                                <button onclick="sellItems()" style="width: 100%; background: rgb(255, 234, 0); font-size:22px; font: Roboto; color: #000000;">💰 Sprzedaj 💰</button>
                 </div>
             </div>
 
