@@ -232,13 +232,13 @@ function hunt() {
         // tu dodaj więcej itemków
     ]; */
     
-    function getRandomItem() {
+    function getRandomItem() { // RZADKOŚĆ SZANSA DROPA
         const rarityChances = {
-            1: 20,
-            2: 20,
-            3: 20,
-            4: 20,
-            5: 20,
+            1: 70,
+            2: 13,
+            3: 10,
+            4: 5,
+            5: 2,
         };
     
         const rarity = getRandomRarity(rarityChances);
@@ -322,7 +322,7 @@ function hunt() {
     
 
 
-    if (Math.random() < player.luck / 50) {
+    if (Math.random() < player.luck / 100) {
         if (!player.loot) {
             player.loot = [];
         }
@@ -1040,7 +1040,7 @@ function resetLevel() {
     player.numHunts = 0;
     player.level = 1;
     player.experience = 0;
-    player.gold = 99999;
+    player.gold = 0;
     player.experienceToNextLevel = 100;
     player.stamina = 100;
     player.maxstamina = 100;
