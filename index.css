@@ -110,6 +110,10 @@ body {
     margin-left: 86%;
     scale:0.8;
 }
+#stam-potion:hover {
+    scale: 0.9;
+    transition: scale 1s ease;
+}
 
 #hp-img {
     position:absolute;
@@ -147,6 +151,10 @@ body {
     margin-top: 3.2rem;
     margin-left: 8%;
     scale:0.8;
+}
+#hp-potion:hover {
+    scale: 0.9;
+    transition: scale 1s ease;
 }
 
 #info-box {
