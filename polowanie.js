@@ -18,7 +18,7 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     amulet: {
         level: 0,
         upgradeCost: 2000, 
-        amuletExperienceMultiplier: 0.0,
+        amuletExperienceMultiplier: 100,
     },
     monsterLevelRange: "1-5", // Dodaj tę linię z domyślną lokalizacją
 
@@ -179,7 +179,8 @@ function hunt() {
     let baseExperienceGain = Math.floor(monsterLevel * 10 * (xpMulti + player.amulet.experienceMultiplier));
     let randomFactor = 1.5 + Math.random() * 1.5;
     let amuletBonus = player.amulet.experienceMultiplier;
-    let experienceGain = Math.floor((baseExperienceGain + amuletBonus) * randomFactor);
+    let displayExp = Math.floor(baseExperienceGain * randomFactor);
+    let experienceGain = Math.floor((baseExperienceGain * randomFactor) + amuletBonus);
     let minGold = monsterLevel * 10;
     let maxGold = monsterLevel * 12;
     let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
@@ -355,7 +356,8 @@ function hunt() {
     resultElement.innerHTML = `~ Walka z potworem ~<br>
         <span style="color: #ffe77d;">${monsterName}</span> (lvl: <span style="color: #7fc1ff;">${monsterLevel}</span>, atak: <span style="color: #ff7158;">${monsterAttack}</span>) <br>
         Twoja obrona: ${player.defense}, otrzymujesz <span style="color: rgb(255, 114, 58)">${hplost}</span> punktów obrażeń!<br>
-        Zdobyto <span style="color: #ffa6008f;">${experienceGain}</span> doświadczenia<br>
+        Zdobyto <span style="color: #ffa6008f;">${displayExp}</span> doświadczenia<br>
+        Bonus amuletu: <span style="color: #ffa6008f;">${amuletBonus}</span> doświadczenia<br>
         Znaleziono <span style="color: #ffd000bb;">${goldGain}</span> sztuk złota<br>
         Wykorzystano <span style="color: #cb7cff;">${energylost}</span> energii.`;
         resultElement.style.whiteSpace = "pre-line";
@@ -449,8 +451,9 @@ function updatePlayerInfo() {
 
     let amuMultiPlier = document.getElementById('amulet-multiplier');
     let amuletBonus = player.amulet.experienceMultiplier;
-    amuMultiPlier.innerHTML = `Poziom: ${amuletBonus}
-    Exp: +${amuletBonus}%`
+    let amuletLevel = player.amulet.level;
+    amuMultiPlier.innerHTML = `Poziom: ${amuletLevel}
+    Exp: +${amuletBonus}`
     amuMultiPlier.style.whiteSpace = "pre-line";
 
     let playerHPregen = document.getElementById('player-hpregen');
@@ -562,7 +565,7 @@ function upgradeAmulet() {
 
         player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.1);
 
-        player.amulet.experienceMultiplier += 1; //
+        player.amulet.experienceMultiplier += 100; //
         updatePlayerInfo();
         localStorage.setItem('player', JSON.stringify(player));
 
@@ -1000,7 +1003,7 @@ function adminAddLevel(){
 
 function adminAddAmuletLvl(){
     player.amulet.level++;
-    player.amulet.experienceMultiplier += 1;
+    player.amulet.experienceMultiplier += 100;
     let resultElement = document.getElementById('messages-output');
     let messageText = document.createElement('span');
     messageText.textContent = `Ulepszono amulet o 1 poziom.`;
@@ -1055,9 +1058,9 @@ function resetLevel() {
     player.loot = [ 
     ];
     player.amulet = {
-        level: 0,
+        level: 1,
         upgradeCost: 2000, // Initial upgrade cost
-        experienceMultiplier: 0.0, // Initial multiplier
+        experienceMultiplier: 100, // Initial multiplier
     };
     player.monsterLevelRange = "1-5"; // Dodaj tę linię z domyślną lokalizacją
     localStorage.setItem('player', JSON.stringify(player));

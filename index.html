@@ -30,7 +30,12 @@
                 <span id="health-amount">200</span> / <span id="max-health"></span>
                 </div>
             </div>
-
+            <div class="hp-potion" id="hp-potion">
+            <button title="Kup miksturę zdrowia." onclick="buyHP()" style="background:0; opacity: 0;width:100%; height:100%;"></button>
+            </div>
+            <div class="stam-potion" id="stam-potion">
+                <button title="Kup miksturę energii." onclick="buyEnergy()" style="background:0; opacity: 0;width:100%; height:100%;"></button>
+            </div>
     </div>
     <!-- -->
         <div class="container-wrapper">
@@ -78,12 +83,10 @@
         <div class="ui-container">
             <div class="ui-topbar">
                 
-                <button id="inventory-button" onclick="toggleInventory()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Ekwipunek 🎒</button>
-                <button id="stats-button" onclick="toggleStats()" style="margin-left:-20px; color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki 📖</button>
-                <button id="admin-button" onclick="toggleDevPanel()" style="margin-left:-20px; color: gray; scale:0.8;left:0; background-color: #fff;">DevPanel 🧙🏼</button>
+                <button id="inventory-button" onclick="toggleInventory()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Plecak 🎒</button>
+                <button id="stats-button" onclick="toggleStats()" style="margin-left:-24px; color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki 📖</button>
+                <button id="admin-button" onclick="toggleDevPanel()" style="margin-left:-24px; color: gray; scale:0.8;left:0; background-color: #fff;">Dev 🧙🏼</button>
                 <button style="margin-left: -10px; font-size: 14px;scale:0.78; left:0; background-color: rgb(255, 235, 124);">💰 <span id="gold-amount"></span></button>
-                <button title="Kup miksturę zdrowia za 50 złota!" onclick="buyHP()" style="margin-left: -15px;font-size: 14px;scale:0.78; right:0; background-color: rgb(168, 78, 78)">❤️</button>
-                <button title="Kup miksturę energii za 100 złota!" onclick="buyEnergy()" style="margin-left: -15px;font-size: 14px;scale:0.78; right:0; background-color: rgb(103, 64, 139);">🌀</button>
         </div>
 
             <div id="admin-panel" class="admin-panel">
