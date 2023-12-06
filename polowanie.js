@@ -234,6 +234,7 @@ function hunt() {
         player.energyregen += 3;
         player.experienceToNextLevel = calculateExperienceToNextLevel();
         statPts += 2;
+        player.statPts += 2;
     }
 /*
     const lootPool = [
