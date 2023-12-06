@@ -14,7 +14,7 @@ words = [
     "głowica",
     "zadania centralne", 
     "od przodu czy od tyłu?", 
-    "Przygotowanie do BN"
+    "Przygotowanie do BN",
     "zamrożenie",
     "trzecia droga",
     "kontrolery",
