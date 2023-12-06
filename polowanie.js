@@ -233,7 +233,7 @@ function hunt() {
         player.hpregen += 5;
         player.energyregen += 3;
         player.experienceToNextLevel = calculateExperienceToNextLevel();
-        player.statPoints += 2;
+        statPts += 2;
     }
 /*
     const lootPool = [
