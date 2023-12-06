@@ -26,6 +26,7 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     vitality: 0,
     agility: 0,
     intelligence: 0,
+    statPts: 0,
 
 };
 const equippedItems = [];
