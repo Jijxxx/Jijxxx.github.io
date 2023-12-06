@@ -84,9 +84,11 @@
             <div class="ui-topbar">
                 
                 <button id="inventory-button" onclick="toggleInventory()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Plecak 🎒</button>
+                <button onclick="togglePointsPanel()" style="margin-left:-24px; color: gray; scale:0.8; left:0; background-color: #fff;">Punkty ⚖️</button>
                 <button id="stats-button" onclick="toggleStats()" style="margin-left:-24px; color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki 📖</button>
                 <button id="admin-button" onclick="toggleDevPanel()" style="margin-left:-24px; color: gray; scale:0.8;left:0; background-color: #fff;">Dev 🧙🏼</button>
                 <button style="margin-left: -10px; font-size: 14px;scale:0.78; left:0; background-color: rgb(255, 235, 124);">💰 <span id="gold-amount"></span></button>
+
         </div>
 
             <div id="admin-panel" class="admin-panel">
@@ -116,11 +118,8 @@
                 </div>
             </div>
 
-                
-
-
                 <div id="player-stats" class="player-stats">
-                    <span style="color: #888888">__________________________________________________________________</span>
+                    <span style="color: #888888">___________________________</span>
                     <br><br>
                     <span style="color:coral">Statystyki:</span>
                     <span><br></span>
@@ -129,10 +128,35 @@
                     <span><br>Obrona: <span id="player-defense">1</span></span>
                     <span><br>Odnawianie HP: +<span id="player-hpregen"></span></span>
                     <span><br>Odnawianie energii: +<span id="player-energyregen"></span></span>
-                    <span style="color: #888888">__________________________________________________________________</span>
+                    <span style="color: #888888">___________________________</span>
                     <br>
                     <!-- -->
                 </div>
+
+                <div id="stat-points-container" class="stat-points-container">
+                    <h2>Punkty: <span id="stat-points">[0]</span></h2> 
+                    <div class="stat-row">
+                        <button class="statbtn">Odporność: </button>
+                        <button class="pointsbtn" id="strength-value" style="margin-left:5px;">[0]</button>
+                        <button onclick="increaseStat('player.strength')" class="plusbtn">➕</button>
+                    </div>
+                    <div class="stat-row">
+                        <button class="statbtn">Witalność: </button>
+                        <button class="pointsbtn" id="vitality-value"style="margin-left:12px;">[0]</button>
+                        <button onclick="increaseStat('player.vitality')" class="plusbtn">➕</button>
+                    </div>
+                    <div class="stat-row">
+                        <button class="statbtn">Zręczność: </button>
+                        <button class="pointsbtn" id="agility-value" style="margin-left:9px;">[0]</button>
+                        <button onclick="increaseStat('player.agility')" class="plusbtn">➕</button>
+                    </div>
+                    <div class="stat-row">
+                        <button class="statbtn">Inteligencja: </button>
+                        <button class="pointsbtn" id="intelligence-value" style="margin-left:6px;">[0]</button>
+                        <button onclick="increaseStat('player.intelligence')" class="plusbtn">➕</button>
+                    </div>
+                </div>
+
             </div>
 
 

@@ -20,12 +20,22 @@ let player = JSON.parse(localStorage.getItem('player')) || {
         upgradeCost: 1000, 
         amuletExperienceMultiplier: 0,
     },
-    monsterLevelRange: "1-5", // Dodaj tę linię z domyślną lokalizacją
+    monsterLevelRange: "1-5",
+    statPoints: 0,// Początkowa liczba punktów do rozdania
+    strength: 0,
+    vitality: 0,
+    agility: 0,
+    intelligence: 0,
 
 };
 const equippedItems = [];
 const unequippedItems = [];
 let goldAmount;
+let statPoints = 0;
+let strength = 0;
+let vitality = 0;
+let agility = 0;
+let intelligence = 0;
 
 function getMonsterName(monsterLevel) {
     const monsterNames = {
@@ -222,6 +232,7 @@ function hunt() {
         player.hpregen += 5;
         player.energyregen += 3;
         player.experienceToNextLevel = calculateExperienceToNextLevel();
+        player.statPoints += 2;
     }
 /*
     const lootPool = [
@@ -367,6 +378,7 @@ function hunt() {
     resultXElement.textContent = "";
 
     
+    updateStatDisplay();
     updatePlayerInfo();
     let resultYElement = document.getElementById('huntButton'); //cooldown na polowanie
     huntButton.disabled = false;
@@ -466,6 +478,10 @@ function updatePlayerInfo() {
     let previousLevel = parseInt(levelContainer.dataset.level || 1);
     expInfo.textContent = `Exp: ${player.experience} / ${player.experienceToNextLevel}`;
 
+
+
+
+
     if (player.level > previousLevel) {
         levelContainer.classList.add('level-up');
         setTimeout(() => {
@@ -477,6 +493,38 @@ function updatePlayerInfo() {
     }
     goldAmount.innerHTML = `${player.gold}`;
 }
+
+function updateStatDisplay() {
+    document.getElementById('stat-points').innerText = player.statPoints;
+    document.getElementById('strength-value').innerText = player.strength;
+    document.getElementById('vitality-value').innerText = player.vitality;
+    document.getElementById('agility-value').innerText = player.agility;
+    document.getElementById('intelligence-value').innerText = player.intelligence;
+
+}
+
+function increaseStat(stat) {
+    if (statPoints > 0) {
+        switch (stat) {
+            case 'strength':
+                strength++;
+                break;
+            case 'vitality':
+                vitality++;
+                break;
+            case 'agility':
+                agility++;
+                break;
+            case 'intelligence':
+                intelligence++;
+                break;
+        }
+        statPoints--;
+        updateStatDisplay();
+    }
+}
+
+
 
 function buyEnergy() {
     // Sprawdzenie czy gracz ma dość złota na zakup.
@@ -932,7 +980,6 @@ function closeInventory() {
 }
 
 let areStatsOpen = false;
-
 function toggleStats() {
     if (areStatsOpen) {
         closeStats();
@@ -953,7 +1000,6 @@ function closeStats() {
 }
 
 let isDevPanelOpen = false;
-
 function toggleDevPanel() {
     if (isDevPanelOpen) {
         closeDevPanel();
@@ -971,8 +1017,28 @@ function closeDevPanel() {
     document.getElementById('admin-panel').style.display = 'none';
 }
 
+let isPointsPanelOpen = false;
+function togglePointsPanel() {
+    if (isPointsPanelOpen) {
+        showPointsPanel();
+        updateStatDisplay();
+    } else {
+        hidePointsPanel();
+    }
+    isPointsPanelOpen = !isPointsPanelOpen;
+}
+
+function showPointsPanel() {
+    document.getElementById('stat-points-container').style.display = 'block';
+}
+
+function hidePointsPanel() {
+    document.getElementById('stat-points-container').style.display = 'none';
+}
+
 updatePlayerInfo();
 
+//devpanel
 
 function adminAddGold(){
     player.gold += 99999;
@@ -1063,6 +1129,11 @@ function resetLevel() {
         upgradeCost: 1000, // Initial upgrade cost
         experienceMultiplier: 0, // Initial multiplier
     };
+    player.statPoints = 0,// Początkowa liczba punktów do rozdania
+    player.strength = 0,
+    player.vitality = 0,
+    player.agility = 0,
+    player.intelligence = 0,
     player.monsterLevelRange = "1-5"; // Dodaj tę linię z domyślną lokalizacją
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('messages-output');

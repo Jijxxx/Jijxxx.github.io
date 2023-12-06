@@ -246,10 +246,11 @@ body {
 
 
 .player-stats {
-    position:absolute;
-    width: 100%;
+    position: absolute;
+    width: 40%;
     scale: 0.8;
     bottom: 0;
+    left:0;
     margin-bottom: 7%;
     display: none;
     text-align: center;
@@ -261,6 +262,65 @@ body {
     background: rgba(0, 0, 0, 0.47);
     backdrop-filter: blur(2.7px);
     -webkit-backdrop-filter: blur(2.7px);
+}
+
+.stat-points-container {
+    position: absolute;
+    width: 45%;
+    scale: 0.65;
+    bottom: 0;
+    margin-bottom:1%;
+    right: 0;
+    text-align: center;
+    justify-content: stretch;
+    font-family: Roboto;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.47);
+    backdrop-filter: blur(2.7px);
+    -webkit-backdrop-filter: blur(2.7px);
+}
+
+.stat-row {
+    display: flex;
+    text-align: left;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.statbtn {
+    background-color: #fff;
+    border: 0;
+    font-size: 16px;
+    color: #000;
+    margin-top: 5px;
+    padding: 10px;
+    height: 100%;
+}
+
+.plusbtn {
+    background-color: #00ffaa;
+    border: 0;
+    font-size: 16px;
+    color: #000;
+    margin-top: 5px;
+    margin-left: 20px;
+    padding: 10px;
+    height: 100%;
+}
+
+.pointsbtn {
+    background-color: #ff9900;
+    border: 0;
+    font-size: 16px;
+    color: #000;
+    margin-top: 5px;
+    margin-left: 1rem;
+    margin-right: 10px;
+    padding: 10px;
+    height: 100%;
 }
 
 .playground-container {
