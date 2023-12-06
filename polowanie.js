@@ -17,8 +17,8 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     loot: [],
     amulet: {
         level: 0,
-        upgradeCost: 2000, 
-        amuletExperienceMultiplier: 100,
+        upgradeCost: 1000, 
+        amuletExperienceMultiplier: 0,
     },
     monsterLevelRange: "1-5", // Dodaj tę linię z domyślną lokalizacją
 
@@ -198,7 +198,7 @@ function hunt() {
         return;
       }
       let resultZElement = document.getElementById('huntButton');
-      resultZElement.textContent = `Trwa polowanie...`;
+      resultZElement.textContent = `⚔️ Trwa polowanie... ⚔️`;
       huntButton.disabled = true;
 
       setTimeout(function() {
@@ -1058,9 +1058,9 @@ function resetLevel() {
     player.loot = [ 
     ];
     player.amulet = {
-        level: 1,
-        upgradeCost: 2000, // Initial upgrade cost
-        experienceMultiplier: 100, // Initial multiplier
+        level: 0,
+        upgradeCost: 1000, // Initial upgrade cost
+        experienceMultiplier: 0, // Initial multiplier
     };
     player.monsterLevelRange = "1-5"; // Dodaj tę linię z domyślną lokalizacją
     localStorage.setItem('player', JSON.stringify(player));
