@@ -18,11 +18,11 @@ words = [
     "ARIBA", 
     "od przodu czy od tyłu?", 
     "Przygotowanie do BN"
- /*   "aaaa",
-    "bbbb",
-    "cccc",
-    "dddd",
-    "eeee",
+    "zamrożenie",
+    "trzecia droga/tmobile",
+    "kontrolery",
+    "fajerwerki",
+   /* "eeee",
     "ffff",
     "gggg"*/
     ];
@@ -56,7 +56,7 @@ function generate() {
     saveGameState();
 }
 
-/* http://diveintohtml5.info/storage.html */
+
 function supports_html5_storage() {
   try {
     return 'localStorage' in window && window['localStorage'] !== null;
