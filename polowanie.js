@@ -493,9 +493,9 @@ function updatePlayerInfo() {
     }
     goldAmount.innerHTML = `${player.gold}`;
 }
-
+let statPts = player.statPoints;
 function updateStatDisplay() {
-    document.getElementById('stat-points').innerText = player.statPoints;
+    document.getElementById('stat-points').innerText = statPts;
     document.getElementById('strength-value').innerText = player.strength;
     document.getElementById('vitality-value').innerText = player.vitality;
     document.getElementById('agility-value').innerText = player.agility;
@@ -504,22 +504,30 @@ function updateStatDisplay() {
 }
 
 function increaseStat(stat) {
-    if (statPoints > 0) {
+    if (statPts > 0) {
         switch (stat) {
             case 'strength':
-                strength++;
+                player.strength++;
+                console.log('++++');
+                updateStatDisplay();
                 break;
             case 'vitality':
-                vitality++;
+                player.vitality++;
+                console.log('++++');
+                updateStatDisplay();
                 break;
             case 'agility':
-                agility++;
+                player.agility++;
+                console.log('++++');
+                updateStatDisplay();
                 break;
             case 'intelligence':
-                intelligence++;
+                player.intelligence++;
+                console.log('++++');
+                updateStatDisplay();
                 break;
         }
-        statPoints--;
+        statPts--;  // Zmniejszamy ilość dostępnych punktów
         updateStatDisplay();
     }
 }
@@ -1130,10 +1138,10 @@ function resetLevel() {
         experienceMultiplier: 0, // Initial multiplier
     };
     player.statPoints = 0,// Początkowa liczba punktów do rozdania
-    player.strength = 0,
-    player.vitality = 0,
-    player.agility = 0,
-    player.intelligence = 0,
+    player.strength = 5,
+    player.vitality = 4,
+    player.agility = 3,
+    player.intelligence = 2,
     player.monsterLevelRange = "1-5"; // Dodaj tę linię z domyślną lokalizacją
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('messages-output');

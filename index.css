@@ -265,6 +265,7 @@ body {
 }
 
 .stat-points-container {
+    display: none;
     position: absolute;
     width: 45%;
     scale: 0.65;
