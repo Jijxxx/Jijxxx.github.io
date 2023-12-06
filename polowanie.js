@@ -407,6 +407,7 @@ function hunt() {
         messageText.classList.add('fade-in-out');
     }
     displayInventoryItems();
+    updateStatDisplay();
 }
     
 
