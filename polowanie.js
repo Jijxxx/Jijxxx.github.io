@@ -186,7 +186,7 @@ function hunt() {
     let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
     let monsterAttack = monsterLevel * 7;
     let hplost = Math.max(monsterAttack - (player.defense - monsterLevel), 0);
-    let energylost = Math.floor(5.0 + Math.random() * 10);
+    let energylost = Math.floor(10.0 + Math.random() * 20);
 
     if (player.stamina >= energylost ) {
 
@@ -215,12 +215,12 @@ function hunt() {
     if (player.experience >= player.experienceToNextLevel) {
         player.level++;
         player.experienceMultiplier += 0.2;
-        player.maxhealth += 25;
-        player.maxstamina += 10;
-        player.luck += 1;
-        player.defense += 1;
-        player.hpregen += 2;
-        player.energyregen += 1;
+        player.maxhealth += 45;
+        player.maxstamina += 20;
+        player.luck += 0.25;
+        player.defense += 2;
+        player.hpregen += 5;
+        player.energyregen += 3;
         player.experienceToNextLevel = calculateExperienceToNextLevel();
     }
 /*
@@ -235,11 +235,11 @@ function hunt() {
     
     function getRandomItem() { // RZADKOŚĆ SZANSA DROPA
         const rarityChances = {
-            1: 70,
-            2: 13,
-            3: 10,
-            4: 5,
-            5: 2,
+            1: 80,
+            2: 10,
+            3: 6,
+            4: 3,
+            5: 1,
         };
     
         const rarity = getRandomRarity(rarityChances);
@@ -281,7 +281,7 @@ function hunt() {
         1: [
             { type: 'shield', name: 'Zwykła tarcza (obrona)', equipped: false, rarity: 1 },
             { type: 'helmet', name: 'Zwykły hełm (szczescie)', equipped: false, rarity: 1 },
-            { type: 'armor', name: 'Zwykła zbroja (HP)', equipped: false, rarity: 1 },
+            { type: 'armor', name: 'Zwykła zbroja (HP&Energia)', equipped: false, rarity: 1 },
             { type: 'belt', name: 'Zwykły pasek (regeneracja HP)', equipped: false, rarity: 1 },
             { type: 'ring', name: 'Zwykły pierścień (regeneracja energii)', equipped: false, rarity: 1 },
             // Add 
@@ -289,7 +289,7 @@ function hunt() {
         2: [
             { type: 'shield', name: 'Wzmocniona tarcza+1 (obrona)', equipped: false, rarity: 2 },
             { type: 'helmet', name: 'Wzmocniony hełm+1 (szczescie)', equipped: false, rarity: 2 },
-            { type: 'armor', name: 'Wzmocniona zbroja+1 (HP)', equipped: false, rarity: 2 },
+            { type: 'armor', name: 'Wzmocniona zbroja+1 (HP&Energia)', equipped: false, rarity: 2 },
             { type: 'belt', name: 'Wzmocniony pasek+1 (regeneracja HP)', equipped: false, rarity: 2 },
             { type: 'ring', name: 'Wzmocniony pierścień+1 (regeneracja energii)', equipped: false, rarity: 2 },
             // Add 
@@ -297,7 +297,7 @@ function hunt() {
         3: [
             { type: 'shield', name: 'Magiczna tarcza+2 (obrona)', equipped: false, rarity: 3 },
             { type: 'helmet', name: 'Magiczny hełm+2 (szczescie)', equipped: false, rarity: 3 },
-            { type: 'armor', name: 'Magiczna zbroja+2 (HP)', equipped: false, rarity: 3 },
+            { type: 'armor', name: 'Magiczna zbroja+2 (HP&Energia)', equipped: false, rarity: 3 },
             { type: 'belt', name: 'Magiczny pasek+2 (regeneracja HP)', equipped: false, rarity: 3 },
             { type: 'ring', name: 'Magiczny pierścień+2 (regeneracja energii)', equipped: false, rarity: 3 },
 
@@ -305,7 +305,7 @@ function hunt() {
         4: [
             { type: 'shield', name: 'Legendarna tarcza+3 (obrona)', equipped: false, rarity: 4 },
             { type: 'helmet', name: 'Legendarny hełm+3 (szczescie)', equipped: false, rarity: 4 },
-            { type: 'armor', name: 'Legendarna zbroja+3 (HP)', equipped: false, rarity: 4 },
+            { type: 'armor', name: 'Legendarna zbroja+3 (HP&Energia)', equipped: false, rarity: 4 },
             { type: 'belt', name: 'Legendarny pasek+3 (regeneracja HP)', equipped: false, rarity: 4 },
             { type: 'ring', name: 'Legendarny pierścień+3 (regeneracja energii)', equipped: false, rarity: 4 },
 
@@ -313,7 +313,7 @@ function hunt() {
         5: [
             { type: 'shield', name: 'Mityczna tarcza+4 (obrona)', equipped: false, rarity: 5 },
             { type: 'helmet', name: 'Mityczny hełm+4 (szczescie)', equipped: false, rarity: 5 },
-            { type: 'armor', name: 'Mityczna zbroja+4 (HP)', equipped: false, rarity: 5 },
+            { type: 'armor', name: 'Mityczna zbroja+4 (HP&Energia)', equipped: false, rarity: 5 },
             { type: 'belt', name: 'Mityczny pasek+4 (regeneracja HP)', equipped: false, rarity: 5 },
             { type: 'ring', name: 'Mityczny pierścień+4 (regeneracja energii)', equipped: false, rarity: 5 },
 
@@ -323,7 +323,7 @@ function hunt() {
     
 
 
-    if (Math.random() < player.luck / 100) {
+    if (Math.random() < player.luck / 200) { //ogólna szansa na drop
         if (!player.loot) {
             player.loot = [];
         }
@@ -366,12 +366,12 @@ function hunt() {
     let resultXElement = document.getElementById('resultX');
     resultXElement.textContent = "";
 
-    // Aktualizacja interfejsu gracza
+    
     updatePlayerInfo();
-    let resultYElement = document.getElementById('huntButton');
+    let resultYElement = document.getElementById('huntButton'); //cooldown na polowanie
     huntButton.disabled = false;
     resultYElement.innerHTML =`⚔️ Poluj ⚔️`;
-    }, 500);
+    }, 30);
 
     } else {
         let resultElement = document.getElementById('messages-output');
@@ -480,9 +480,10 @@ function updatePlayerInfo() {
 
 function buyEnergy() {
     // Sprawdzenie czy gracz ma dość złota na zakup.
-    if (player.gold >= 100) {
+    if (player.gold >= player.maxstamina * 0.3 ) {
 
         let staminaToAdd = Math.floor(player.maxstamina*0.3);
+
             if (player.stamina === player.maxstamina) {
                 let resultElement = document.getElementById('messages-output');
                 let messageText = document.createElement('span');
@@ -499,13 +500,13 @@ function buyEnergy() {
         }
 
         // Wymiana
-        player.gold -= 100;
+        player.gold -= staminaToAdd * 2;
         player.stamina += staminaToAdd;
 
         // Wiadomość
         let resultElement = document.getElementById('messages-output');
         let messageText = document.createElement('span');
-        messageText.textContent = `Zakupiono miksturę energii za 100 złota.`;
+        messageText.textContent = `Zakupiono miksturę energii. ( -` + staminaToAdd + ` złota )` ;
         resultElement.innerHTML = '';
         resultElement.appendChild(messageText);
         messageText.style.whiteSpace = "pre-line";
@@ -606,9 +607,9 @@ function showMessage(message) {
 function buyHP() {
     
     // Sprawdzenie czy gracz ma dość złota na zakup.
-    if (player.gold >= 50) {
+    if (player.gold >= player.maxhealth * 0.3) {
 
-        let healthToAdd = Math.floor(player.maxhealth * 0.5);
+        let healthToAdd = Math.floor(player.maxhealth * 0.3);
 
         if (player.currenthealth === player.maxhealth) {
             let resultElement = document.getElementById('messages-output');
@@ -625,18 +626,17 @@ function buyHP() {
             healthToAdd = player.maxhealth - player.currenthealth;
         }
                 // Wymiana
-                player.gold -= 50;
+                player.gold -= healthToAdd;
                 player.currenthealth += healthToAdd;
         
                 // Wiadomość
                 let resultElement = document.getElementById('messages-output');
                 let messageText = document.createElement('span');
-                messageText.textContent = `Zakupiono miksturę HP za 100 złota.`;
+                messageText.textContent = `Zakupiono miksturę HP ( -` + healthToAdd + ` złota )`;
                 resultElement.innerHTML = '';
                 resultElement.appendChild(messageText);
                 messageText.style.whiteSpace = "pre-line";
                 messageText.classList.add('fade-in-out');
-
         // Push
         updatePlayerInfo();
     
@@ -698,19 +698,20 @@ function applyItemBonuses(item) {
 
     switch (item.type) {
         case 'shield':
-            player.defense += 10 * rarityMultiplier; // 
+            player.defense += 5 * rarityMultiplier; // 
             break;
         case 'helmet':
             player.luck += 1 * rarityMultiplier; // 
             break;
         case 'armor':
             player.maxhealth += 300 * rarityMultiplier; // 
+            player.maxstamina += 150 * rarityMultiplier;
             break;
         case 'belt':
-            player.hpregen += 3 * rarityMultiplier; // 
+            player.hpregen += 4 * rarityMultiplier; // 
             break;
         case 'ring':
-            player.energyregen += 2 * rarityMultiplier; // 
+            player.energyregen += 3 * rarityMultiplier; // 
             break;
         // Add 
     }
@@ -727,8 +728,8 @@ function getRarityMultiplier(rarity) {
         1: 1,
         2: 2,
         3: 3,
-        4: 6,
-        5: 10,
+        4: 5,
+        5: 7,
     };
 
     return rarityMultipliers[rarity] || 1;
@@ -738,19 +739,20 @@ function removeItemBonuses(item) {
     const rarityMultiplier = getRarityMultiplier(item.rarity);
     switch (item.type) {
         case 'shield':
-            player.defense -= 10 * rarityMultiplier; // 
+            player.defense -= 5 * rarityMultiplier; // 
             break;
         case 'helmet':
             player.luck -= 1 * rarityMultiplier; //
             break;
         case 'armor':
-            player.maxhealth -= 300 * rarityMultiplier; // 
+            player.maxhealth -= 300 * rarityMultiplier; //
+            player.maxstamina -= 150 * rarityMultiplier;
             break;
         case 'belt':
-            player.hpregen -= 3 * rarityMultiplier; // 
+            player.hpregen -= 4 * rarityMultiplier; // 
             break;
         case 'ring':
-            player.energyregen -= 2 * rarityMultiplier; // 
+            player.energyregen -= 3 * rarityMultiplier; // 
             break;
     }
 }
@@ -852,11 +854,11 @@ function calculateItemValue(rarity) {
         case 1:
             return 100;
         case 2:
-            return 300;
+            return 250;
         case 3:
-            return 1000;
+            return 500;
         case 4:
-            return 5000;
+            return 2000;
         default:
             return 0;
     }
@@ -970,7 +972,6 @@ function closeDevPanel() {
 }
 
 updatePlayerInfo();
-
 
 
 function adminAddGold(){
