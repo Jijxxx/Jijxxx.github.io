@@ -380,7 +380,7 @@ function hunt() {
     resultXElement.textContent = "";
 
     
-    updateStatDisplay();
+    
     updatePlayerInfo();
     let resultYElement = document.getElementById('huntButton'); //cooldown na polowanie
     huntButton.disabled = false;
@@ -407,7 +407,8 @@ function hunt() {
         messageText.classList.add('fade-in-out');
     }
     displayInventoryItems();
-    updateStatDisplay();
+
+
 }
     
 
@@ -484,7 +485,7 @@ function updatePlayerInfo() {
 
 
 
-
+updateStatDisplay();
     if (player.level > previousLevel) {
         levelContainer.classList.add('level-up');
         setTimeout(() => {
