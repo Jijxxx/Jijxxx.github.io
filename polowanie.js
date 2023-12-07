@@ -26,7 +26,6 @@ let player = JSON.parse(localStorage.getItem('player')) || {
     vitality: 0,
     agility: 0,
     intelligence: 0,
-    statPts: 0,
 
 };
 const equippedItems = [];
@@ -188,12 +187,12 @@ function hunt() {
     let xpMulti = (player.experienceMultiplier).toFixed(2);
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
     let baseExperienceGain = Math.floor(monsterLevel * 10 * (xpMulti + player.amulet.experienceMultiplier));
-    let randomFactor = 1.5 + Math.random() * 1.5;
+    let randomFactor = 2 + Math.random() * 6;
     let amuletBonus = player.amulet.experienceMultiplier;
     let displayExp = Math.floor(baseExperienceGain * randomFactor);
     let experienceGain = Math.floor((baseExperienceGain * randomFactor) + amuletBonus);
-    let minGold = monsterLevel * 10;
-    let maxGold = monsterLevel * 12;
+    let minGold = monsterLevel * 15;
+    let maxGold = monsterLevel * 40;
     let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
     let monsterAttack = monsterLevel * 7;
     let hplost = Math.max(monsterAttack - (player.defense - monsterLevel), 0);
@@ -221,6 +220,7 @@ function hunt() {
     player.gold += goldGain;
     player.stamina -= energylost;
     player.currenthealth -= hplost;
+    
 
     // Sprawdzenie czy gracz zdobył wystarczająco dużo doświadczenia na nowy poziom
     if (player.experience >= player.experienceToNextLevel) {
@@ -233,8 +233,7 @@ function hunt() {
         player.hpregen += 5;
         player.energyregen += 3;
         player.experienceToNextLevel = calculateExperienceToNextLevel();
-        statPts += 2;
-        player.statPts += 2;
+        player.statPoints += 2;
     }
 /*
     const lootPool = [
@@ -485,7 +484,6 @@ function updatePlayerInfo() {
 
 
 
-updateStatDisplay();
     if (player.level > previousLevel) {
         levelContainer.classList.add('level-up');
         setTimeout(() => {
@@ -496,10 +494,11 @@ updateStatDisplay();
         levelContainer.dataset.level = player.level;
     }
     goldAmount.innerHTML = `${player.gold}`;
+    updateStatDisplay();
 }
-let statPts = player.statPoints;
+var statPts = player.statPoints;
 function updateStatDisplay() {
-    document.getElementById('stat-points').innerText = statPts;
+    document.getElementById('stat-points').innerText = player.statPoints;
     document.getElementById('strength-value').innerText = player.strength;
     document.getElementById('vitality-value').innerText = player.vitality;
     document.getElementById('agility-value').innerText = player.agility;
@@ -508,31 +507,30 @@ function updateStatDisplay() {
 }
 
 function increaseStat(stat) {
-    if (statPts > 0) {
+    if (player.statPoints > 0) {
         switch (stat) {
             case 'strength':
                 player.strength++;
-                console.log('++++');
-                updateStatDisplay();
+                player.defense += 5;
                 break;
             case 'vitality':
                 player.vitality++;
-                console.log('++++');
-                updateStatDisplay();
+                player.maxhealth += 150;
+                player.hpregen += 10;
                 break;
             case 'agility':
                 player.agility++;
-                console.log('++++');
-                updateStatDisplay();
+                player.luck += 2;
                 break;
             case 'intelligence':
                 player.intelligence++;
-                console.log('++++');
-                updateStatDisplay();
+                player.maxstamina += 50;
+                player.energyregen += 8;
                 break;
         }
-        statPts--;  // Zmniejszamy ilość dostępnych punktów
+        player.statPoints--;
         updateStatDisplay();
+        updatePlayerInfo();
     }
 }
 
@@ -540,7 +538,7 @@ function increaseStat(stat) {
 
 function buyEnergy() {
     // Sprawdzenie czy gracz ma dość złota na zakup.
-    if (player.gold >= player.maxstamina * 0.3 ) {
+    if (player.gold >= player.maxstamina * 0.6 ) {
 
         let staminaToAdd = Math.floor(player.maxstamina*0.3);
 
@@ -1036,6 +1034,7 @@ function togglePointsPanel() {
         updateStatDisplay();
     } else {
         hidePointsPanel();
+        updateStatDisplay();
     }
     isPointsPanelOpen = !isPointsPanelOpen;
 }
@@ -1138,15 +1137,17 @@ function resetLevel() {
     ];
     player.amulet = {
         level: 0,
-        upgradeCost: 1000, // Initial upgrade cost
-        experienceMultiplier: 0, // Initial multiplier
+        upgradeCost: 1000, 
+        experienceMultiplier: 0, 
     };
     player.statPoints = 0,// Początkowa liczba punktów do rozdania
-    player.strength = 5,
-    player.vitality = 4,
-    player.agility = 3,
-    player.intelligence = 2,
+    player.strength = 0,
+    player.vitality = 0,
+    player.agility = 0,
+    player.intelligence = 0,
     player.monsterLevelRange = "1-5"; // Dodaj tę linię z domyślną lokalizacją
+
+
     localStorage.setItem('player', JSON.stringify(player));
     let resultElement = document.getElementById('messages-output');
     let messageText = document.createElement('span');

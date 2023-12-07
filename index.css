@@ -106,8 +106,9 @@ body {
     border: 10px double #ffffff0e;
     height: 70px;
     width: 70px;
+    right:0;
     margin-top: 0.7rem;
-    margin-left: 90rem;
+    margin-right: 9rem;
     scale:0.8;
     transition: scale 1s ease;
 }
