@@ -179,6 +179,7 @@ function updateMonsterLevel() {
 
 function hunt() {
 
+
     let monsterLevelRange = player.monsterLevelRange.split('-');
     let minMonsterLevel = parseInt(monsterLevelRange[0]);
     let maxMonsterLevel = parseInt(monsterLevelRange[1]);
@@ -1049,6 +1050,19 @@ function hidePointsPanel() {
 
 updatePlayerInfo();
 
+
+function muzyczka(){
+    var audio = document.getElementById("myAudio");
+
+    if (audio.paused) {
+        audio.volume = 0.5;
+        audio.play();
+    } else {
+
+        audio.pause();
+
+    }
+}
 //devpanel
 
 function adminAddGold(){

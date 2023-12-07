@@ -87,7 +87,7 @@
                 <button onclick="togglePointsPanel()" style="margin-left:-24px; color: gray; scale:0.8; left:0; background-color: #fff;">Punkty ⚖️</button>
                 <button id="stats-button" onclick="toggleStats()" style="margin-left:-24px; color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki 📖</button>
                 <button id="admin-button" onclick="toggleDevPanel()" style="margin-left:-24px; color: gray; scale:0.8;left:0; background-color: #fff;">Dev 🧙🏼</button>
-                <button style="margin-left: -10px; font-size: 14px;scale:0.78; left:0; background-color: rgb(255, 235, 124);">💰 <span id="gold-amount"></span></button>
+                <button style="margin-left: -10px; font-size: 14px;scale:0.78; left:0; background-color: rgb(255, 235, 124);">💰 <span id="gold-amount" onclick="muzyczka()"></span></button>
 
         </div>
 
@@ -168,6 +168,9 @@
             <div id="resultX" class="info-box2"></div>
             <div id="experience-bar-container">
                 <div id="experience-bar"></div>
+                <audio id="myAudio" autoplay loop>
+                    <source src="imgs/dion.mp3" type="audio/mp3">
+                </audio>
             </div>
 
         </div>
