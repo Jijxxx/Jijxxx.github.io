@@ -583,7 +583,20 @@ function buyEnergy() {
         messageText.style.whiteSpace = "pre-line";
         messageText.classList.add('fade-in-out');
     }
+
 }
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "1") {
+        buyHP();
+    }
+    if (event.key === "2") {
+        buyEnergy();
+    }
+    if (event.key === " ") {
+        hunt();
+    }
+});
 
 // Regeneracja energii
 function regenerateStamina() {
@@ -1172,7 +1185,6 @@ function resetLevel() {
     messageText.classList.add('fade-in-out');
     updatePlayerInfo();
 }
-
 
 
 
