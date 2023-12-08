@@ -141,7 +141,8 @@ body {
     justify-content: center;
     margin-top: 22%;
     margin-left: 3%;
-    text-shadow: 1px 1px 5px #000000
+    text-shadow: 1px 1px 5px #000000;
+    
 }
 #hp-potion {
     position: absolute;
@@ -721,7 +722,22 @@ button {
     color: #000;
     border: 2px solid #000;
     font-size: 16px;
-    margin-right: 2.22rem;
+    margin-right: 1.5rem;
+    animation: gradient 10s ease-in-out infinite;
+}
+@keyframes gradient {
+	0% {
+		background-color: rgba(0, 0, 0, 0.225);
+        transform: scale(1);
+	}
+	50% {
+		background-color: rgba(255, 255, 255, 0.699);
+        transform: scale(1.05);
+	}
+	100% {
+		background-color: rgba(0, 0, 0, 0.225);
+        transform: scale(1);
+	}
 }
 #equipped-items-container {
     color: #fff;

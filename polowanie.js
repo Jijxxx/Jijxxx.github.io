@@ -187,7 +187,7 @@ function hunt() {
     // Symulacja walki i przyznawania punktów doświadczenia oraz złota
     let xpMulti = (player.experienceMultiplier).toFixed(2);
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
-    let baseExperienceGain = Math.floor(monsterLevel * 10 * (xpMulti + player.amulet.experienceMultiplier));
+    let baseExperienceGain = Math.floor((player.level * 0.5) * monsterLevel * 10 * (xpMulti + player.amulet.experienceMultiplier));
     let randomFactor = 2 + Math.random() * 6;
     let amuletBonus = player.amulet.experienceMultiplier;
     let displayExp = Math.floor(baseExperienceGain * randomFactor);
@@ -248,11 +248,12 @@ function hunt() {
     
     function getRandomItem() { // RZADKOŚĆ SZANSA DROPA
         const rarityChances = {
-            1: 80,
-            2: 10,
-            3: 6,
-            4: 3,
-            5: 1,
+            1: 65,
+            2: 20, //85
+            3: 9, //94
+            4: 4.5, //98.5
+            5: 1, //99.5
+            6: 0.5, //100
         };
     
         const rarity = getRandomRarity(rarityChances);
@@ -329,6 +330,14 @@ function hunt() {
             { type: 'armor', name: 'Mityczna zbroja+4 (HP&Energia)', equipped: false, rarity: 5 },
             { type: 'belt', name: 'Mityczny pasek+4 (regeneracja HP)', equipped: false, rarity: 5 },
             { type: 'ring', name: 'Mityczny pierścień+4 (regeneracja energii)', equipped: false, rarity: 5 },
+
+        ],
+        6: [
+            { type: 'shield', name: 'Pierwotna tarcza+5 (obrona)', equipped: false, rarity: 6 },
+            { type: 'helmet', name: 'Pierwotny hełm+5 (szczescie)', equipped: false, rarity: 6 },
+            { type: 'armor', name: 'Pierwotna zbroja+5 (HP&Energia)', equipped: false, rarity: 6 },
+            { type: 'belt', name: 'Pierwotny pasek+5 (regeneracja HP)', equipped: false, rarity: 6 },
+            { type: 'ring', name: 'Pierwotny pierścień+5 (regeneracja energii)', equipped: false, rarity: 6 },
 
         ]
         // Add 
@@ -512,21 +521,21 @@ function increaseStat(stat) {
         switch (stat) {
             case 'strength':
                 player.strength++;
-                player.defense += 5;
+                player.defense += 6;
                 break;
             case 'vitality':
                 player.vitality++;
                 player.maxhealth += 150;
-                player.hpregen += 10;
+                player.hpregen += 30;
                 break;
             case 'agility':
                 player.agility++;
-                player.luck += 2;
+                player.luck += 3;
                 break;
             case 'intelligence':
                 player.intelligence++;
-                player.maxstamina += 50;
-                player.energyregen += 8;
+                player.maxstamina += 80;
+                player.energyregen += 15;
                 break;
         }
         player.statPoints--;
@@ -802,6 +811,7 @@ function getRarityMultiplier(rarity) {
         3: 3,
         4: 5,
         5: 7,
+        6: 10,
     };
 
     return rarityMultipliers[rarity] || 1;
@@ -848,48 +858,38 @@ function displayInventoryItems() {
                     let itemElement = document.createElement('div');
                     itemElement.classList.add('inventory-item');
 
-                
-                    let iconElement = document.createElement('i');
+                    // Tworzenie elementu obrazka
+                    let imgElement = document.createElement('img');
+                    imgElement.src = `icons/${item.type}.png`; // Załóż, że pliki są w folderze "icons"
+                    imgElement.alt = item.type; // Dla dostępności
 
-                    switch (item.type) {
-                        case 'shield':
-                            iconElement.className = 'bx bx-shield-alt bx-lg';
-                            break;
-                        case 'armor':
-                            iconElement.className = 'bx bx-universal-access bx-lg';
-                            break;
-                        case 'belt':
-                            iconElement.className = 'bx bx-toggle-left bx-lg';
-                            break;
-                        case 'helmet':
-                            iconElement.className = 'bx bx-hard-hat bx-lg';
-                            break;
-                        case 'ring':
-                            iconElement.className = 'bx bx-doughnut-chart bx-lg';
-                            break;
-                        // Add 
-                    }
+                    itemElement.appendChild(imgElement);
+
+                    itemElement.title = item.name;
 
                         switch (item.rarity) {
                         case 1:
                             itemElement.style.boxShadow = 'inset 0px 0px 25px 3px gray;';
                             break;
                         case 2:
-                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px lightskyblue';
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 2px lightskyblue';
                             break;
                         case 3:
-                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px gold';
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 2px gold';
                             break;
                         case 4:
-                            itemElement.style.boxShadow = 'inset 0px 0px 25px 3px magenta';
+                            itemElement.style.boxShadow = 'inset 0px 0px 15px 2px magenta';
                             break;
                         case 5:
                             itemElement.style.boxShadow = 'inset 0px 0px 25px 3px crimson';
                             break;
+                        case 6:
+                            itemElement.style.boxShadow = 'inset 0px 0px 25px 4px lime';
+
                         // Add 
         }
 
-                    itemElement.appendChild(iconElement);
+                    itemElement.appendChild(imgElement);
 
                 
                     itemElement.title = item.name;
@@ -926,11 +926,13 @@ function calculateItemValue(rarity) {
         case 1:
             return 100;
         case 2:
-            return 250;
-        case 3:
             return 500;
+        case 3:
+            return 1500;
         case 4:
-            return 2000;
+            return 10000;
+        case 5:
+            return 50000;
         default:
             return 0;
     }
