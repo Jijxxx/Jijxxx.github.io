@@ -20,12 +20,13 @@ let player = JSON.parse(localStorage.getItem('player')) || {
         upgradeCost: 1000, 
         amuletExperienceMultiplier: 0,
     },
-    monsterLevelRange: "1-5",
+    monsterLevelRange: "1-10",
     statPoints: 0,// Początkowa liczba punktów do rozdania
     strength: 0,
     vitality: 0,
     agility: 0,
     intelligence: 0,
+    
 
 };
 const equippedItems = [];
@@ -36,6 +37,7 @@ let strength = 0;
 let vitality = 0;
 let agility = 0;
 let intelligence = 0;
+let locationType = 'locations';
 
 function getMonsterName(monsterLevel) {
     const monsterNames = {
@@ -44,26 +46,51 @@ function getMonsterName(monsterLevel) {
         3: "Moczarowy Ghul",
         4: "Błotny Ogar",
         5: "Gigantyczna Żaba",
-        6: "Złowieszczy Wilk", //las
-        7: "Zjawa Lasu",
-        8: "Mroczny Łowca",
-        9: "Cienista Bestia",
-        10: "Potężny Gryf",
-        11: "Skalny Golem", //jaskinie
-        12: "Jaskiniowy Bazyliszek",
-        13: "Kryształowy Nietoperz",
-        14: "Mroczny Wąż",
-        15: "Oślepiający Młotnik",
-        16: "Chłodny Yeti", //góry
-        17: "Górski Troll",
-        18: "Mglisty Duch",
-        19: "Latający Harpagon",
-        20: "Skalny Smoczek",
-        21: "Piaskowy Skarabeusz", // pustynia
-        22: "Pustynny Żmijarz",
-        23: "Burzowy Dżin",
-        24: "Żywiołak Piasku",
-        25: "Koralowy Skorpion",
+        6: "Upiór Mokradłowy",
+        7: "Brudny Zębacz",
+        8: "Upiorna Larwa",
+        9: "Bagnista Wiedźma",
+        10: "Błotołaz",
+        11: "Złowieszczy Wilk", //las
+        12: "Zjawa Lasu",
+        13: "Mroczny Łowca",
+        14: "Cienista Bestia",
+        15: "Potężny Gryf",
+        16: "Dziki Wilkołak",
+        17: "Złowieszczy Kruk",
+        18: "Trujący Pająk",
+        19: "Mściwa Wróżka",
+        20: "Ponury Drzewiec",
+        21: "Skalny Golem", //jaskinie
+        22: "Jaskiniowy Bazyliszek",
+        23: "Kryształowy Nietoperz",
+        24: "Mroczny Wąż",
+        25: "Oślepiający Młotnik",
+        26: "Koralowe Widmo",
+        27: "Skalny Demon",
+        28: "Cienisty Gargulec",
+        29: "Prastary Szkielet",
+        30: "Mroczny Krasnolud",
+        31: "Chłodny Yeti", //góry
+        32: "Górski Troll",
+        33: "Mglisty Duch",
+        34: "Latający Harpagon",
+        35: "Skalny Smoczek",
+        36: "Zamarznięty Upiór",
+        37: "Obsydianowy Łowca",
+        38: "Śnieżny Żniwiarz",
+        39: "Latający Jaszczur",
+        40: "Tytan Gór",
+        41: "Piaskowy Skarabeusz", // pustynia
+        42: "Pustynny Żmijarz",
+        43: "Burzowy Dżin",
+        44: "Żywiołak Piasku",
+        45: "Koralowy Skorpion",
+        46: "Bestia Skalna",
+        47: "Złodziej Cienia",
+        48: "Pyłowy Duch",
+        49: "Wilk Wiatru",
+        50: "Piaskowy Sfinks",
 
 
         // 
@@ -78,44 +105,190 @@ let currentLocationIndex = 0;
 
 const locations = [
     { name: "Bagna", minLevel: 1 },
-    { name: "Ciemny las", minLevel: 6 },
-    { name: "Jaskinie", minLevel: 11 },
-    { name: "Mgliste Góry", minLevel: 16 },
-    { name: "Pustynia", minLevel: 21 }
+    { name: "Ciemny las", minLevel: 11 },
+    { name: "Jaskinie", minLevel: 21 },
+    { name: "Mgliste Góry", minLevel: 31 },
+    { name: "Pustynia", minLevel: 41 },
+    { name: "Dungeon1", minLevel: 20 },
+    { name: "Dungeon2", minLevel: 20 },
+    { name: "Dungeon3", minLevel: 20 },
 ];
+
+function changeLocationType() {
+    const selectedType = document.getElementById('location-type').value;
+    locationType = selectedType;
+
+    // Toggle the visibility of location buttons based on the selected type
+    document.getElementById('locations-buttons').style.display = (selectedType === 'locations') ? 'block' : 'none';
+    document.getElementById('dungeons-buttons').style.display = (selectedType === 'dungeons') ? 'block' : 'none';
+}
 
 function changeLocation(index) {
     const selectedLocation = locations[index];
     let minRequiredLevel = selectedLocation.minLevel;
 
-    if (player.level >= minRequiredLevel) {
-        currentLocationIndex = index;
-        updateSelectedLocation();
-        updateMinLevel();
-        updateMonsterLevel();
+    if (locationType === 'locations') {
+        if (player.level >= minRequiredLevel) {
+            currentLocationIndex = index;
+            updateSelectedLocation();
+            updateMinLevel();
+            updateMonsterLevel();
+            let resultElement = document.getElementById('result');
+            resultElement.innerHTML = `
+            Wybrano lokację: <span style="color: #ffe77d;">${selectedLocation.name}</span>
+            `;
+            resultElement.style.whiteSpace = "pre-line";
+        } else {
+            // Alert
+            let resultElement = document.getElementById('messages-output');
+            let messageText = document.createElement('span');
+            messageText.textContent = `Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedLocation.name}.`;
+            resultElement.innerHTML = '';
+            resultElement.appendChild(messageText);
+            messageText.style.whiteSpace = "pre-line";
+            messageText.classList.add('fade-in-out');
+            let resultXElement = document.getElementById('result');
+            resultXElement.innerHTML = `
+            Zbyt mały poziom na lokację: <span style="color: #ffe77d;">${selectedLocation.name}</span>
+            `;
+            resultElement.style.whiteSpace = "pre-line";
+        }
+}}
+
+
+function calculateExperienceToNextLevel() { //exp do nastepnego levela
+    let requiredExperience = 100;
+
+    for (let i = 2; i <= player.level; i++) {
+        requiredExperience += Math.ceil(requiredExperience*0.7);
+    }
+
+    return requiredExperience;
+}
+
+function dungeonHunt() {
+    /*
+    
+        if (player.stamina >= energylost ) {
+    
+            if (player.currenthealth > hplost) {
+    
+            
+        let huntButton = document.getElementById("huntButton");
+        if (huntButton.disabled) {
+            return;
+          }
+          let resultZElement = document.getElementById('huntButton');
+          resultZElement.textContent = `⚔️ Trwa polowanie... ⚔️`;
+          huntButton.disabled = true;
+    
+          setTimeout(function() {
+    
+            
+        // Aktualizacja danych gracza
+        player.numHunts++;
+        player.experience += experienceGain;
+        player.gold += goldGain;
+        player.stamina -= energylost;
+        player.currenthealth -= hplost;
+        
+    
+        // Sprawdzenie czy gracz zdobył wystarczająco dużo doświadczenia na nowy poziom
+        if (player.experience >= player.experienceToNextLevel) {
+            player.level++;
+            player.experienceMultiplier += 0.2;
+            player.maxhealth += 45;
+            player.maxstamina += 20;
+            player.luck += 0.25;
+            player.defense += 2;
+            player.hpregen += 5;
+            player.energyregen += 3;
+            player.experienceToNextLevel = calculateExperienceToNextLevel();
+            player.statPoints += 2;
+        }
+    */
+        let dungeonLevel = player.level * 10;
+        let randomFactor = 3 + Math.random() * 10;
+        let dungeonExp = Math.floor((dungeonLevel * 1000) * randomFactor);
+        let minGold = dungeonLevel * 100;
+        let maxGold = dungeonLevel * 200;
+        let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
+        let monsterAttack = dungeonLevel * 20;
+        let hplost = Math.max(monsterAttack - (player.defense), 0);
+        let energylost = Math.floor(dungeonLevel * 15);
+        
+        if (player.level >= 20){
+
+        if (player.stamina >= energylost ) {
+    
+            if (player.currenthealth > hplost) {
+
+        
+        let dungeonButton = document.getElementById("dungeon-button");
+        if (dungeonButton.disabled) {
+            return;
+          }
+          dungeonButton.disabled = true;
+          dungeonButton.textContent = `🏰 W trakcie...`;
+          setTimeout(function() {
+    
+            player.experience += dungeonExp;
+            player.gold += goldGain;
+            player.stamina -= energylost;
+            player.currenthealth -= hplost;
+            
+
+        // Zapis danych gracza w local storage
+        localStorage.setItem('player', JSON.stringify(player));
+    
         let resultElement = document.getElementById('result');
         resultElement.innerHTML = `
-        Wybrano lokację: <span style="color: #ffe77d;">${selectedLocation.name}</span>
-
+        Wybrano lokację: <span style="color: #ffe77d;">DUNGEON</span>
+        Pomyślnie ukończono walkę z wszystkimi potworami.
+        HP: - ${hplost}
+        EXP: + ${dungeonExp}
+        ZŁOTO: + ${goldGain}
+        ENERGIA: - ${energylost}
         `;
         resultElement.style.whiteSpace = "pre-line";
+    
+    
         
-
+        dungeonButton.disabled = false;
+        dungeonButton.innerHTML =`🏰 Dungeon 1`;
+        }, 15000);
+    
+        } else {
+            let resultElement = document.getElementById('messages-output');
+            let messageText = document.createElement('span');
+            messageText.textContent = `Masz za mało zdrowia! Kup miksturę!`;
+            resultElement.innerHTML = '';
+            resultElement.appendChild(messageText);
+            messageText.style.whiteSpace = "pre-line";
+            messageText.classList.add('fade-in-out');
+        }
+    
+        } else {
+            let resultElement = document.getElementById('messages-output');
+            let messageText = document.createElement('span');
+            messageText.textContent = `Masz za mało energii! Kup miksturę!`;
+            resultElement.innerHTML = '';
+            resultElement.appendChild(messageText);
+            messageText.style.whiteSpace = "pre-line";
+            messageText.classList.add('fade-in-out');
+        }
+        displayInventoryItems();
+        updatePlayerInfo();
+        calculateExperienceToNextLevel();
+    
     } else {
-        // Alert
         let resultElement = document.getElementById('messages-output');
         let messageText = document.createElement('span');
-        messageText.textContent = `Musisz mieć co najmniej poziom ${minRequiredLevel} by wybrać polowanie na terenach ${selectedLocation.name}.`;
+        messageText.textContent = `ZA NISKI LEVEL :)`;
         resultElement.innerHTML = '';
         resultElement.appendChild(messageText);
         messageText.style.whiteSpace = "pre-line";
         messageText.classList.add('fade-in-out');
-        let resultXElement = document.getElementById('result');
-        resultXElement.innerHTML = `
-        Zbyt mały poziom na lokację: <span style="color: #ffe77d;">${selectedLocation.name}</span>
-
-        `;
-        resultElement.style.whiteSpace = "pre-line";
     }
 }
 
@@ -141,17 +314,17 @@ function updateMinLevel() {
 
 function updateMonsterLevel() {
     const selectedLocation = locations[currentLocationIndex];
-    let selectedRange = `${selectedLocation.minLevel}-${selectedLocation.minLevel + 4}`;
+    let selectedRange = `${selectedLocation.minLevel}-${selectedLocation.minLevel + 9}`;
     player.monsterLevelRange = selectedRange; // Dodaj tę linię do zaktualizowania wartości
 
     // Pomocnicza funkcja getMinRequiredLevel - sprawdza minimalny poziom na podstawie zakresu
     function getMinRequiredLevel(range) {
         const minLevels = {
-            "1-5": 1,
-            "6-10": 6,
-            "11-15": 11,
-            "16-20": 16,
-            "21-30": 21
+            "1-10": 1,
+            "11-20": 11,
+            "21-30": 21,
+            "31-40": 31,
+            "41-50": 41,
         };
         return minLevels[range] || 1;
     }
@@ -173,10 +346,6 @@ function updateMonsterLevel() {
     }
 }
 
-
-
-
-
 function hunt() {
 
 
@@ -187,8 +356,8 @@ function hunt() {
     // Symulacja walki i przyznawania punktów doświadczenia oraz złota
     let xpMulti = (player.experienceMultiplier).toFixed(2);
     let monsterLevel = Math.floor(Math.random() * (maxMonsterLevel - minMonsterLevel + 1)) + minMonsterLevel;
-    let baseExperienceGain = Math.floor((player.level * 0.5) * monsterLevel * 10 * (xpMulti + player.amulet.experienceMultiplier));
-    let randomFactor = 2 + Math.random() * 6;
+    let baseExperienceGain = Math.floor( monsterLevel * 15 * (xpMulti + player.amulet.experienceMultiplier));
+    let randomFactor = 1 + Math.random() * 2;
     let amuletBonus = player.amulet.experienceMultiplier;
     let displayExp = Math.floor(baseExperienceGain * randomFactor);
     let experienceGain = Math.floor((baseExperienceGain * randomFactor) + amuletBonus);
@@ -236,15 +405,6 @@ function hunt() {
         player.experienceToNextLevel = calculateExperienceToNextLevel();
         player.statPoints += 2;
     }
-/*
-    const lootPool = [
-        { type: 'shield', name: 'Zwykła tarcza (obrona)', equipped: false, rarity: 1, boxShadow: '' },
-        { type: 'helmet', name: 'Zwykły hełm (czas regeneracji)', equipped: false, rarity: 1, boxShadow: '' },
-        { type: 'armor', name: 'Zwykła zbroja(HP)', equipped: false, rarity: 1, boxShadow: '' },
-        { type: 'belt', name: 'Zwykły pasek(regeneracja HP)', equipped: false, rarity: 1, boxShadow: '' },
-        { type: 'ring', name: 'Zwykły pierścień(regeneracja energii)', equipped: false, rarity: 1, boxShadow: '' },
-        // tu dodaj więcej itemków
-    ]; */
     
     function getRandomItem() { // RZADKOŚĆ SZANSA DROPA
         const rarityChances = {
@@ -345,7 +505,7 @@ function hunt() {
     
 
 
-    if (Math.random() < player.luck / 200) { //ogólna szansa na drop
+    if (Math.random() < player.luck / 150) { //ogólna szansa na drop
         if (!player.loot) {
             player.loot = [];
         }
@@ -394,7 +554,7 @@ function hunt() {
     let resultYElement = document.getElementById('huntButton'); //cooldown na polowanie
     huntButton.disabled = false;
     resultYElement.innerHTML =`⚔️ Poluj ⚔️`;
-    }, 30);
+    }, 5000);
 
     } else {
         let resultElement = document.getElementById('messages-output');
@@ -419,19 +579,7 @@ function hunt() {
 
 
 }
-    
 
-
-// Funkcja do obliczania doświadczenia potrzebnego do następnego poziomu
-    function calculateExperienceToNextLevel() {
-    let requiredExperience = 100;
-
-    for (let i = 2; i <= player.level; i++) {
-        requiredExperience += Math.ceil(requiredExperience++);
-    }
-
-    return requiredExperience;
-}
 function updatePlayerInfo() {
     let experienceBar = document.getElementById('experience-bar');
     let expInfo = document.getElementById('exp-info');
@@ -645,9 +793,9 @@ function upgradeAmulet() {
         player.gold -= player.amulet.upgradeCost;
         player.amulet.level++;
 
-        player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.1);
+        player.amulet.upgradeCost = Math.floor(player.amulet.upgradeCost * 1.05);
 
-        player.amulet.experienceMultiplier += 100; //
+        player.amulet.experienceMultiplier += 250; //
         updatePlayerInfo();
         localStorage.setItem('player', JSON.stringify(player));
 
@@ -1174,7 +1322,7 @@ function resetLevel() {
     player.vitality = 0,
     player.agility = 0,
     player.intelligence = 0,
-    player.monsterLevelRange = "1-5"; // Dodaj tę linię z domyślną lokalizacją
+    player.monsterLevelRange = "1-10"; // Dodaj tę linię z domyślną lokalizacją
 
 
     localStorage.setItem('player', JSON.stringify(player));

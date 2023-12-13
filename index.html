@@ -42,18 +42,31 @@
         <div class="playground-container">
             <div id="loc-bar">
                 <div id="location-info">
-                    <p>Lokacja:</p> 
+                    <label for="location-type">Wybierz:</label>
+                    <select id="location-type" onchange="changeLocationType()">
+
+                        <option value="locations">Lokacje</option>
+                        <option value="dungeons">Dungeony</option>
+                    </select>
                     <br>
                     <span id="selected-location"></span>
                     <br>
-                </div>
+                
                 <div id="level-buttons">
-                    <button class="location-button" onclick="changeLocation(0)">⛺ Bagna</button>
-                    <button class="location-button" onclick="changeLocation(1)">🌲 Ciemny Las</button>
-                    <button class="location-button" onclick="changeLocation(2)">🕳️ Jaskinie</button>
-                    <button class="location-button" onclick="changeLocation(3)">⛰️ Mgliste Góry</button>
-                    <button class="location-button" onclick="changeLocation(4)">🏜️ Pustynia </button>
+                    <!-- Buttons for Locations -->
+                    <div id="locations-buttons">
+                        <button class="location-button" onclick="changeLocation(0)">⛺ Bagna</button>
+                        <button class="location-button" onclick="changeLocation(1)">🌲 Ciemny Las</button>
+                        <button class="location-button" onclick="changeLocation(2)">🕳️ Jaskinie</button>
+                        <button class="location-button" onclick="changeLocation(3)">⛰️ Mgliste Góry</button>
+                        <button class="location-button" onclick="changeLocation(4)">🏜️ Pustynia </button>
+                    </div>
+                    <!-- Buttons for Dungeons -->
+                    <div id="dungeons-buttons" style="display: none;">
+                        <button id="dungeon-button" class="location-button" onclick="dungeonHunt()">🏰 Dungeon 1</button>
+                    </div>
                 </div>
+            </div>
             </div>
             <div id="amulet" title="Amulet zwiększa zdobywany Exp." class="amulet">
                 <i class="bx bxs-analyse bx-md" style="color:crimson;"></i>
