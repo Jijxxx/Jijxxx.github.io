@@ -19,6 +19,7 @@ words = [
     "trzecia droga",
     "kontrolery",
     "fajerwerki",
+    "Cichopek znowu coś pierdoli",
    /* "eeee",
     "ffff",
     "gggg"*/
