@@ -497,10 +497,10 @@ function hunt() {
     let monsterName = getMonsterName(monsterLevel);
     resultElement.innerHTML = `~ Walka z potworem ~<br>
         <span style="color: #ffe77d;">${monsterName}</span> (lvl: <span style="color: #7fc1ff;">${monsterLevel}</span>, atak: <span style="color: #ff7158;">${monsterAttack}</span>) <br>
-        Twoja obrona: ${player.defense}, otrzymujesz <span style="color: rgb(255, 114, 58)">${hplost}</span> punktów obrażeń!<br>
-        Zdobyto <span style="color: rgb(30, 238, 30);">${displayExp}</span> doświadczenia<br>
-        Bonus amuletu: <span style="color: rgb(30, 238, 30);">${amuletBonus}</span> doświadczenia<br>
-        Znaleziono <span style="color: #ffd000bb;">${goldGain}</span> sztuk złota<br>
+        Twoja obrona: ${player.defense}, otrzymujesz <span style="color: rgb(255, 114, 58)">${hplost}</span> punktów obrażeń!
+        Zdobyto <span style="color: rgb(30, 238, 30);">${displayExp}</span> doświadczenia
+        Bonus amuletu: <span style="color: rgb(30, 238, 30);">${amuletBonus}</span> doświadczenia
+        Znaleziono <span style="color: #ffd000bb;">${goldGain}</span> sztuk złota
         Wykorzystano <span style="color: #cb7cff;">${energylost}</span> energii.`;
         resultElement.style.whiteSpace = "pre-line";
 
