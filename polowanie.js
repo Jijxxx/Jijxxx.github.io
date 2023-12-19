@@ -167,46 +167,6 @@ function calculateExperienceToNextLevel() { //exp do nastepnego levela
 }
 
 function dungeonHunt() {
-    /*
-    
-        if (player.stamina >= energylost ) {
-    
-            if (player.currenthealth > hplost) {
-    
-            
-        let huntButton = document.getElementById("huntButton");
-        if (huntButton.disabled) {
-            return;
-          }
-          let resultZElement = document.getElementById('huntButton');
-          resultZElement.textContent = `⚔️ Trwa polowanie... ⚔️`;
-          huntButton.disabled = true;
-    
-          setTimeout(function() {
-    
-            
-        // Aktualizacja danych gracza
-        player.numHunts++;
-        player.experience += experienceGain;
-        player.gold += goldGain;
-        player.stamina -= energylost;
-        player.currenthealth -= hplost;
-        
-    
-        // Sprawdzenie czy gracz zdobył wystarczająco dużo doświadczenia na nowy poziom
-        if (player.experience >= player.experienceToNextLevel) {
-            player.level++;
-            player.experienceMultiplier += 0.2;
-            player.maxhealth += 45;
-            player.maxstamina += 20;
-            player.luck += 0.25;
-            player.defense += 2;
-            player.hpregen += 5;
-            player.energyregen += 3;
-            player.experienceToNextLevel = calculateExperienceToNextLevel();
-            player.statPoints += 2;
-        }
-    */
         let dungeonLevel = player.level * 10;
         let randomFactor = 3 + Math.random() * 10;
         let dungeonExp = Math.floor((dungeonLevel * 1000) * randomFactor);
@@ -215,7 +175,7 @@ function dungeonHunt() {
         let goldGain = Math.floor(Math.random() * (maxGold - minGold)) + minGold; // Przyznane złoto
         let monsterAttack = dungeonLevel * 20;
         let hplost = Math.max(monsterAttack - (player.defense), 0);
-        let energylost = Math.floor(dungeonLevel * 15);
+        let energylost = Math.floor(dungeonLevel * 10);
         
         if (player.level >= 20){
 
@@ -228,8 +188,8 @@ function dungeonHunt() {
         if (dungeonButton.disabled) {
             return;
           }
+          dungeonButton.textContent = `⚔️ Trwa ⚔️`;
           dungeonButton.disabled = true;
-          dungeonButton.textContent = `🏰 W trakcie...`;
           setTimeout(function() {
     
             player.experience += dungeonExp;
@@ -243,20 +203,20 @@ function dungeonHunt() {
     
         let resultElement = document.getElementById('result');
         resultElement.innerHTML = `
-        Wybrano lokację: <span style="color: #ffe77d;">DUNGEON</span>
+        Raport po walce w dungeonie: <span style="color: #ffe77d;">Podziemia 1</span>
         Pomyślnie ukończono walkę z wszystkimi potworami.
-        HP: - ${hplost}
-        EXP: + ${dungeonExp}
-        ZŁOTO: + ${goldGain}
-        ENERGIA: - ${energylost}
+        Otrzymujesz <span style="color: rgb(255, 114, 58)">${hplost}</span> punktów obrażeń!
+        Zdobyto <span style="color: rgb(30, 238, 30);">${dungeonExp}</span> doświadczenia
+        Znaleziono <span style="color: #ffd000bb;">${goldGain}</span> sztuk złota<br>
+        Wykorzystano <span style="color: #cb7cff;">${energylost}</span> energii.
         `;
         resultElement.style.whiteSpace = "pre-line";
     
     
         
         dungeonButton.disabled = false;
-        dungeonButton.innerHTML =`🏰 Dungeon 1`;
-        }, 15000);
+        dungeonButton.innerHTML =`🏰 Podziemia`;
+        }, 1000 * 60 * 1); //cooldown dungeon
     
         } else {
             let resultElement = document.getElementById('messages-output');
@@ -538,8 +498,8 @@ function hunt() {
     resultElement.innerHTML = `~ Walka z potworem ~<br>
         <span style="color: #ffe77d;">${monsterName}</span> (lvl: <span style="color: #7fc1ff;">${monsterLevel}</span>, atak: <span style="color: #ff7158;">${monsterAttack}</span>) <br>
         Twoja obrona: ${player.defense}, otrzymujesz <span style="color: rgb(255, 114, 58)">${hplost}</span> punktów obrażeń!<br>
-        Zdobyto <span style="color: #ffa6008f;">${displayExp}</span> doświadczenia<br>
-        Bonus amuletu: <span style="color: #ffa6008f;">${amuletBonus}</span> doświadczenia<br>
+        Zdobyto <span style="color: rgb(30, 238, 30);">${displayExp}</span> doświadczenia<br>
+        Bonus amuletu: <span style="color: rgb(30, 238, 30);">${amuletBonus}</span> doświadczenia<br>
         Znaleziono <span style="color: #ffd000bb;">${goldGain}</span> sztuk złota<br>
         Wykorzystano <span style="color: #cb7cff;">${energylost}</span> energii.`;
         resultElement.style.whiteSpace = "pre-line";
@@ -554,7 +514,7 @@ function hunt() {
     let resultYElement = document.getElementById('huntButton'); //cooldown na polowanie
     huntButton.disabled = false;
     resultYElement.innerHTML =`⚔️ Poluj ⚔️`;
-    }, 5000);
+    }, 50);
 
     } else {
         let resultElement = document.getElementById('messages-output');

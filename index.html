@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="swieta.css">
     <link rel="stylesheet" href="index.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>HuntME</title>
+    <title>HuntJX</title>
 </head>
 <body>
 <!-- -->
+
     <div class="top-container">
-       
+
             <div id="level-img">
                 <div id="level-info" class="info-box" data-level="1">
                     <span>Poziom: <span id="player-level">1</span></span>
@@ -40,6 +42,14 @@
     <!-- -->
         <div class="container-wrapper">
         <div class="playground-container">
+            <div class="snow-container">
+                <div class="snow foreground"></div>
+                <div class="snow foreground layered"></div>
+                <div class="snow middleground"></div>
+                <div class="snow middleground layered"></div>
+                <div class="snow background"></div>
+                <div class="snow background layered"></div>
+              </div>
             <div id="loc-bar">
                 <div id="location-info">
                     <label for="location-type">Wybierz:</label>
@@ -63,7 +73,7 @@
                     </div>
                     <!-- Buttons for Dungeons -->
                     <div id="dungeons-buttons" style="display: none;">
-                        <button id="dungeon-button" class="location-button" onclick="dungeonHunt()">🏰 Dungeon 1</button>
+                        <button id="dungeon-button" class="dungeon-button" onclick="dungeonHunt()">🏰 Podziemia</button>
                     </div>
                 </div>
             </div>
@@ -75,7 +85,7 @@
                 </div>
 
         <div class="game-container">
-            <h1>HuntME</h1>
+            <h1>HuntJX</h1>
             <button id="huntButton" onclick="hunt()" style="margin-bottom: 10px;"> ⚔️ Poluj ⚔️ </button>
             <div id="result"></div>
         </div>

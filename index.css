@@ -577,6 +577,26 @@ button {
     box-shadow: inset 0px 0px 20px 10px rgba(0, 0, 0, 0.726);
     transition: all 0.5s ease-in-out;
 }
+.dungeon-button {
+    position: relative;
+    height: 55px;
+    width: 80px;
+    margin: 5px;
+    border-radius: 16px;
+    border: none;
+    font-size: 10px;
+    font: Roboto;
+    cursor: pointer;
+    color:#fff;
+    text-align:center;
+    background: rgba(0, 177, 201, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: box-shadow 0.3s ease-in-out;
+}
+.dungeon-button:hover {
+    box-shadow: inset 0px 0px 15px 5px rgba(0, 255, 255, 0.719);
+}
 @keyframes resultAnimation {
     0% { transform: scale(1); }
     25% { transform: scale(1.1); }
@@ -605,6 +625,7 @@ button {
     0%   {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
     50%  {font-size:37px; color: rgb(255, 255, 255); font-family:cursive;}
     100% {font-size:37px; color: rgb(0, 0, 0); font-family:cursive;}
+
 }
 .resultX {
     border-radius: 8px;
@@ -761,6 +782,8 @@ button {
     text-align: center;
 }
 
+
+/* święta :) */
 
 
 
