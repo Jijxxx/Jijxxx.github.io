@@ -22,7 +22,6 @@ body {
 }
 td {
     position:relative;
-    left:600px;
     top:50%;
     padding:25px 25px;
     border-radius:6px;
