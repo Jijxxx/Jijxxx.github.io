@@ -1,4 +1,21 @@
 words = [
+    "Życzenia świąteczne",
+    "Rodzinna atmosfera",
+    "Ogrom pracy/dużo pracy",
+    "Projekty",
+    "W przyszłym roku..",
+    "Nawzajem",
+    "Osiągneliśmy..",
+    "Nowy rok",
+    "Wigilia",
+    "Fajerwerki",
+    "Powiedzmy sobie..",
+    "Oddaje głos ...",
+    "Dwa słowa od..",
+    "Prezenty",
+    "Ktoś ma tło świąteczne",
+    "Czapka mikołaja",
+    /*
     "Cześ, witam z Legnicy",
     "ciekawa sytuacja...",
     "hi hi hi",
@@ -20,7 +37,7 @@ words = [
     "kontrolery",
     "fajerwerki",
     "Cichopek znowu coś pierdoli",
-   /* "eeee",
+    "eeee",
     "ffff",
     "gggg"*/
     ];
