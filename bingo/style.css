@@ -29,7 +29,7 @@ td {
     width: 50px;
     color: #fff;
     word-wrap: nowrap;
-    background: rgba(117, 0, 86, 0.85);
+    background: rgba(50,140,1,1);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.7px);
