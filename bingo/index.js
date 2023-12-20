@@ -15,6 +15,8 @@ words = [
     "Prezenty",
     "Ktoś ma tło świąteczne",
     "Czapka mikołaja",
+    "Nowak zabiera głos",
+    "Ktoś nie wyłączył mikro",
     /*
     "Cześ, witam z Legnicy",
     "ciekawa sytuacja...",
