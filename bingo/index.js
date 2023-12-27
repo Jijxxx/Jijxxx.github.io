@@ -1,6 +1,6 @@
 words = [
     "Pczekaj pczekaj pczekaj",
-    "Rodzinna atmosfera",
+    "Borowski jest idiotą",
     "Ogrom pracy/dużo pracy",
     "Projekty",
     "W przyszłym roku..",
@@ -15,7 +15,7 @@ words = [
     "Prezenty",
     "Ktoś ma tło świąteczne",
     "Czapka mikołaja",
-    "Nowak zabiera głos",
+    "Adaś kręci głową",
     "Cichopek coś pierdoli",
     /*
     "Cześ, witam z Legnicy",
