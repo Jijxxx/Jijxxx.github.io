@@ -11,7 +11,7 @@ words = [
     "Fajerwerki",
     "Smartway",
     "Na platanie..",
-    "Dwa słowa od..",
+    "hi hi hi",
     "Prezenty",
     "Ktoś ma tło świąteczne",
     "Czapka mikołaja",
