@@ -21,6 +21,10 @@ words = [
     "ODDAJ KURWA XIBO",
     "SZKOLENIA JEBANE PRZEZ ZONTKA",
     "VAT SRAT",
+    "Krzaczastobrewa XD",
+    "Czoło Broya",
+    "BILANSE LATAWCE WIATR",
+    "DRUKARKI",
     /*
     "Cześ, witam z Legnicy",
     "ciekawa sytuacja...",
@@ -59,9 +63,9 @@ function generate() {
         return;
     
     var html = '<table border="0">';
-    for(var y = 0; y < 4; y++) {
+    for(var y = 0; y < 5; y++) {
         html += "<tr>"
-        for(var x = 0; x < 4; x++) {
+        for(var x = 0; x < 5; x++) {
             do {
                 var i = Math.round(Math.random() * (words.length - 1));
                 var word = words[i];
