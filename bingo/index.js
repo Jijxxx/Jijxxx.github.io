@@ -20,6 +20,7 @@ words = [
     "RODO",
     "ODDAJ KURWA XIBO",
     "SZKOLENIA JEBANE PRZEZ ZONTKA",
+    "VAT SRAT",
     /*
     "Cześ, witam z Legnicy",
     "ciekawa sytuacja...",
