@@ -19,6 +19,7 @@ body {
     font-family:Verdana;
     margin-left:20px;
     margin-right:20px;
+    scale:0.9;
 }
 td {
     position:relative;
