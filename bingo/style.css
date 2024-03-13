@@ -28,6 +28,7 @@ td {
     width: 150px;
     color: #fff;
     font-size: 18px;
+    margin: 6px;
     word-wrap: nowrap;
     background: rgba(56,88,11,0.75);
     border-radius: 24px;
