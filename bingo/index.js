@@ -5,7 +5,7 @@ words = [
     "Synergia",
     "Cichopek gra w statki",
     "Nowak szuka problemu",
-    "bizerba",
+    "MAJKA SALES PIERDALES",
     "zadania centralne",
     "pczekaj pczekaj pczekaj",
     "cześ witam z legnicy",
@@ -18,6 +18,8 @@ words = [
     "Adaś kręci głową",
     "WAJLAND",
     "RODO",
+    "ODDAJ KURWA XIBO",
+    "SZKOLENIA JEBANE PRZEZ ZONTKA",
     /*
     "Cześ, witam z Legnicy",
     "ciekawa sytuacja...",
