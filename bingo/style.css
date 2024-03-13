@@ -23,11 +23,11 @@ body {
 td {
     position:relative;
     top:65%;
-    padding:30px 30px;
+    padding:25px 25px;
     height: 150px;
     width: 150px;
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     margin: 6px;
     word-wrap: nowrap;
     background: rgba(56,88,11,0.75);
