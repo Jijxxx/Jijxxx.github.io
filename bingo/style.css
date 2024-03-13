@@ -78,4 +78,11 @@ form {
     left:50%;
     transform:translate(-50%,-50%);
 }
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+    min-width:70px;
+    min-height:70px;
+}
 
