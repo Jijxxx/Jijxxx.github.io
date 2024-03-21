@@ -1,208 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="swieta.css">
-    <link rel="stylesheet" href="index.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>HuntJX</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9">
+  <link rel="stylesheet" href="styles.css">
+  <title>Asystent Dyżurów by JX</title>
 </head>
 <body>
-<!-- -->
+    <canvas id="c"></canvas>
 
-    <div class="top-container">
+        <div class="container">
+            <p> ~#~ Witaj przybyszu w asystencie dyżurów ~#~ </p>
+            <br>
 
-            <div id="level-img">
-                <div id="level-info" class="info-box" data-level="1">
-                    <span>Poziom: <span id="player-level">1</span></span>
-                </div>
-                <div id="exp-info" class="info-box">
-                <span id="current-exp">0</span> / <span id="exp-needed">100</span>
-                  </div>
-            </div>
-
-            <div id="energy-img">
-                <div id="stamina-info" data-level="1">
-                <span id="stamina-amount">100</span>
-                </div>
-            </div>
-            <div id="hp-img">
-                <div id="health-info">
-                <span id="health-amount">200</span> / <span id="max-health"></span>
-                </div>
-            </div>
-            <div class="hp-potion" id="hp-potion">
-            <button title="Kup miksturę zdrowia." onclick="buyHP()" style="background:0; opacity: 0;width:100%; height:100%;"></button>
-            </div>
-            <div class="stam-potion" id="stam-potion">
-                <button title="Kup miksturę energii." onclick="buyEnergy()" style="background:0; opacity: 0;width:100%; height:100%;"></button>
-            </div>
-    </div>
-    <!-- -->
-        <div class="container-wrapper">
-        <div class="playground-container">
-            <div class="snow-container">
-                <div class="snow foreground"></div>
-                <div class="snow foreground layered"></div>
-                <div class="snow middleground"></div>
-                <div class="snow middleground layered"></div>
-                <div class="snow background"></div>
-                <div class="snow background layered"></div>
-              </div>
-            <div id="loc-bar">
-                <div id="location-info">
-                    <label for="location-type">Wybierz:</label>
-                    <select id="location-type" onchange="changeLocationType()">
-
-                        <option value="locations">Lokacje</option>
-                        <option value="dungeons">Dungeony</option>
-                    </select>
-                    <br>
-                    <span id="selected-location"></span>
-                    <br>
-                
-                <div id="level-buttons">
-                    <!-- Buttons for Locations -->
-                    <div id="locations-buttons">
-                        <button class="location-button" onclick="changeLocation(0)">⛺ Bagna</button>
-                        <button class="location-button" onclick="changeLocation(1)">🌲 Ciemny Las</button>
-                        <button class="location-button" onclick="changeLocation(2)">🕳️ Jaskinie</button>
-                        <button class="location-button" onclick="changeLocation(3)">⛰️ Mgliste Góry</button>
-                        <button class="location-button" onclick="changeLocation(4)">🏜️ Pustynia </button>
-                    </div>
-                    <!-- Buttons for Dungeons -->
-                    <div id="dungeons-buttons" style="display: none;">
-                        <button id="dungeon-button" class="dungeon-button" onclick="dungeonHunt()">🏰 Podziemia</button>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div id="amulet" title="Amulet zwiększa zdobywany Exp." class="amulet">
-                <i class="bx bxs-analyse bx-md" style="color:crimson;"></i>
-                <div id="amulet-multiplier" style="font-size: 10px;"><br><br>1<br></div>
-                <span style="font: Roboto;text-decoration: underline; font-size: 12px; cursor:pointer; color:gold;" onclick="upgradeAmulet()">Ulepsz Amulet</span>
-                </div>
-
-        <div class="game-container">
-            <h1>HuntJX</h1>
-            <button id="huntButton" onclick="hunt()" style="margin-bottom: 10px;"> ⚔️ Poluj ⚔️ </button>
-            <div id="result"></div>
-        </div>
-        
-        <div id="messages-container">
-            <span>
-                <span style="color: white; text-decoration: underline; font-family:Verdana, Geneva, Tahoma, sans-serif; align-items:center; font-size: 11px; margin-left:10px;">
-                ~Wiadomości systemowe:</span>
-                <div id="messages-output"> CTRL + F5 JEŚLI COŚ SIĘ ZESRAŁO.
-                </div>
-            </span>
-        </div>
-
-    </div>
-<!-- -->
-
-    <div class="ui-wrapper">
-        <div class="ui-container">
-            <div class="ui-topbar">
-                
-                <button id="inventory-button" onclick="toggleInventory()" style="color: gray; scale:0.8; left:0; background-color: #fff;">Plecak 🎒</button>
-                <button onclick="togglePointsPanel()" style="margin-left:-24px; color: gray; scale:0.8; left:0; background-color: #fff;">Punkty ⚖️</button>
-                <button id="stats-button" onclick="toggleStats()" style="margin-left:-24px; color: gray; scale:0.8; left:0; background-color: #fff;">Statystyki 📖</button>
-                <button id="admin-button" onclick="toggleDevPanel()" style="margin-left:-24px; color: gray; scale:0.8;left:0; background-color: #fff;">Dev 🧙🏼</button>
-                <button style="margin-left: -10px; font-size: 14px;scale:0.78; left:0; background-color: rgb(255, 235, 124);">💰 <span id="gold-amount" onclick="muzyczka()"></span></button>
-
-        </div>
-
-            <div id="admin-panel" class="admin-panel">
-                <button onclick="adminAddGold()">+Złoto</button>
-                <button onclick="adminAddLevel()">+Level</button>
-                <button onclick="adminAddAmuletLvl()">+AmuLevel</button>
-                <button onclick="adminAddHP()">+HP</button>
-                <button onclick="adminAddStamina()">+Energia</button>
-                <button onclick="resetLevel()">Reset</button>
-            </div>
-
-            <div id="inventory-modal" style="display:none;">
-                <div class="modal-content">
-                    <h2>Twoje przedmioty:</h2>
-                    <span><div class="inventory-divider"></div></span>
-                    <h3>Założone przedmioty:</h3>
-                    <div id="equipped-items-container" class="inventory-container"></div>
-                    
-                    <span><div class="inventory-divider"></div></span>
-                    <h3>Sprzedaj nieużywane przedmioty:</h3>
-                    <button onclick="sellItems()" style="width: 100%; background: rgb(255, 234, 0); font-size:22px; font: Roboto; color: #000000;">💰 Sprzedaj 💰</button>
-                    <h3>Posiadane przedmioty:</h3>
-                    <div id="unequipped-items-container" class="inventory-container"></div>
-                    <span><div class="inventory-divider"></div></span>
-                        
-                   
-                </div>
-            </div>
-
-                <div id="player-stats" class="player-stats">
-                    <span style="color: #888888">___________________________</span>
-                    <br><br>
-                    <span style="color:coral">Statystyki:</span>
-                    <span><br></span>
-                    <span><br>Liczba polowań: <span id="num-hunts">0</span></span>
-                    <span><br>Szczęście: <span id="player-luck">1</span></span>
-                    <span><br>Obrona: <span id="player-defense">1</span></span>
-                    <span><br>Odnawianie HP: +<span id="player-hpregen"></span></span>
-                    <span><br>Odnawianie energii: +<span id="player-energyregen"></span></span>
-                    <span style="color: #888888">___________________________</span>
-                    <br>
-                    <!-- -->
-                </div>
-
-                <div id="stat-points-container" class="stat-points-container">
-                    <h2>Punkty: <span id="stat-points">[0]</span></h2> 
-                    <div class="stat-row">
-                        <button title = "+5 Obrony" class="statbtn">Odporność: </button>
-                        <button class="pointsbtn" id="strength-value" style="margin-left:5px;">[0]</button>
-                        <button onclick="increaseStat('strength')" class="plusbtn">➕</button>
-                    </div>
-                    <div class="stat-row">
-                        <button title = "+150 HP, +10 regeneracji" class="statbtn">Witalność: </button>
-                        <button class="pointsbtn" id="vitality-value"style="margin-left:12px;">[0]</button>
-                        <button onclick="increaseStat('vitality')" class="plusbtn">➕</button>
-                    </div>
-                    <div class="stat-row">
-                        <button title = "+2 Szczęścia" class="statbtn">Zręczność: </button>
-                        <button class="pointsbtn" id="agility-value" style="margin-left:9px;">[0]</button>
-                        <button onclick="increaseStat('agility')" class="plusbtn">➕</button>
-                    </div>
-                    <div class="stat-row">
-                        <button title = "+50 energii, +8 regeneracji" class="statbtn">Inteligencja: </button>
-                        <button class="pointsbtn" id="intelligence-value" style="margin-left:6px;">[0]</button>
-                        <button onclick="increaseStat('intelligence')" class="plusbtn">➕</button>
-                    </div>
-                </div>
+            <label for="region-select" style="font-size:16px;">Wybierz region:</label>
+            <select id="region-select">
+                <option value="default">------</option>
+                <!-- <option value="1">Region 1</option> -->
+                <option value="2">Region 2</option>
+            </select>
 
             </div>
 
-
-            
-
-            <!-- Wybór lokacji -->
-
-
-            <div id="resultX" class="info-box2"></div>
-            <div id="experience-bar-container">
-                <div id="experience-bar"></div>
-                <audio id="myAudio" autoplay loop>
-                    <source src="imgs/dion.mp3" type="audio/mp3">
-                </audio>
-            </div>
-
-        </div>
-        
-        </div>
+        <div class="link-container">
+            <p> Wybierz region </p>
+            </div> 
 
 
 
-    <script src="polowanie.js"></script>
+
     
+    <script src="index.js"></script>
 </body>
 </html>
