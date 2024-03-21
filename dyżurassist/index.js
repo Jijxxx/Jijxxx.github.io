@@ -1,53 +1,66 @@
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
 
-//making the canvas full screen
 c.height = window.innerHeight-20;
 c.width = window.innerWidth-20;
 
-//chinese characters - taken from the unicode charset
 var matrix = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
-//converting the string into an array of single characters
 matrix = matrix.split("");
 
 var font_size = 8;
-var columns = c.width/font_size; //number of columns for the rain
-//an array of drops - one per column
+var columns = c.width/font_size;
 var drops = [];
-//x below is the x coordinate
-//1 = y co-ordinate of the drop(same for every drop initially)
 for(var x = 0; x < columns; x++)
     drops[x] = 1; 
 
-//drawing the characters
 function draw()
 {
-    //Black BG for the canvas
-    //translucent BG to show trail
+
     ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
     ctx.fillRect(0, 0, c.width, c.height);
 
-    ctx.fillStyle = "#2aa75c";//green text
+    ctx.fillStyle = "#2aa75c";
     ctx.font = font_size + "px arial";
-    //looping over drops
+    
     for(var i = 0; i < drops.length; i++)
     {
-        //a random chinese character to print
+
         var text = matrix[Math.floor(Math.random()*matrix.length)];
-        //x = i*font_size, y = value of drops[i]*font_size
+
         ctx.fillText(text, i*font_size, drops[i]*font_size);
 
-        //sending the drop back to the top randomly after it has crossed the screen
-        //adding a randomness to the reset to make the drops scattered on the Y axis
         if(drops[i]*font_size > c.height && Math.random() > 0.975)
             drops[i] = 0;
 
-        //incrementing Y coordinate
         drops[i]++;
     }
 }
 
 setInterval(draw, 45);
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+    let keyPressedY = false;
+    let keyPressedT = false;
+
+    
+    document.addEventListener('keydown', function(event) {
+        
+        if (event.key === 'y') {
+            keyPressedY = true;
+        } else if (event.key === 't') {
+            keyPressedT = true;
+        }
+
+        
+        if (keyPressedY && keyPressedT) {
+            window.open('https://youtube.com', '_blank');
+            
+            keyPressedY = false;
+            keyPressedT = false;
+        }
+    });
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const regionSelect = document.getElementById('region-select');
@@ -58,19 +71,15 @@ document.addEventListener('DOMContentLoaded', function () {
         updateLinks(selectedRegion);
     });
 
-    function updateLinks(region) {
-        // Usuń wszystkie aktualne przyciski z link-container
+    function updateLinks(region) { 
         linkContainer.innerHTML = '';
-
-        // Pobierz zestaw linków dla wybranego regionu
         const links = getLinksForRegion(region);
-        
-        // Dodaj każdy link do link-container
+           
         links.forEach(link => {
             const button = document.createElement('button');
             button.textContent = link.text;
-            button.classList.add('custom-button'); // Dodaj klasę dla stylów CSS
-            button.style.backgroundImage = `url('${link.image}')`; // Ustaw obrazek jako tło
+            button.classList.add('custom-button'); 
+            button.style.backgroundImage = `url('${link.image}')`; 
             button.addEventListener('click', function() {
                 window.open(link.url, '_blank');
             });
@@ -94,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { text: "Link 10", url: "https://example.com/link2", image: "url_do_obrazka2.jpg" },
                 { text: "Link 11", url: "https://example.com/link1", image: "url_do_obrazka1.jpg" },
                 { text: "Link 12", url: "https://example.com/link2", image: "url_do_obrazka2.jpg" },
-                // Dodaj więcej linków dla regionu 1
+                
             ],
             "2": [
                 { text: "Checklista", url: "https://docs.google.com/spreadsheets/d/1wdj8Yr5MX_zI12Y8YWmBuMXv5YB2uUSrN8_OPAyKsLc/edit#gid=659437804", image: "img/checklista.jpg" },
@@ -111,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { text: "RDM Supery", url: "http://rdmsuper.pl.auchan.com/RDM/index.php/main/login", image: "img/rdm.jpg" },
                 { text: "GLPI Region2", url: "https://glpi24.pl.auchan.com/glpi/front/ticket.php?is_deleted=0&as_map=0&criteria%5B0%5D%5Blink%5D=AND&criteria%5B0%5D%5Bfield%5D=12&criteria%5B0%5D%5Bsearchtype%5D=equals&criteria%5B0%5D%5Bvalue%5D=notold&criteria%5B2%5D%5Blink%5D=AND&criteria%5B2%5D%5Bfield%5D=8&criteria%5B2%5D%5Bsearchtype%5D=contains&criteria%5B2%5D%5Bvalue%5D=IT_Region_2&search=Szukaj&itemtype=Ticket&start=0&_glpi_csrf_token=524ec8d44df313c8af1d63f61fad614b58bf6a8dd0e81e55bb769836fe7d3bbc", image: "img/glpi.jpg" },
                 { text: "Numery kontaktowe", url: "https://docs.google.com/spreadsheets/d/155TdDFoT14MV3SAajNUBAsr1ggLS9BStSLVX54Vx6D4/edit#gid=761316521", image: "img/baza.jpg" },
-                // Dodaj więcej linków dla regionu 2
+                
             ],
             "default": [
                 { text: "Wybierz poprawny region :)", url:"", image: ""},
@@ -119,17 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Dodaj więcej zestawów linków dla innych regionów
         };
 
-        // Jeśli nie ma zestawu linków dla danego regionu, zwróć pustą tablicę
+        
         return links[region] || [];
     }
-    document.addEventListener('DOMContentLoaded', function () {
-    // Nasłuchujemy zdarzenia naciśnięcia klawiszy na całym dokumencie
-    document.addEventListener('keydown', function(event) {
-        // Sprawdzamy czy naciśnięty klawisz to "y" lub "t"
-        if (event.key === 'y' || event.key === 't') {
-            // Otwieramy nowe okno przeglądarki z adresem URL https://youtube.com
-            window.open('https://youtube.com', '_blank');
-        }
-    });
-});
 });
