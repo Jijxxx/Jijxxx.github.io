@@ -122,4 +122,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Jeśli nie ma zestawu linków dla danego regionu, zwróć pustą tablicę
         return links[region] || [];
     }
+    document.addEventListener('DOMContentLoaded', function () {
+    // Nasłuchujemy zdarzenia naciśnięcia klawiszy na całym dokumencie
+    document.addEventListener('keydown', function(event) {
+        // Sprawdzamy czy naciśnięty klawisz to "y" lub "t"
+        if (event.key === 'y' || event.key === 't') {
+            // Otwieramy nowe okno przeglądarki z adresem URL https://youtube.com
+            window.open('https://youtube.com', '_blank');
+        }
+    });
+});
 });
