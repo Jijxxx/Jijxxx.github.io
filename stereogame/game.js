@@ -9,7 +9,17 @@ const stereograms = [
   { src: 'stereos/stereogram7.jpg', answer: 'świnia' },
   { src: 'stereos/stereogram8.jpg', answer: 'ryba' },
   { src: 'stereos/stereogram9.jpg', answer: 'budda' },
-  // Dodaj więcej stereogramów i odpowiedzi tutaj
+  { src: 'stereos/stereogram10.jpg', answer: 'twarz' },
+  { src: 'stereos/stereogram11.jpg', answer: 'kaczka' },
+  { src: 'stereos/stereogram12.jpg', answer: 'smok' },
+  { src: 'stereos/stereogram13.jpg', answer: 'dinozaur' },
+  { src: 'stereos/stereogram14.jpg', answer: 'osa' },
+  { src: 'stereos/stereogram15.jpg', answer: 'niedźwiedź' },
+  { src: 'stereos/stereogram16.jpg', answer: 'gitara' },
+  { src: 'stereos/stereogram17.jpg', answer: 'auto' },
+  { src: 'stereos/stereogram18.jpg', answer: 'armata' },
+  { src: 'stereos/stereogram19.jpg', answer: 'fontanna' },
+  { src: 'stereos/stereogram20.jpg', answer: 'serce' },
 ];
 
 function startGame() {
