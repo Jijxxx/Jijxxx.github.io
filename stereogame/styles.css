@@ -1,0 +1,139 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  .large-header {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #333;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    z-index: 1;
+    transition: filter 0.3s;
+  }
+  
+  #large-header {
+    background-image: url("1bg.jpg");
+    background-size: cover;
+    height: 100%;
+  }
+  
+  .main-title {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    color: #f9f1e9;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+  }
+  
+  .demo-1 .main-title {
+    text-transform: uppercase;
+    font-size: 4.2em;
+    letter-spacing: 0.1em;
+  }
+  
+  .main-title .thin {
+    font-weight: 200;
+  }
+
+  .main-title .ultrathin {
+    font-weight: 50;
+    font-size: 0.7em;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .demo-1 .main-title {
+      font-size: 3em;
+    }
+  }
+
+  .start-button {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    font-size: 1.5em;
+    color: #fff;
+    background: rgba(0, 105, 146, 0.8);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8.5px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  
+  .start-button:hover {
+    background: rgba(0, 105, 146, 0.2);
+
+  }
+
+  .game-container {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 2;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  
+  .game-container img {
+    max-width: 100%;
+    border: 2px solid #fff;
+    border-radius: 5px;
+  }
+  
+  .answer-input {
+    width: calc(50% - 40px);
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+  }
+  
+  .submit-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(0, 105, 146, 0.8);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    visibility:visible;
+  }
+  
+  .submit-button:hover {
+    background: rgba(0, 105, 146, 0.2);
+    transform: scale(1.1);
+  }
+  
+  .submit-button:active {
+    transform: scale(1.05);
+  }
+  
+  .feedback {
+    color: #fff;
+    font-size: 1.2em;
+    margin-top: 10px;
+  }

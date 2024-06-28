@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9">
+  <link rel="stylesheet" href="styles.css">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+  <title>StereoGame by Jix</title>
+</head>
+<body>
+  <div id="large-header" class="large-header">
+    <canvas id="demo-canvas"></canvas>
+    <h1 class="main-title">Stereo<span class="thin"> Game</span></h1>
+    <h1 class="main-title"><span class="ultrathin"><br><br>By Jix</span></h1>
+    <button class="start-button" onclick="startGame()">Zacznij grę</button>
+  </div>
+
+  <div id="game-container" class="game-container">
+    <img id="stereogram" src="" alt="Stereogram">
+    <input type="text" id="answer-input" class="answer-input" placeholder="Co widzisz na obrazku?">
+    <button id="submit-button" class="submit-button" onclick="checkAnswer()">Sprawdź odpowiedź</button>
+    <p id="feedback" class="feedback"></p>
+  </div>
+
+  <script src="bg.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
