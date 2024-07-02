@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weronika & Damian - Wesele</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <h1>Weronika & Damian</h1>
+            <h2>14.09.2024</h2>
+            <h3>Dziękujemy, że jesteście z nami!</h3>
+        </div>
+    </header>
+    <div class="container">
+        <div class="upload-section">
+            <h2>Podziel się swoimi fotkami!</h2>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" name="photo" id="fileInput" multiple>
+                <label for="fileInput" id="fileInputLabel">Wybierz zdjęcia</label>
+                <button type="submit">Wyślij</button>
+            </form>
+        </div>
+    </div>
+    <div class="galeria">
+    <div class="gallery-section">
+        <h3>Zdjęcia:</h3>
+        <div id="gallery" class="gallery"></div>
+    </div>
+</div>
+<script src="upload.js"></script>
+<script src="gallery.js"></script>
+</body>
+</html>
