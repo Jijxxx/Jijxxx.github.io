@@ -1,7 +1,7 @@
 document.getElementById('uploadForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const files = document.getElementById('fileInput').files;
-    const accessToken = 'sl.B4QP7jbPYdY6GMIOjkeGEL3YO8L93oCxLMkw7M9v0bHn3IFtPwPnTQr5oAXoPOPIeOCAtcywhMmMpRPTxmD8urH-HTVMea_aF0_Z5xH_GkkrdVj0_UyEBy6cLzJA3Oj01JH_DcyhR2HT'; // Zamień na swój token dostępu Dropbox
+    const accessToken = 'sl.B4SSsAOm1bXMeYGbiRt8ZMqrCSThPOfQH71PyzVnLWyIN2m9G-5FLQF2ciDA5BTOxklsPEuWo3Dxv8PYu09cEPWH4nsJAXv-Q2PT0r-2xF2N9hySlMQQiwLiQX6Jzph35KovtUwm_xAi'; 
 
     const uploadFile = (file, delay) => {
         return new Promise((resolve, reject) => {
