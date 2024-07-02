@@ -21,7 +21,7 @@ const stereograms = [
   { src: 'stereos/stereogram19.jpg', answer: 'fontanna' },
   { src: 'stereos/stereogram20.jpg', answer: 'serce' },
 ];
-
+//addmoar
 function startGame() {
   document.getElementById('large-header').style.filter = 'blur(5px)';
   document.getElementById('game-container').style.display = 'block';
