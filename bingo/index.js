@@ -1,30 +1,20 @@
 words = [
-    "jojczy jojczy",
-    "Borowski jest idiotą",
-    "skanery",
-    "Synergia",
-    "Cichopek gra w statki",
-    "Nowak szuka problemu",
-    "MAJKA SALES PIERDALES",
-    "zadania centralne",
-    "pczekaj pczekaj pczekaj",
-    "cześ witam z legnicy",
-    "drukarki",
-    "Na platanie..",
-    "hi hi hi",
-    "majuwka",
-    "motorole",
-    "cisza spokój",
-    "Adaś kręci głową",
-    "WAJLAND",
-    "RODO",
-    "BOCAL PODWYSZKI HALO?",
-    "SZKOLENIA JEBANE",
-    "VAT SRAT",
-    "Jolca wkurwiasz mnie.",
-    "Czoło Broya",
-    "BILANSE LATAWCE WIATR",
-    "WAJLAND",
+    "prawą ręką do lewej kieszeni",
+    "KP chrumka",
+    "PROCEDURY",
+    "Mi się wydaje..",
+    "To Jarek jest w pracy?",
+    "SP śpi",
+    "KM zgłasza plombe przez telefon",
+    "Albo rybki albo cipki",
+    "Im sie w głowach popierdoliło",
+    "TC żre i mlaska jak świnia",
+    "MS opowiada o wakacjach",
+    "Pukacz spóżnia się na backlog",
+    "TC występuje na środku biura",
+    "MS podejrzewa że..",
+    "TC opierdala X...",
+    "TC jest ekspertem od..",
     /*
     "Cześ, witam z Legnicy",
     "ciekawa sytuacja...",
@@ -63,9 +53,9 @@ function generate() {
         return;
     
     var html = '<table border="0">';
-    for(var y = 0; y < 5; y++) {
+    for(var y = 0; y < 4; y++) {
         html += "<tr>"
-        for(var x = 0; x < 5; x++) {
+        for(var x = 0; x < 4; x++) {
             do {
                 var i = Math.round(Math.random() * (words.length - 1));
                 var word = words[i];
